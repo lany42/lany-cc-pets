@@ -8,17 +8,18 @@ about how things are going, in a one-word personality you give it.
 
 ## Install
 
-This repository is its own Claude Code marketplace. Clone it, then add the
-clone as a marketplace and install the plugin from it:
+This repository is its own Claude Code marketplace. Add it by its GitHub
+name, then install the plugin from it:
 
 ```sh
-claude plugin marketplace add /path/to/lany-cc-pets
+claude plugin marketplace add lany42/lany-cc-pets
 claude plugin install lany-cc-pets@lany-cc-pets
 ```
 
-`/path/to/lany-cc-pets` is where your clone is. To try the pet for one
-session without installing it, start `claude --plugin-dir
-/path/to/lany-cc-pets` instead.
+Inside Claude Code, `/plugin marketplace add lany42/lany-cc-pets` and
+`/plugin install lany-cc-pets@lany-cc-pets` do the same. To try the pet
+for one session without installing it, clone the repository and start
+`claude --plugin-dir /path/to/lany-cc-pets`.
 
 Start a new Claude Code session and the pet appears above the prompt. Its
 classic looks work in any terminal. The optional experimental looks show
@@ -93,6 +94,11 @@ effort, and a quiet or hidden pet makes no calls on its own. It dozes after
 10 minutes without you, sparkles when a failing test suite goes green or a
 commit lands, and makes room when Claude Code's task list crowds the bottom
 of the screen.
+
+## Source
+
+The canonical repository is <https://git.colorized.life/lany-cc-pets.git>;
+<https://github.com/lany42/lany-cc-pets> is its mirror.
 
 ## License
 

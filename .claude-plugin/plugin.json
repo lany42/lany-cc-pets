@@ -6,6 +6,8 @@
     "name": "Lany Atwood"
   },
   "license": "Apache-2.0",
+  "homepage": "https://github.com/lany42/lany-cc-pets",
+  "repository": "https://github.com/lany42/lany-cc-pets",
   "keywords": [
     "pet",
     "companion",
