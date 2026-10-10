@@ -1252,8 +1252,8 @@ export const register: Register = on => {
       return {}
     }
     await touch($)
-    const [word = '', ...rest] = e.args.trim().toLowerCase().split(/\s+/).filter(Boolean)
-    const isAlone = rest.length === 0
+    const [word = '', ...more] = e.args.trim().toLowerCase().split(/\s+/).filter(Boolean)
+    const isAlone = more.length === 0
 
     if (word === 'btw') return reply(await talkTo($, e.args.trim().slice(word.length)))
     if (word === '') {
@@ -1266,10 +1266,10 @@ export const register: Register = on => {
       const ids = [...SPRITES, ...((await read($, isExperimental)) ? LAB : [])].map(look => look.id)
       return { text: `Looks: ${ids.join(', ')}. Pick one with /pet as <id>.` }
     }
-    if (word === 'as') return reply(await pick($, rest[0] ?? ''))
+    if (word === 'as') return reply(await pick($, more[0] ?? ''))
     if (isAlone && (word === 'experimental' || word === 'classic')) return reply(await setExperimental($, word === 'experimental'))
     if (isAlone && word === 'window') return reply(await toggleWindow($))
-    if (word === 'seed') return reply(await reseed($, rest.length > 0 ? rest.join(' ') : undefined))
+    if (word === 'seed') return reply(await reseed($, more.length > 0 ? more.join(' ') : undefined))
     if (isAlone && (word === 'hide' || word === 'show')) return reply(await setHidden($, word === 'hide'))
     if (isAlone && (word === 'quiet' || word === 'chatty')) return reply(await setQuiet($, word === 'quiet'))
     if (isAlone && (word === 'remember' || word === 'forget')) return reply(await setRemembering($, word === 'remember'))
