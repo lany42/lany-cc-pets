@@ -1,0 +1,13 @@
+{
+  "name": "lany-cc-pets",
+  "description": "A small animated pet for Claude Code, above the prompt",
+  "owner": {
+    "name": "Lany Atwood"
+  },
+  "plugins": [
+    {
+      "name": "lany-cc-pets",
+      "source": "./"
+    }
+  ]
+}
