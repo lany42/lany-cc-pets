@@ -7,11 +7,10 @@
 // opted into cell rendering (scene/fixture.ts). `test-pet-cells` and
 // `test-window-cells` are the eye painting in cells, without and with its
 // window picture: its palette's raw colors, and its runs made from those
-// cells, as checkLab holds them. `test-frame-clock` is the eye with a frame
-// clock of its own, writing on itself what each frame was told. Every look
-// here draws whole, so the studio
-// takes each one by id and `golden` keeps them all; a look that throws on
-// purpose belongs in broken.ts.
+// cells, as the lab's checks hold them. `test-frame-clock` is the eye with
+// a frame clock of its own, writing on itself what each frame was told.
+// Every look here draws whole, so the dev tools take each one by id and
+// keep them all; a look that throws on purpose belongs in broken.ts.
 import { bakedLook, packWindow } from './baked/pet'
 import type { Baked, BakedPet, Ink, Step } from './baked/pet'
 import { runsOf, sameCells, TERMINAL } from './cells'
@@ -112,7 +111,7 @@ function painted(rows: readonly (readonly LabRun[])[], palette: readonly Ink[], 
  * `look` as `id`, each live one painting in cells, as a pet that paints in
  * cells does: its frame in its palette's raw colors (`painted`), and its runs,
  * and its band self's, made from those cells (`runsOf`), so its cells and
- * its runs are one frame, as checkLab holds them. Its card draws as the
+ * its runs are one frame, as the lab's checks hold them. Its card draws as the
  * eye's own.
  */
 function offeringCells(look: LabLook, id: string, palette: readonly Ink[]): LabLook {
