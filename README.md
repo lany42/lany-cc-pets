@@ -52,6 +52,36 @@ with Claude. A typed `/pet` command leaves its own line in the transcript,
 as every slash command does, so Claude can read what you wrote after
 `/pet btw`.
 
+### A session with the pet
+
+Picking a look, talking to it, quieting it, putting it away and giving it
+a window of its own. Each `>` is a command you type, `toast` a notice
+Claude Code shows, and `pet` the line in the pet's speech bubble. The
+pet's lines are written fresh each time; these are examples.
+
+```text
+> /pet as rubber-duck
+  toast  Explaining a bug to a rubber duck has been sound advice since The
+         Pragmatic Programmer, and this one nods along.
+  pet    Quack. Ready to hear about every bug, line by line.
+
+> /pet btw the flaky test finally passed
+  pet    Told you it was the clock. Enjoy the green while it lasts.
+
+> /pet quiet
+  toast  Your pet will keep quiet unless you talk to it.
+
+> /pet hide
+  toast  Your pet is napping out of sight.
+
+> /pet show
+  toast  Your pet is back.
+
+> /pet window
+         The pet window opens: a pane of its own, with room for the
+         pet to move and talk.
+```
+
 ## The looks
 
 60 looks: 34 classic ones drawn in ASCII, and 26 experimental ones.
@@ -90,7 +120,9 @@ Shortly after a turn ends it may say a line about how things are going for
 you. During a long turn it chimes in rarely, and it stays silent after a
 turn you stop with Esc. To write a line it reads the latest part of your
 session; each line, like each answer, is one small Sonnet call at low
-effort, and a quiet or hidden pet makes no calls on its own. It dozes after
+effort, and a quiet or hidden pet makes no calls on its own.
+[PRIVACY.md](PRIVACY.md) says exactly what it sends and keeps; `/pet quiet`
+stops its remarks and keeps it on screen. It dozes after
 10 minutes without you, sparkles when a failing test suite goes green or a
 commit lands, and makes room when Claude Code's task list crowds the bottom
 of the screen.
@@ -99,6 +131,30 @@ of the screen.
 
 The canonical repository is <https://git.colorized.life/lany-cc-pets.git>;
 <https://github.com/lany42/lany-cc-pets> is its mirror.
+
+## Troubleshooting
+
+- **No pet, or a classic look in place of the one you picked.** A look
+  draws only where the terminal has room for it; with too little, a
+  classic look stands in, and with none, nothing shows. Widen the
+  terminal or give it more rows, or open `/pet window` for a pane of its
+  own. A hidden pet comes back with `/pet show`.
+- **Braille looks show boxes or hollow rings.** Your font has no braille
+  characters. `/pet experimental` shows a test line, `⣿⣀⠉⢸⡇`, that should
+  be dots. Use a font that has them (JetBrainsMono Nerd Font Mono,
+  Adwaita Mono and Noto Sans Symbols 2 do), or go back with
+  `/pet classic`.
+- **Classic looks with joined or misshapen characters.** A font with
+  programming ligatures, such as Fira Code, draws runs like `##`, `->`,
+  `__` or `...` as one shape, and the art breaks. Turn ligatures off in
+  your terminal, or use the font's plain version (Fira Mono for Fira
+  Code, JetBrains Mono NL for JetBrains Mono).
+- **Pixel or painted looks in wrong or banded colors.** They need a
+  truecolor (24-bit) terminal. Check that your terminal, and tmux or
+  screen if you use one, passes truecolor through, or wear a classic or
+  braille look.
+
+For anything else, open an issue as [SECURITY.md](SECURITY.md) describes.
 
 ## License
 

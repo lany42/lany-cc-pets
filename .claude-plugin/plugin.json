@@ -9,6 +9,9 @@
   "homepage": "https://github.com/lany42/lany-cc-pets",
   "repository": "https://github.com/lany42/lany-cc-pets",
   "icon": "./media/icon.png",
+  "documentationUrl": "https://github.com/lany42/lany-cc-pets/blob/main/README.md",
+  "supportUrl": "https://github.com/lany42/lany-cc-pets/issues",
+  "privacyPolicyUrl": "https://github.com/lany42/lany-cc-pets/blob/main/PRIVACY.md",
   "keywords": [
     "pet",
     "companion",
