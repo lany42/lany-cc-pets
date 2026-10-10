@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A pop-up toaster. Two slices peek out of the slots at rest. While Claude
 // works the lever goes down and heat wavers off the slots; while it thinks a
 // wisp of smoke curls into a question mark; when it talks the slices hop.

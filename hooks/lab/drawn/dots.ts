@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The drawn kind's braille: the lab's dot canvas (braille.ts `Dots`), and the
 // cells and runs it draws as.
 //

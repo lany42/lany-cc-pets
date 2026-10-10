@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A little crab, the only look two rows tall: eyes up on stalks, claws at its
 // sides. At rest it blinks, waves a claw, and now and then scuttles a step
 // sideways and back. While Claude works it holds both claws up and snips

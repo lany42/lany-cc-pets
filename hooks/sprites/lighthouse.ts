@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Lighthouse, a striped tower on a sea rock: only its lamp and the sea move. idle: two flashes, its
 // light characteristic, and now and then a set of waves; busy: the lens turns the beam round; ponder:
 // it signals ? in Morse (..--..) toward the bubble; talk: the beam swings to the bubble and flares

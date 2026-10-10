@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The rig pets worn as live looks: `momiji`, `sakura` and `pomelo`, each its
 // rig and drivers (as data, in the engine's RIG_PETS) through the adapter
 // (rig/adapter.ts), its timeline written by its own behavior, as code on the

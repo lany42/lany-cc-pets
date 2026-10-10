@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The drawn kind: pets that break the frame (from braille-uncanny), each a
 // pure function of the moment: an inchworm that is its own speech bubble, a
 // shy thing behind a ledge, a cat made of the moonlight it blocks, an alley

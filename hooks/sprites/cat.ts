@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The default look (DEFAULT_SPRITE in index.ts). The format is the `Sprite`
 // type of ../sprite.ts.
 import type { Sprite } from '../sprite'

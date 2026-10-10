@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A strawberry with a sweet little face, whose seeds are all tiny eyes. They
 // open on their own schedules, never quite together, and they don't blink
 // when the face does.

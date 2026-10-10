@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The hamster: a golden hamster sitting up front-on, in hand-drawn pixel art
 // 13 pixels wide and 11 tall, beside the little hoard of sunflower seeds it
 // keeps. Each finished turn it stuffs a seed into its cheek pouches, which

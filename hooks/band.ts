@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The band's rules, pure: its sizes, what the pet is doing at a tick, the
 // words it shows, the rooms the band and the pet window give a look (and
 // whether a pet draws its window picture there, its bubble beside or above

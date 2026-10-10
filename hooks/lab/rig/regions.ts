@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The `regions` paint: one fill colored sample
 // by sample by an ordered list of rules over the layer's own units, as
 // Sakura's eye is: the opening between her lids is filled once, and where

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The tree frog: a red-eyed tree frog sitting front-on on a twig, in
 // hand-drawn pixel art 12 pixels wide and 7 tall, with air at its left,
 // toward its bubble, for the flies it catches. Each finished turn a fly

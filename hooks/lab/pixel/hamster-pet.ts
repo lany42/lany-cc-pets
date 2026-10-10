@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The hamster as a pixel pet: its art (hamster.ts) and its director
 // (hamster-director.ts) tied together with who it is. Its identity sheet is
 // in the studio. Pure: imports nothing at run time but its own two files.

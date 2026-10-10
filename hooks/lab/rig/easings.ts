@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The easings a key may name for the segment it starts: how far from one
 // key's value to the next a segment has come at `s` (0 at its start, 1 at its
 // end). The `keys` source (sources.ts) reads a segment as `va + (vb - va) *

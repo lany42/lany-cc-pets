@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Looper: an inchworm that lives on the rim of its own speech bubble.
 //
 // There is no sprite beside the bubble: the bubble is the pet's home. At rest

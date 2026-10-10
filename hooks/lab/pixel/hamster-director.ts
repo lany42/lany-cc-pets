@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The hamster's director: the clock, its mood and the news in, a pose out, 16
 // times a second. Its moments come at irregular holds drawn from its seed
 // (`hash`, never Math.random), so the same seed and cues give the same poses.

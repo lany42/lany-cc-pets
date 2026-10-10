@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A palm-sized jelly slime that imprinted on you the moment it was poured.
 // It blushes, it floats you little hearts, it reaches for you when it thinks
 // you're not looking. When it talks, its smile grows one cell per word, past

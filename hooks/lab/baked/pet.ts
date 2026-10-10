@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The baked kind: a miniature drawn dot by dot ahead of time, kept as frames
 // and loops like a classic Sprite, with one ink per cell from its own palette;
 // and maybe a bigger picture for the pet window, its own frames and loops in

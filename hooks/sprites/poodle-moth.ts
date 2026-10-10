@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A Venezuelan poodle moth: a puff of white fluff with two feathery antennae
 // and enormous dark eyes. It is very drawn to the glow of your screen.
 import type { Sprite } from '../sprite'

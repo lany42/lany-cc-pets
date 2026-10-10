@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Wind-up chattering teeth: a big pink grin on two little feet, with a key
 // in the side. At rest the jaw is shut and the key ticks round now and then.
 // While Claude works it marches in place, lifting one foot then the other as

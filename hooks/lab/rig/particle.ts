@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The `particle` driver: props flown by
 // physics. A particle is a point with gravity, drag toward the wind and a
 // falling leaf's side-glide with its turn, stepped in fixed sub-steps of

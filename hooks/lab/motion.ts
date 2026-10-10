@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // What every director and behavior times its moves with: keyframes eased
 // between, and chance drawn from a hash of its seed and a counter (never
 // Math.random), so the same seed gives the same moments in a studio render as

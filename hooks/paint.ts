@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // How a pet, and the speech bubble it talks through, are painted: one steady
 // color, a rainbow, a shine, or (opt-in) regions of colors that hold still.
 // Pure: turns a paint, a tick and some text into runs of one style each,

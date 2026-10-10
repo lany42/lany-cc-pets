@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A fruit bat hanging upside down from a branch, wrapped in its own wings.
 // Everything about it is upside down: its happy face is (v m v), and when it
 // sleeps its z's fall instead of rising.

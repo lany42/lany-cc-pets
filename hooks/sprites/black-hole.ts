@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A pocket black hole: an empty void ringed by bent light, with its accretion
 // disk running out either side. Stray characters drift in and are gone.
 import type { Sprite } from '../sprite'

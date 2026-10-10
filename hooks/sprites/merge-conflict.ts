@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // An unresolved merge conflict: two versions of the same face, ours pulling
 // left and theirs pulling right, stuck either side of the ======= divider.
 import type { Sprite } from '../sprite'

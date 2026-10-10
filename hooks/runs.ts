@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Text runs: how every look's rows reach the screen off the Raster path, a
 // nested Text per run of one style. One run type for every kind, classic
 // and lab, and one rule for laying cells into runs, which each kind's loop

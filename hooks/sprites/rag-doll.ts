@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A rag doll of the old kind: a mop of red yarn, a stitched smile, one button
 // eye and an X sewn where the other button was. It sits very still. Its head
 // is tilted when you look back, though nobody saw it move; its heart shows

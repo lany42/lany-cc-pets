@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The "experimental!" tier: every lab look, which look the person wears where,
 // and how the pet's marks become a look's input each tick. Pure: register.tsx
 // keeps the atoms and the live looks, and asks these what to do with them.

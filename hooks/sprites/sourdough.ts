@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A jar of sourdough starter with a rubber band marking its level. When Claude
 // works, it ferments: it rises above the band and churns. Its bubbles sit
 // off-center on purpose, so they read as bubbles, not as a face.

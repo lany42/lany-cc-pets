@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Titania, an ocean liner of the grand old steamship era, bow to the left:
 // toward her bubble, and in the gallery toward the iceberg beside her. Four
 // funnels stand on her deckhouse, a lookout's mast at the bow, a row of lit

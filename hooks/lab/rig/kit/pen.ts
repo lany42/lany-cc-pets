@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The painted look's pen: outlines drawn in a pet's own units with lines
 // and cubic curves, flattened through an affine transform into the canvas's
 // samples, and tapered strokes made into outlines. A transform per part (the

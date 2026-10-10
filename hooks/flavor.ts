@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // One sentence per look, for the person who just picked it: the toast `pick`
 // shows. Real animals get a true fact (checked), everything else a specific
 // detail of what it is and does on screen. Plain ASCII, one sentence each,

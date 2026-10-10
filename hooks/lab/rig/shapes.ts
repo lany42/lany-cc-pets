@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The rig's shape kinds (registry.ts's `ShapeKind`): what a layer fills. Each
 // kind names its nodes (the points keyforms move, in order), its props (the
 // numbers and tables keyforms may move) and makes its path commands, in its

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A scene for the tests alone (lab/fixture.ts lists it, as it lists
 // test-window): never in the gallery, worn only where the store names it.
 // `test-cells` is a dusk over a ridge with a firefly, opted into every piece

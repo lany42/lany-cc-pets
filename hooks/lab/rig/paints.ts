@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The rig's paints (registry.ts's `PaintType`): what a layer fills with. A
 // paint resolves at a moment (its colors as numbers, its anchors where the
 // layer's keyforms put them), then becomes the canvas's paint under the

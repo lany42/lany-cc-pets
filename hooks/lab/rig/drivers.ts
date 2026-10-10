@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The driver runtime: what pose a pet holds at any moment, `params =
 // driver(t)`. A drivers document is bound to its rig once (`bindDrivers`:
 // clips, tracks and their sources, blends and references looked up, lanes

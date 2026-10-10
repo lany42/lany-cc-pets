@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A tardigrade: a pudgy, eight-legged speck with a round little tube of a
 // mouth. Its stubby legs paddle at nothing; now and then it tucks them in,
 // dries into a barrel and naps through the end of the world.

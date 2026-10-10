@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji's behavior: when her moods, acts, blinks, glances and strand
 // change, as code on the rig kit (rig/behavior.ts). Each frame it is handed
 // the runtime's cue and writes the timeline her drivers play: it decides

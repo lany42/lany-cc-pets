@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // What the rig engine can do, by type id: every capability a document may
 // name (a combiner, an interpolator, a shape kind, a space, a paint; an
 // easing, a track source, a blend mode, a driver) is an entry in one of these

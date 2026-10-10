@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The painted look's canvas: a color sample SX x SY to a terminal cell, and a
 // small scanline painter that fills vector outlines into it (non-zero
 // winding, sampled at each sample's center), solid, shaded by row, column or

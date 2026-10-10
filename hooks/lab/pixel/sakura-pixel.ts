@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Sakura Pixel: Sakura's chibi as a pixel pet of its own. The anime girl
 // with pastel pink hair, a blunt fringe and a blossom pinned at her right,
 // in a spring kimono, in hand-drawn pixel art 16 pixels wide and 12 tall,

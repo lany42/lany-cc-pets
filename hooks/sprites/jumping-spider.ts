@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A jumping spider: a fuzzy little hunter with two enormous glossy eyes up
 // front and two more beside them. It never blinks. Its palps are always going.
 // It has decided you are interesting.

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A look's frame as Raster cells, shared by every kind that paints in them
 // (the rig looks, the pixel pets, a scene that opts into cell rendering):
 // the same frame as Text runs, built from the cells only when asked, and

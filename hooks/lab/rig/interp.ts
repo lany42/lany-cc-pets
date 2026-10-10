@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // How a keyform block reads between its positions: the interpolators
 // (registry.ts's `Interpolator`), each the weights it puts on an axis's
 // positions at a value, as `[index, weight]` pairs. The evaluator multiplies

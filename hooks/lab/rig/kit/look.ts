@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The painted look's runtime: a pet painted in truecolor block cells (two
 // colors and one block glyph a cell, edges on an eighth of a cell) at a frame
 // rate of its own, worn as a lab look. A rig pet becomes one through the

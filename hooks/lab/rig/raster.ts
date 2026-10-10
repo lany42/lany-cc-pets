@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The raster output stage: a rig's geometry painted into the painted kit's
 // own canvas through its own pen, so equal commands under an equal transform
 // give equal samples. Each drawable's commands are replayed in its own units

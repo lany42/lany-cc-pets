@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Sunken Dreamer: a storm sea at night, and rising out of it, so big that he
 // is the sky, the Dreamer: a domed, tentacle-bearded head with a crest down
 // its crown, two great eyes and a brow of small ones, shoulders under the

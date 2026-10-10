@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Sakura Pixel's director: the clock, her mood and the news in, a pose of
 // picks out, 16 times a second. She plays the acts of the rig pet `sakura`,
 // each as picks written here by time, so she is the same girl doing the

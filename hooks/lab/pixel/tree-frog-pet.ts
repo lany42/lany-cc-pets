@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The tree frog as a pixel pet: its art (tree-frog.ts) and its director
 // (tree-frog-director.ts) tied together with who it is. Its sheet is in the
 // studio. Pure: imports nothing at run time but its own two files.

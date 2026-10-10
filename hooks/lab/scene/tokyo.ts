@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Tokyo Cat: a small apartment bedroom high above Tokyo, seen from inside at
 // a cat's height. A sliding balcony door fills the middle of the back wall;
 // through it, past the railing, the city: hazy blocks, glass towers, Tokyo

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A pocket spiral galaxy, black-hole's companion: two arms wound round a
 // bright core, the core an @ because an @ is a spiral too. Where the black
 // hole pulls stray characters in, the galaxy sends starlight out along its

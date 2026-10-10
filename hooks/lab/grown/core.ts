@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The grown pets' shared core (from braille-generative, its algorithms as
 // they were): a seeded PRNG, a dot field drawn in braille, and the one
 // encoder the band uses, styled runs. The Raster, Svg and ANSI encoders wait

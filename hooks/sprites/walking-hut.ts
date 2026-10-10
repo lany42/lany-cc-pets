@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A hut from the old forest tales, standing on chicken legs. It faces left,
 // toward the bubble: lit window in front, door behind, smoke trailing back.
 import type { Sprite } from '../sprite'

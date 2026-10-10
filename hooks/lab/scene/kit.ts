@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The scene kit (from braille-ambient, as it was but for its encoders): the
 // small engine every scene draws with. A scene paints colored dots back to
 // front onto a `Dots` canvas (2x4 dots per terminal cell, as braille has),

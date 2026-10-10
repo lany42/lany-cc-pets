@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // What a painted pet is: the one shape the painted look's runtime (look.ts)
 // wears. The rig engine's adapter (../adapter.ts) makes every rig pet one: its
 // window form painted from the rig, its band form (`chibi`, when it has one) a

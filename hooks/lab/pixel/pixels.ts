@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pixel kind's surface: a pixel pet's box as whole pixels, one a column
 // and two a row, each a color of the pet's palette or bare. A pet paints it
 // by letter (`set`, `stamp`, `erase`) at whole coordinates only: a fraction

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji worn as a live look, `momiji`: her rig and drivers as
 // data (authored in the studio, built into RIG_PETS) through the engine's
 // adapter (rig/adapter.ts), her timeline written each frame by her own

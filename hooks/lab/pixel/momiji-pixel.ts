@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji Pixel: Momiji's chibi as a pixel pet of its own. The anime girl in
 // an orange knit beanie with a maple leaf pinned to its rib and an orange
 // hoodie, in hand-drawn pixel art 16 pixels wide and 12 tall, on whole

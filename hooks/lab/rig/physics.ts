@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The stateful drivers that follow: `lag`, a first-order follower (a mood's
 // channels easing toward its targets), and `pendulum`, a damped swing
 // driven by its inputs (hair, in the physics pipeline). Each

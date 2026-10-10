@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The evaluator: a rig at a pose, `evaluate(rig, params, view) -> Geometry`.
 // Pure, and run every frame by the live looks, so a rig is made ready once
 // (`compileRig`: every type looked up, every value given a slot, every

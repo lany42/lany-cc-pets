@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The words and border of a bubble a look draws itself (the scenes'
 // `drawBubble` in scene/kit.ts, the rig looks' in rig/kit/look.ts, the inchworm
 // that is its own bubble in drawn/looper.ts): one wrap, counting code points,

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The grown kind: creatures computed, not drawn (a bonsai, a jellyfish, a
 // flock), each born from a seed word and simulated a tick at a time. This
 // adapter makes each a lab look; their own files keep their algorithms and

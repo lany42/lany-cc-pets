@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Nightcat: a black cat on a rooftop, against the moon.
 //
 // The cat is never drawn. The moon is: a disc of dots with a soft dithered

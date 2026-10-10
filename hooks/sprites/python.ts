@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The two snakes of the Python logo, alive: the blue one on top, its one eye
 // toward the bubble, and the yellow one below, its one eye on the far side.
 // At rest they keep still; now and then one blinks or flicks its tongue, or

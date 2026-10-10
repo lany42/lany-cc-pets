@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A yak, half shaved: the front of it bare, the back still shaggy down to the
 // ground. It got this way from a task that started as a one-line fix. At rest
 // it chews and swishes its tail; while Claude works the wool comes off a little

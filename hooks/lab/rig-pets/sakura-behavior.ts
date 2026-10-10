@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Sakura's behavior: when her moods, acts, blinks, glances and the petals in
 // her hair change, as code on the rig kit (rig/behavior.ts). Each frame it is
 // handed the runtime's cue and writes the timeline her drivers play: it

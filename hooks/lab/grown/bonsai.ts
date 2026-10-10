@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Bonsai: a little clay pot with a face, and the tree it grows on its head.
 // Not drawn: grown. The tree is the result of replaying growth steps from the
 // pet's seed, one per finished turn at first and slower as it matures, so the

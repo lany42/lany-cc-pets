@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Cell rendering for scenes (opt-in): a scene's frame as Raster cells, a
 // code point, a foreground and a background a cell, so the band and the pet
 // window draw it as one Raster on the terminal (hooks/register.tsx draws any

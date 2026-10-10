@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Stray: an alley cat that lives in a hole in a brick wall, by the prompt.
 //
 // The band is the foot of an alley wall: two courses of brick, the corner

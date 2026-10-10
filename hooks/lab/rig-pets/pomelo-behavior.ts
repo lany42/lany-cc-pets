@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Pomelo's behavior: when its moods, acts, blinks and glances change, as
 // code on the rig kit (rig/behavior.ts). Each frame it is handed the
 // runtime's cue and writes the timeline its drivers play: it decides when,

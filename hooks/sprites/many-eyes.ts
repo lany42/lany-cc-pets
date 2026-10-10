@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A lump of something from outside, wearing more eyes than it needs. They
 // open and shut on their own; when it speaks, the lower ones part into a mouth.
 import type { Sprite } from '../sprite'

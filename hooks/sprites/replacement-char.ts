@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // U+FFFD, the replacement character: the diamond-boxed question mark that
 // shows up wherever a byte couldn't be decoded.
 import type { Sprite } from '../sprite'

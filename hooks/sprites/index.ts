@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Every look the pet can take, in the order `/pet as` lists them.
 import type { Sprite } from '../sprite'
 import { sprite as axolotl } from './axolotl'

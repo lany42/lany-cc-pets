@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Looks for the tests alone, as broken.ts's are: never listed and never
 // picked, and a pet wears one only where the store names it. `test-window` is
 // a baked pet with a window picture: a 6 x 2 eye in the band and a 30 x 10

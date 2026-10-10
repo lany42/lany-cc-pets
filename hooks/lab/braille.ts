@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Braille, the dots every braille look draws in: a terminal cell is 2 dots
 // wide and 4 tall, and its glyph is U+2800 plus a bit for each dot inked.
 // This is the one bit table, the one dot canvas every kind draws on (the

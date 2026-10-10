@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A baby axolotl, all frilly gills and permanent smile. Its gills ripple on
 // their own; when it gets excited, they flutter like little flags.
 import type { Sprite } from '../sprite'

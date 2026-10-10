@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 import { atom, read, update } from 'claude-code'
 import type { BoxProps, ElementConstructor, Elements, EngineInterface, PaneCloseOrigin, Register, RenderNode, RenderSurface, TextProps, Timer } from 'claude-code'
 

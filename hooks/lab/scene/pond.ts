@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Koi Pond: a moonlit pond the width of the terminal. Tonight's moon, in its
 // real phase (a crisp terminator, so a crescent, a half, a gibbous moon and a
 // full one each read as what they are), hangs over a far shore of low hills;

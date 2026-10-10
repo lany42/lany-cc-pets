@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The scene kind: a creature living in a scene as wide as the band (a koi
 // pond, an owl's night, the deep), from braille-ambient. The scene draws the
 // pet's words into its own sky, steps itself as the clock tells it, and is

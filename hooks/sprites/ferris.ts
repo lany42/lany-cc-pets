@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Ferris the Rustacean, Rust's crab mascot, in its happy pose: a wide dome of
 // a shell with the Rust gear's teeth along its top, two big eyes low on its
 // face, a small smile under them, and both claws raised. At rest it blinks,

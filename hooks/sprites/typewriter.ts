@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A portable typewriter: a sheet of paper over the platen, a bank of round
 // keys. While Claude works the keys clatter and the typebars strike; while it
 // thinks it types an ellipsis; when it talks it types out a line and dings.

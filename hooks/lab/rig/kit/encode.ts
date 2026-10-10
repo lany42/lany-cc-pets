@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The painted look's encoder: each cell's SX x SY samples become the one
 // glyph and two colors that show them best. The glyphs are block elements a
 // terminal draws itself (the 16 quadrant patterns, half blocks among them,

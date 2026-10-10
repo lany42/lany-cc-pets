@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Flock: a murmuration of starlings who believe they are one bird. Most of
 // the time they sit on a wire, shuffling and looking about. When Claude works
 // they lift off and wheel overhead (a few keep it up through a long turn while

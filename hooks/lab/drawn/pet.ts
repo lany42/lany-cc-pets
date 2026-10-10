@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The shape of a drawn pet (from braille-uncanny): a pure function from "this
 // moment" to what it draws. drawn/index.ts makes each a lab look, and draws
 // its rows (the band's, or its window picture in the pet window) and, for a

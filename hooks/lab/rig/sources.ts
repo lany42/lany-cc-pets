@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Where a track's value comes from: its source, named by the track field that
 // holds it (registry.ts's `Source`). The driver runtime (drivers.ts) asks a
 // track's source for its raw value at a time, then applies the track's

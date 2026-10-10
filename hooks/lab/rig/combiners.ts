@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Derived params' ops (registry.ts's `Combiner`): a derived param is one of
 // these over params and earlier derived params, evaluated in order before
 // any keyform. Each is computed term by term, in this order:

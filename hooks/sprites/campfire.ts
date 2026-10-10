@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A little campfire: two logs crossed between stones, and a flame that never
 // holds still for long. At rest it burns low and lazy, now and then spitting a
 // spark or settling a log; while Claude works it roars up tall; while it

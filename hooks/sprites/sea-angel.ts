@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A sea angel (Clione): a see-through sliver of a sea slug that swims on two
 // little wings, its heart showing through. It is precious. Then it eats, and
 // its head opens into hooks. Then it is precious again.

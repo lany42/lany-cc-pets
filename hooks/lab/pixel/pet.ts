@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // What a pixel pet is: the one shape the pixel kind's runtime (index.ts)
 // wears. A pixel pet is hand-drawn pixel art the size of a band pet, one
 // pixel a column and two a row, painted by letter of its palette onto the

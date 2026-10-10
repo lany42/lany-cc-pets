@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A potted venus flytrap, jaws open toward the speech bubble. Its rare idle
 // event is a bug wandering past, then wandering back in and getting caught.
 import type { Sprite } from '../sprite'

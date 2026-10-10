@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji Pixel's director: the clock, her mood and the news in, a pose out,
 // 16 times a second. She plays Momiji's acts, those of the rig pet `momiji`
 // but its nod, timed to her own frames: each act's picks are written out

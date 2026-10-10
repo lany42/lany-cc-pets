@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Pomelo worn as a live look, `pomelo`: its rig and drivers as data
 // (authored in the studio, drawn as SVG and imported, built into
 // RIG_PETS) through the engine's adapter (rig/adapter.ts), its timeline

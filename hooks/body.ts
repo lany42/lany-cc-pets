@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pet's body: what it does without a word. It dozes off once the person
 // has been away a while and wakes with a start when they're back, sparkles
 // when their work comes good, and shows a heart when petted. Pure:

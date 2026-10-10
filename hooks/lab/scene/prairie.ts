@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Prairie Town: a black-tailed prairie dog town on the shortgrass prairie,
 // drawn as a cutaway: the sky and the town above the ground line, the
 // burrows below it. The pet sits up on the rim of its crater mound in the

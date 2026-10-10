@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The baked kind's looks, in the order the gallery lists them.
 import type { LabLook } from '../look'
 import { bakedLook } from './pet'

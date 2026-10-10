@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // How the band and the pane fit words into the cells they have. Pure: the
 // render hooks size the bubble and the chat log with these, and the tests
 // check them without drawing.

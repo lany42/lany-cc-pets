@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pet's look, standardized. A Sprite is pure data: its frames, and the
 // loop of frames each mood plays. This file draws one. Neither this file nor
 // sprites/*.ts imports anything at run time from outside them (paint.ts

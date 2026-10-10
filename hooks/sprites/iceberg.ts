@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // An iceberg in cross-section: a small tip above the waterline, the bulk below.
 import type { Sprite } from '../sprite'
 

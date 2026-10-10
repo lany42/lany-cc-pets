@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pet's voice: a tiny system prompt keyed on one personality word and the
 // sprite's persona, and one short side call to Sonnet at low effort.
 import type { ModelCompleteRequest, ModelCompleteResult } from 'claude-code'

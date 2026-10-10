@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 /** What the pet last said, the animation tick it said it on, and for how many ticks it shows. */
 export type Speech = { text: string; tick: number; ttl: number }
 /**

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pet's eyes: when a line is due, and what slice of the transcript it
 // reacts to. Pure: register.tsx's observer timer reads the state and the
 // transcript, and asks these.

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A sea bunny (Jorunna parva): a sea slug that is, by accident, a perfect
 // little rabbit. Two stubby ears, a fuzzy back, a gill tuft for a tail, and a
 // slug's foot that ripples as it glides along.

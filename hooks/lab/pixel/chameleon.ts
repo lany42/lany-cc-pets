@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The chameleon: a panther chameleon in profile, facing its bubble, gripping
 // a twig with its tail rolled in a coil, in hand-drawn pixel art 23 pixels
 // long and 11 tall. Its one eye is a turret that roams on its own. Each

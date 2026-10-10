@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Small helpers every kind of lab look shares: colors as Text takes them, a
 // clamp and a mix, smoothstep, an ordered dither, tonight's moon, and which
 // characters take one cell. Each was copied into several looks before; each

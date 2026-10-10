@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The rig engine worn as a live look: a rig and its drivers as a painted pet
 // (kit/pet.ts's `PaintedPet`), painted, repainted and encoded by the painted
 // look's runtime (kit/look.ts), which makes it a lab look. Its director

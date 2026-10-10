@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji's band form for a rig look: below 10 rows a rig look wears her
 // pixel pet (hooks/lab/pixel/momiji-pixel.ts) in place of her painted self,
 // posed by the rig's own pose each frame, so the band shows the same blink,

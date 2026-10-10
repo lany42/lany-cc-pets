@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Looks that break on purpose, for the tests alone. They are never listed and
 // never picked (`/pet as` takes only LAB's), and a pet wears one only where the
 // store names it, which no command does. One throws as it is born, one a few

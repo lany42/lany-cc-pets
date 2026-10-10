@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Momiji Pixel as a pixel pet: her art (momiji-pixel.ts) and her director
 // (momiji-pixel-director.ts) tied together with who she is: Momiji's chibi,
 // a pet of her own, apart from her rig (it imports nothing of it).

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Deep Water: a strip of open sea seen from below the surface. Light comes
 // down in slow slanted rays; marine snow drifts through them; kelp sways at
 // the right. In the water hangs a moon jellyfish, the pet: a glassy bell with

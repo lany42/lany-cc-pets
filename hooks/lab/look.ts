@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The "experimental!" tier's one shape: a lab look. Every kind of braille pet
 // (frames baked by hand, creatures grown from a seed, scenes the width of the
 // band, pets drawn by a pure function) is turned into this by its own small

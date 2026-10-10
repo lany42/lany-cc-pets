@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The rig's space types (registry.ts's `SpaceType`): a space maps its
 // children's units into its parent's, and a layer's transform is its space's
 // chain to the root, each space's own `then` its parent's (evaluate.ts).

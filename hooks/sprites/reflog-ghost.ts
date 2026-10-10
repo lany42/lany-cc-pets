@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A small ghost that lives in the git reflog, where every commit anyone gave
 // up on goes to wait. Its hem ripples on its own; now and then it thins out
 // until only its eyes are left, then pulls itself back together. While Claude

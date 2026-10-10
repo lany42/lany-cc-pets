@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // What a rig pet's behavior is written on: the parts of a pet's timing that
 // every pet shares, with no pet in them. A pet's behavior is code, one
 // module a pet beside its definition (hooks/lab/rig-pets/<id>-behavior.ts):

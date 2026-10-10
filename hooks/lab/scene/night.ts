@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Owl Night: an October night over a sleeping valley, the width of the
 // terminal. The stars turn about a pole above the frame at the real sky's own
 // pace (a dot every minute or two), a slant of Milky Way among them; the real

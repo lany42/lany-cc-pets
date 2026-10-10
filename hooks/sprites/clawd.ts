@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Clawd, after the orange pixel mascot on Claude Code's welcome screen: a
 // block of `#` pixels whose eyes are two holes left in it, with stubby arms
 // and four little feet. It blinks by drawing a lid across each hole, glances

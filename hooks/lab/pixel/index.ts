@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The pixel kind: band-sized pets in hand-drawn pixel art (pet.ts), painted
 // by letter onto the kind's pixel surface (pixels.ts) and mapped straight
 // into truecolor block cells. Each is a lab look of the `pet` layout with no

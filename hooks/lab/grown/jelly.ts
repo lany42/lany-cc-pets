@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Jelly: a moon jellyfish with a face, simulated rather than drawn. Its bell
 // pulses (squeeze, glide, sink), and its tentacles are verlet ropes that trail
 // behind every stroke and sway in a slow current. Each seed is its own

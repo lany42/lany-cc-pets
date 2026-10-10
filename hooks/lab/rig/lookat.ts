@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // The `lookAt` driver: params that follow a target,
 // as eyes follow a petal. Each output reads one of the target's channels (a
 // place, in some space's units, that a driver or a clip wrote), maps it to the

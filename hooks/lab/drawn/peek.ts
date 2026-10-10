@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // Peek: something shy that lives behind a ledge just above your prompt.
 //
 // You only ever see the top of its head, its two big eyes and its fingers

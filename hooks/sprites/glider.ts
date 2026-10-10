@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A Game of Life glider (B3/S23) on a patch of its grid. Each period of four
 // generations it creeps one cell down and to the left, toward the bubble, and
 // the patch recenters on it.

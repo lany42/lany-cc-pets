@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // How a track writes the channel it names: the blend modes a clip's tracks
 // use as they lay an act over a pose: `add` (a brow raised on top of the
 // mood's), `max` (a smile that never lowers one already there), `min`, `set`

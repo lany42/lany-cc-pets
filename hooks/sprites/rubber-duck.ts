@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
+
 // A rubber duck, the one every developer explains their bug to. It floats
 // facing the bubble. At rest it bobs now and then, and rings spread out from
 // it; while Claude works it listens, nodding along; while it thinks it looks
