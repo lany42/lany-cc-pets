@@ -1822,8 +1822,7 @@ function drawRuns(Text: TextElement, runs: readonly Run[]): JSX.Element[] {
 
 /**
  * What the band or the pane draws of a look: its lines, its size, its paint,
- * and how it sits in the band: whether it says its words itself just now,
- * and whether it grows round them (its button then keeps to its right). A
+ * and how it sits in the band: whether it says its words itself just now. A
  * lab look's lines and size are made only when read, so a look drawn as a
  * Raster makes no Text.
  */
@@ -1838,7 +1837,6 @@ type Art = {
   layout: LabLook['layout']
   ownsBubble: boolean
   hasFloor: boolean
-  grows: boolean
 }
 
 /**
@@ -1901,12 +1899,11 @@ function artOf(Text: TextElement, look: Look, pose: Pose, t: number, crop?: numb
       // Words it had no rows for, it left to the band.
       ownsBubble: lab.ownsBubble === true && worn.live.leftWords?.() !== true,
       hasFloor: lab.hasFloor === true,
-      grows: lab.most !== undefined,
     }
   }
   const sprite = look.kind === 'sprite' ? look.sprite : spriteById(look.lab.fallback)
   const lines = drawLines(Text, sprite.color, frame(sprite, pose.mood, pose.at), t)
-  return { name: sprite.name, isLab: false, lines, width: sprite.width, height: sprite.height, paint: sprite.color, layout: 'pet', ownsBubble: false, hasFloor: false, grows: false }
+  return { name: sprite.name, isLab: false, lines, width: sprite.width, height: sprite.height, paint: sprite.color, layout: 'pet', ownsBubble: false, hasFloor: false }
 }
 
 /** Lines of the pet (a frame, an emote) in its paint at animation tick `t`: one Text a line. */

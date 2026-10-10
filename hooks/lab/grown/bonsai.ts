@@ -12,7 +12,6 @@ import type { Frame, GenPet, Ink, Mood, Rng, TickInput } from './core'
 const COLS = 16
 const ROWS = 6
 const W = COLS * 2
-const H = ROWS * 4
 /** The pot's rim row (dots); the tree lives above it. */
 const RIM = 16
 const BASE_X = 16

@@ -122,7 +122,7 @@ function drawWorm(d: Dots, path: readonly Pt[], pose: Pose): void {
 }
 
 /** The pod or the bubble: its canvas, rim path and where the words go. */
-type Shell = { d: Dots; path: Pt[]; text: string[]; textRow: number; textCol: number; topRun: [number, number] }
+type Shell = { d: Dots; path: Pt[]; text: string[]; textRow: number; textCol: number }
 
 function shell(lines: readonly string[], inner: number): Shell {
   const cols = inner + 2 * SIDE + 4
@@ -131,14 +131,14 @@ function shell(lines: readonly string[], inner: number): Shell {
     const d = new Dots(cols, 3)
     const x0 = SIDE * 2 + 1, x1 = (cols - SIDE) * 2 - 2
     const path = rimPath(x0, 4, x1, 7, 1)
-    return { d, path, text: [], textRow: 0, textCol: 0, topRun: [0, x1 - x0 - 2] }
+    return { d, path, text: [], textRow: 0, textCol: 0 }
   }
   const rows = lines.length + 4
   const d = new Dots(cols, rows)
   const x0 = SIDE * 2 + 1, x1 = (cols - SIDE) * 2 - 2
   const y0 = 4 + 2, y1 = (rows - 2) * 4 + 1
   const path = rimPath(x0, y0, x1, y1, 2)
-  return { d, path, text: [...lines], textRow: 2, textCol: SIDE + 2, topRun: [0, x1 - x0 - 4] }
+  return { d, path, text: [...lines], textRow: 2, textCol: SIDE + 2 }
 }
 
 function finish(s: Shell): Run[][] {

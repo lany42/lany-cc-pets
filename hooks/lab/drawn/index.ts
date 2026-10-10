@@ -77,9 +77,9 @@ export function drawnLook(pet: ExperimentalPet, extra: { blurb: string; width: n
   }
 }
 
-// Stray's footprints after a turn's closing line (its `turnMark`) are left
-// out: they would redraw onto every past turn in the scrollback as it is put
-// on, and vanish when it is taken off.
+// A drawn look marks nothing after a turn's closing line: a mark would
+// redraw onto every past turn in the scrollback as it is put on, and vanish
+// when it is taken off.
 export const DRAWN_LOOKS: readonly LabLook[] = [
   // Its bubble grows round a line: up to its 50 columns of words and its rim, and a row a line wrapped.
   drawnLook(looper, { blurb: 'is its own bubble', width: 17, most: { width: 58, height: 11 }, fallback: 'jumping-spider' }),

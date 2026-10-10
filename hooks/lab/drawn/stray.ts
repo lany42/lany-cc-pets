@@ -299,7 +299,7 @@ function drawBand(p: Pose): Run[][] {
   return runsOf(cellsOf(d), BAND_PALETTE)
 }
 
-// ------------------------------------------------------------------ the spinner and the turns
+// ------------------------------------------------------------------ the spinner
 
 /** The one-row cat that rides the spinner line: two strides, facing left (it chases the word). */
 const RUNNER = [
@@ -311,24 +311,6 @@ function runner(t: number): string {
   const d = new Dots(7, 1)
   d.stamp(RUNNER[t % 2]!, 0, 0, { '#': 1 })
   return cellsOf(d)[0]!.map(c => c.ch).join('').trimEnd()
-}
-
-/** Paw prints after a turn's closing line: about one turn in three, the same ones every redraw. */
-function turnMark(id: string): Run[] | undefined {
-  let n = 0
-  for (let i = 0; i < id.length; i++) n = (n * 31 + id.charCodeAt(i)) | 0
-  if (hash(n, 1) > 0.34) return undefined
-  // a cat walks in a line, each hind foot in its fore foot's print: single prints, staggered
-  const steps = 4 + Math.floor(hash(n, 2) * 6)
-  const d = new Dots(steps * 2, 1)
-  for (let i = 0; i < steps; i++) {
-    const x = i * 4
-    const y = i % 2 === 0 ? 2 : 0
-    d.set(x, y + 1, 1)
-    d.set(x + 1, y, 1)
-    d.set(x + 2, y + 1, 1)
-  }
-  return [{ text: cellsOf(d)[0]!.map(c => c.ch).join('').trimEnd(), color: 'inactive', dimColor: true }]
 }
 
 // ------------------------------------------------------------------ the window: the alley at night
@@ -964,7 +946,7 @@ function draw(m: Moment): Drawing {
   const pose = poseOf(m)
   const band = m.isWindow === true ? drawWindow(m, pose) : drawBand(pose)
   const rides = pose.kind === 'dash' && pose.s >= 3
-  return { band, ...(rides ? { spinner: [{ text: '… ', color: 'claude' }, { text: runner(m.tick), color: 'claude' }] } : {}), turnMark }
+  return { band, ...(rides ? { spinner: [{ text: '… ', color: 'claude' }, { text: runner(m.tick), color: 'claude' }] } : {}) }
 }
 
 export const pet: ExperimentalPet = {

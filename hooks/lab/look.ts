@@ -11,7 +11,6 @@ import { isNarrow } from './util'
 
 /** The moods a lab look is told: the band's four, with sleep resting as idle and cheer playing as talk. */
 export type LabMood = 'idle' | 'busy' | 'ponder' | 'talk'
-export const LAB_MOODS: readonly LabMood[] = ['idle', 'busy', 'ponder', 'talk']
 
 /** A run of one style, named as TextProps names them, so the band spreads it straight onto a Text: the one Run every kind draws (runs.ts). */
 export type LabRun = Run
@@ -116,7 +115,7 @@ export type LabLook = {
   most?: { width: number; height: number }
   /**
    * A pet's bigger picture for the pet window: the largest box it draws
-   * there (at most WINDOW_MOST, 120 x 39), told by `isWindow`. Everywhere
+   * there (at most 120 x 39), told by `isWindow`. Everywhere
    * else (the band, its card, pet-control, a window too small) it is
    * `width` x `height` as ever.
    */
@@ -148,8 +147,6 @@ export type LabLook = {
   start(seed: number, memory?: unknown): Live
   /** A sample for its gallery card: not the person's own, so the card shows the kind at its best. */
   demo(): Live
-  /** What its own kind knows to check about its data (a baked pet's loops); empty when it holds. */
-  audit?(): string[]
   /**
    * Steps a tick in `frames` frames (2 to 10), each TICK_MS / frames apart,
    * for motion smoother than the tick: the clock steps it again between
@@ -168,7 +165,7 @@ export type LabLook = {
  * a blank braille cell, U+2800, since a look draws an empty cell as a space
  * (and `petLine` turns one in a line into a space before any look sees it).
  * The one rule for a bubble a look draws itself: `isCellSafe` hands it only
- * lines of these, and `checkLab` lets it draw every one of them.
+ * lines of these, and the lab's standard lets it draw every one of them.
  */
 export const isCellSafeChar = (cp: number): boolean => cp !== 0x2800 && isNarrow(cp)
 

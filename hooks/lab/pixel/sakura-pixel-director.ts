@@ -30,7 +30,6 @@ import type { Cue, Directing } from './pet'
 
 /** Her frames a tick (her definition's `frames`), and so a second: one constant, so her acts' frames are her clock's. */
 export const FRAMES = 4
-export const FPS = FRAMES * 4
 /** Her rolls' salt, and her petals' own, hers alone. */
 const SALT = 0x5c3b
 const PETAL_SALT = 0x5c3d

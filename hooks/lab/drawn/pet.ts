@@ -55,10 +55,6 @@ export type Drawing = {
    * the engine's own suffix, never in its place.
    */
   spinner?: Run[]
-  /** For after a turn's closing line (TurnDuration render slot; `id` its requestId): never drawn, since it would redraw onto every past turn in the scrollback. */
-  turnMark?: (id: string) => Run[] | undefined
-  /** For the prompt hint's `tail` (PromptHint render slot): never drawn. */
-  hint?: string
 }
 
 export type ExperimentalPet = {

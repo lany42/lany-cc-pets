@@ -30,13 +30,6 @@ export const BAND_BUTTON = 'pet-ctrl'
  * never takes a row.
  */
 export const GUTTER_COLUMNS = BAND_BUTTON.length + 1
-/**
- * Columns the engine keeps at the band's right end for its own `[-]` mark,
- * on the band's top row: the band's bodyColumns are the terminal's less
- * these. The mod is handed bodyColumns and never uses this; it is here so
- * the dev tools mock the band as the engine lays it out.
- */
-export const ENGINE_MARK_COLUMNS = 5
 
 /** How the pet stands at a tick: its mood, the tick that mood's loop is at, and the emote by its head. */
 export type Pose = { mood: Mood; at: number; glyph?: string }
