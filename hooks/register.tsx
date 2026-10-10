@@ -322,32 +322,35 @@ async function markSpoken($: EngineInterface, now: number, cursor?: Pick<SeenMar
   await update($, seen, last => ({ ...last, ...cursor, spokeAt: Math.max(last.spokeAt, now) }))
 }
 
-/** Speaks a line the person asked for; resolves what came of it. */
-type Say = (prompt: string, max?: number) => Promise<Spoken>
+/** A line the person asked for: an answer to their message, or a hello. */
+type Asked = { readonly kind: 'answer'; readonly message: string } | { readonly kind: 'hello'; readonly prompt: string }
 
 /**
- * Runs `line`, a line the person asked for, off the dispatch that asked: it
+ * Runs `asked`, a line the person asked for, off the dispatch that asked: it
  * supersedes every line asked before it, the observer waits until it is done,
  * and once it lands it counts as the pet's turn. Counted here, when asked, so
  * no observer can slip in before the timer runs it. Returns the voice it is
  * asked in.
  */
-function ask($: EngineInterface, line: (say: Say) => Promise<void>): number {
+function ask($: EngineInterface, asked: Asked): number {
   session.answering += 1
-  const mine = ++session.voice
-  const say: Say = async (prompt, max) => {
-    const spoken = await speak($, prompt, mine, async () => session.voice !== mine, max)
-    if (spoken.kind === 'landed') await markSpoken($, await $.clock.now())
-    return spoken
-  }
+  const voice = ++session.voice
   $.clock.after(1, async () => {
     try {
-      await line(say)
+      if (asked.kind === 'answer') await answer($, asked.message, voice)
+      else await hello($, asked.prompt, voice)
     } finally {
       session.answering -= 1
     }
   })
-  return mine
+  return voice
+}
+
+/** Speaks a line the person asked for in `voice`, which a newer one supersedes; resolves what came of it. */
+async function sayIn($: EngineInterface, voice: number, prompt: string, max?: number): Promise<Spoken> {
+  const spoken = await speak($, prompt, voice, async () => session.voice !== voice, max)
+  if (spoken.kind === 'landed') await markSpoken($, await $.clock.now())
+  return spoken
 }
 
 /**
@@ -385,23 +388,26 @@ async function logAside($: EngineInterface, text: string): Promise<void> {
  * there is none.
  */
 function btw($: EngineInterface, message: string): void {
-  const voice = ask($, async say => {
-    try {
-      const context = digest(sliceSince(await $.session.messages(), null).fresh)
-      const spoken = await say(btwPrompt(message, context, await remembered($, [], message)), ANSWER_CHARS)
-      if (spoken.kind === 'stale') return
-      const line: ChatLine =
-        spoken.kind === 'landed'
-          ? { from: 'pet', text: spoken.text }
-          : { from: 'pet', text: `didn't answer: ${quietWhy(session.lastError ?? 'it went quiet')}`, isFailed: true }
-      // Only under its own message: once a newer one is in (or the log was wiped), it stays
-      // out, so no line in the log answers another and the pet never remembers it so.
-      await update($, chat, lines => (lines.findLast(one => one.from === 'you')?.text === message ? [...lines, line].slice(-CHAT_LINES) : lines))
-    } finally {
-      if (session.replying?.voice === voice) session.replying = undefined
-    }
-  })
+  const voice = ask($, { kind: 'answer', message })
   session.replying = { message, voice }
+}
+
+/** The answer `btw` asks for, in `voice`: in the bubble, and under its message in the chat log, or a note saying why there is none. */
+async function answer($: EngineInterface, message: string, voice: number): Promise<void> {
+  try {
+    const context = digest(sliceSince(await $.session.messages(), null).fresh)
+    const spoken = await sayIn($, voice, btwPrompt(message, context, await remembered($, [], message)), ANSWER_CHARS)
+    if (spoken.kind === 'stale') return
+    const line: ChatLine =
+      spoken.kind === 'landed'
+        ? { from: 'pet', text: spoken.text }
+        : { from: 'pet', text: `didn't answer: ${quietWhy(session.lastError ?? 'it went quiet')}`, isFailed: true }
+    // Only under its own message: once a newer one is in (or the log was wiped), it stays
+    // out, so no line in the log answers another and the pet never remembers it so.
+    await update($, chat, lines => (lines.findLast(one => one.from === 'you')?.text === message ? [...lines, line].slice(-CHAT_LINES) : lines))
+  } finally {
+    if (session.replying?.voice === voice) session.replying = undefined
+  }
 }
 
 /**
@@ -411,11 +417,14 @@ function btw($: EngineInterface, message: string): void {
  */
 function greet($: EngineInterface, prompt: string): void {
   if (!session.isLive) return
-  ask($, async say => {
-    if (await read($, isHidden)) return
-    const spoken = await say(prompt)
-    if (spoken.kind === 'landed') await logAside($, spoken.text)
-  })
+  ask($, { kind: 'hello', prompt })
+}
+
+/** The hello `greet` asks for, in `voice`, kept in the chat log as a line said on its own. */
+async function hello($: EngineInterface, prompt: string, voice: number): Promise<void> {
+  if (await read($, isHidden)) return
+  const spoken = await sayIn($, voice, prompt)
+  if (spoken.kind === 'landed') await logAside($, spoken.text)
 }
 
 /** Plays an emote beside the pet from this tick; none while nothing could show it, so none waits behind a frozen clock. */
@@ -491,19 +500,19 @@ async function pick($: EngineInterface, id: string): Promise<Told> {
 }
 
 /** Lets the person wear braille looks, or puts the classic ones back: a lab pick waits in its fallback meanwhile. */
-async function setExperimental($: EngineInterface, on: boolean): Promise<string> {
+async function setExperimental($: EngineInterface, isOn: boolean): Promise<string> {
   await settle($)
-  if ((await read($, isExperimental)) === on) return on ? 'experimental! is already on.' : 'experimental! is already off.'
-  session.isExperimental = on
-  await update($, isExperimental, () => on)
-  await $.store.set('experimental', on)
-  if (!on) session.cards.clear()
+  if ((await read($, isExperimental)) === isOn) return isOn ? 'experimental! is already on.' : 'experimental! is already off.'
+  session.isExperimental = isOn
+  await update($, isExperimental, () => isOn)
+  await $.store.set('experimental', isOn)
+  if (!isOn) session.cards.clear()
   await wear($)
   const id = await read($, spriteId)
   const lab = labById(id)
-  if (lab === undefined) return on ? `experimental! is on: braille looks wait at the end of /pet list. ${FONT_TOAST}` : 'experimental! is off.'
+  if (lab === undefined) return isOn ? `experimental! is on: braille looks wait at the end of /pet list. ${FONT_TOAST}` : 'experimental! is off.'
   const name = lab.name.toLowerCase()
-  if (on) return `experimental! is on: your ${name} is back. ${FONT_TOAST}`
+  if (isOn) return `experimental! is on: your ${name} is back. ${FONT_TOAST}`
   const { name: classic } = aboutOf(lookFor(id, false, undefined, await read($, classicId)))
   return `experimental! is off: you wear the ${classic.toLowerCase()} again, and your ${name} waits for /pet experimental.`
 }
@@ -881,14 +890,14 @@ async function setQuiet($: EngineInterface, quiet: boolean): Promise<string> {
  * them, its answers among them), so it only ever remembers what was said
  * since the last flip.
  */
-async function setRemembering($: EngineInterface, on: boolean): Promise<string> {
+async function setRemembering($: EngineInterface, isOn: boolean): Promise<string> {
   await settle($)
-  if ((await read($, isRemembering)) === on) return on ? 'Your pet already remembers what you two say.' : 'Your pet already hears each message on its own.'
-  await update($, isRemembering, () => on)
-  await $.store.set('isRemembering', on)
+  if ((await read($, isRemembering)) === isOn) return isOn ? 'Your pet already remembers what you two say.' : 'Your pet already hears each message on its own.'
+  await update($, isRemembering, () => isOn)
+  await $.store.set('isRemembering', isOn)
   await update($, chat, () => [])
   session.said = []
-  return on ? `Your pet will remember what you two say, up to ${MEMORY_LINES / 2} exchanges back.` : 'Your pet forgot what you two said.'
+  return isOn ? `Your pet will remember what you two say, up to ${MEMORY_LINES / 2} exchanges back.` : 'Your pet forgot what you two said.'
 }
 
 /**

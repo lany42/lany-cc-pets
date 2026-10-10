@@ -425,8 +425,8 @@ function draw(s: BonsaiState, input: TickInput, season: Season, out: Frame): voi
   // Busy: the bud on the leader glows, the twig the next finished turn may grow.
   if (mood === 'busy' || mood === 'ponder') {
     const tip = leader(t)
-    const on = mood === 'busy' ? Math.floor(tick / 3) % 2 === 0 : Math.floor(tick / 4) % 2 === 0
-    if (on) {
+    const isLit = mood === 'busy' ? Math.floor(tick / 3) % 2 === 0 : Math.floor(tick / 4) % 2 === 0
+    if (isLit) {
       d.set(sx[tip]!, sy[tip]! - 1, BUD)
       d.set(sx[tip]! + 1, sy[tip]! - 1, BUD)
     }

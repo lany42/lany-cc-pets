@@ -1073,15 +1073,15 @@ class Night implements SceneInstance {
       const { fig } = c
       const pts = fig.pts.map(([u, v]) => [Math.round(c.x + u * c.w), Math.round(c.y + v * c.h)] as const)
       const shown = this.mood === 'ponder' ? Math.min(fig.segs.length, Math.floor(this.moodFor / 2)) : fig.segs.length
-      const on = new Set<number>()
+      const bright = new Set<number>()
       for (let k = 0; k < shown; k++) {
         const [a, b] = fig.segs[k]!
         d.line(pts[a]![0], pts[a]![1], pts[b]![0], pts[b]![1], P.line, 2)
-        on.add(a)
-        on.add(b)
+        bright.add(a)
+        bright.add(b)
       }
-      if (shown === 0) on.add(fig.segs[0]![0])
-      for (const k of on) d.set(pts[k]![0], pts[k]![1], P.starBright)
+      if (shown === 0) bright.add(fig.segs[0]![0])
+      for (const k of bright) d.set(pts[k]![0], pts[k]![1], P.starBright)
     }
 
     // ---- the moon, and the cloud across it

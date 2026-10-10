@@ -185,19 +185,19 @@ function pondMoon(r: number, phase: number, detail: boolean): number[] {
   const sub = [-0.25, 0.25]
   for (let y = -r - reach; y <= r + reach; y++) {
     for (let x = -r - reach; x <= r + reach; x++) {
-      let inside = 0, on = 0
+      let inside = 0, sunlit = 0
       for (const sy of sub) {
         for (const sx of sub) {
           const px = x + sx, py = (y + sy) * ASPECT
           if (px * px + py * py > r * r) continue
           inside++
           const half = Math.sqrt(r * r - py * py)
-          if ((waxing ? px : -px) >= k * half) on++
+          if ((waxing ? px : -px) >= k * half) sunlit++
         }
       }
       const dd = Math.sqrt(x * x + (y * ASPECT) ** 2)
       if (inside >= 2) {
-        if (on >= 2) out.push(x, y, detail && inMare(x / r, (-y * ASPECT) / r) ? P.maria : P.moon)
+        if (sunlit >= 2) out.push(x, y, detail && inMare(x / r, (-y * ASPECT) / r) ? P.maria : P.moon)
         else if (detail && lit < 0.5) {
           // earthshine: the old moon in the new moon's arms
           const edge = dd > r - 1.2

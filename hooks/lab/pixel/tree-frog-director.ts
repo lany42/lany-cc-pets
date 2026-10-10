@@ -188,8 +188,8 @@ export class FrogDirector implements Directing<Pose> {
       }
       pose.eyes = this.watch.eyes
       if (t >= this.pulse.until) {
-        const on = !this.pulse.on
-        this.pulse = { on, at: t, until: t + (on ? this.span(1.2, 2.4) : this.span(1.5, 3)) }
+        const isPulsing = !this.pulse.on
+        this.pulse = { on: isPulsing, at: t, until: t + (isPulsing ? this.span(1.2, 2.4) : this.span(1.5, 3)) }
       }
       pose.throat = this.pulse.on ? Math.floor((t - this.pulse.at) * 4 + 1e-6) % 2 : 0
     } else if (mood === 'ponder') {

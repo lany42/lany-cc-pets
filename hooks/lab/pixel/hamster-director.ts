@@ -287,8 +287,8 @@ export class HamsterDirector implements Directing<Pose> {
     if (mood === 'busy') {
       // A seed up to its mouth, then nibbling in bursts, lowered with its mouth open and up to it every other frame; pausing between, the seed held up.
       if (t >= this.chew.until) {
-        const on = !this.chew.on
-        this.chew = { on, at: t, until: t + (on ? this.span(1.2, 2.6) : this.span(0.6, 1.8)) }
+        const isChewing = !this.chew.on
+        this.chew = { on: isChewing, at: t, until: t + (isChewing ? this.span(1.2, 2.6) : this.span(0.6, 1.8)) }
       }
       pose.paws = since < 0.125 ? 'down' : 'seed'
       pose.turn = this.chew.on ? Math.floor((t - this.chew.at) * (FPS / 2) + 1e-6) % 2 : 1

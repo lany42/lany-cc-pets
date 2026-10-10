@@ -57,8 +57,8 @@ const browsOf = (pose: Channels): Brows => (at(pose, 'brow') > 0.45 ? 'up' : at(
 const inside = ([x, y]: Spot): boolean => x >= 0 && x < COLUMNS && y >= 0 && y < 13
 
 /** A petal in the air's pixel, from its place in her rig's units, if it is aloft. */
-function flyer(on: number, x: number, y: number): Spot | undefined {
-  if (on < 0.5) return undefined
+function flyer(aloft: number, x: number, y: number): Spot | undefined {
+  if (aloft < 0.5) return undefined
   return [Math.floor((x - 2) / 6), Math.floor((y - 10) / 8.5)]
 }
 

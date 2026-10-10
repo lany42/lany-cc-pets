@@ -97,25 +97,25 @@ export function encode(canvas: Canvas, out: Uint32Array, c0 = 0, r0 = 0, c1 = ca
           if (first === -1) first = key
           else if (key !== first) isFlat = false
           const ss = WR * vr * vr + WG * vg * vg + WB * vb * vb
-          const on = isOn ? 1 : 0
+          const lit = isOn ? 1 : 0
           const q = (QUAD + (y < SY / 2 ? 0 : 2) + (x < SX / 2 ? 0 : 1)) * SLOTS
           sums[q]! += vr
           sums[q + 1]! += vg
           sums[q + 2]! += vb
           sums[q + 3]! += ss
-          sums[q + 4]! += on
+          sums[q + 4]! += lit
           const rw = (ROW + y) * SLOTS
           sums[rw]! += vr
           sums[rw + 1]! += vg
           sums[rw + 2]! += vb
           sums[rw + 3]! += ss
-          sums[rw + 4]! += on
+          sums[rw + 4]! += lit
           const cl = (COLUMN + x) * SLOTS
           sums[cl]! += vr
           sums[cl + 1]! += vg
           sums[cl + 2]! += vb
           sums[cl + 3]! += ss
-          sums[cl + 4]! += on
+          sums[cl + 4]! += lit
         }
       }
       const at = (cr * canvas.cols + cc) * 3
