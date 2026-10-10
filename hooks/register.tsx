@@ -1205,7 +1205,7 @@ export const register: Register = on => {
   // the pet: it neither animates nor comments until one attaches again. Looked
   // at once the roster has settled, so the leaving client is surely gone from it.
   on('session.detach', ($, e, next) => {
-    $.clock.after(1, () => void rest($))
+    $.clock.after(1, () => { void rest($) })
     return next(e)
   })
 
@@ -1363,7 +1363,7 @@ export const register: Register = on => {
     const pose = poseOf(pondering, said, t, e.props.isWorking, await read($, emote), await read($, isAsleep))
     // A line fades once its time is up.
     const words = wordsAt(pondering, said, t)
-    const button = <Button key="settings" label={BAND_BUTTON} plain dimColor onPress={() => void openPane($, 'settings')} />
+    const button = <Button key="settings" label={BAND_BUTTON} plain dimColor onPress={() => { void openPane($, 'settings') }} />
     /** The band: what it draws, and its button in the bottom-right corner. */
     const band = (drawn: RenderNode, emote?: readonly RenderNode[]) => (
       <Box flexDirection="row" alignItems="flex-end" width={e.props.bodyColumns}>
@@ -1548,7 +1548,7 @@ export const register: Register = on => {
     const { Box, Button, Text } = table
     const view = await read($, paneView)
     const t = await read($, tick)
-    const close = <Button key="close" label="Close" role="dismiss" plain onPress={() => void closePane($)} />
+    const close = <Button key="close" label="Close" role="dismiss" plain onPress={() => { void closePane($) }} />
 
     if (view.page === 'looks') {
       const experimental = await read($, isExperimental)
@@ -1563,7 +1563,7 @@ export const register: Register = on => {
               <Text dimColor>{experimental ? ' · press its key, or /pet as <id>' : ' · press its key'}</Text>
             </Text>
             <Box flexShrink={0}>
-              {view.isStacked ? <Button key="back" label="< pet-control" plain onPress={() => void openPane($, 'settings')} /> : close}
+              {view.isStacked ? <Button key="back" label="< pet-control" plain onPress={() => { void openPane($, 'settings') }} /> : close}
             </Box>
           </Box>
           <Box flexDirection="row" flexWrap="wrap" columnGap={1}>
@@ -1584,7 +1584,7 @@ export const register: Register = on => {
                     hotkey={HOTKEYS[at]}
                     plain
                     variant={isCurrent ? 'primary' : 'secondary'}
-                    onPress={() => void tell($, pick($, sprite.id))}
+                    onPress={() => { void tell($, pick($, sprite.id)) }}
                   />
                 </Box>
               )
@@ -1619,7 +1619,7 @@ export const register: Register = on => {
                         {...(hotkey !== undefined ? { hotkey } : {})}
                         plain
                         variant={isCurrent ? 'primary' : 'secondary'}
-                        onPress={() => void tell($, pick($, look.id))}
+                        onPress={() => { void tell($, pick($, look.id)) }}
                       />
                     </Box>
                   )
@@ -1710,9 +1710,9 @@ export const register: Register = on => {
                 {drawLines(Text, art.paint, [(pose.glyph ?? '').padEnd(EMOTE_WIDTH)], t)}
                 <Box flexDirection="column">{art.lines}</Box>
               </Box>
-              <Button key="pat" label="Pet it" plain onPress={() => void petIt($)} />
+              <Button key="pat" label="Pet it" plain onPress={() => { void petIt($) }} />
               {/* A window of its own: the pet at its full size, out of the crowded bottom slot. */}
-              <Button key="window" label={windowOpen ? 'Close window' : 'Pet window'} plain onPress={() => void tell($, toggleWindow($))} />
+              <Button key="window" label={windowOpen ? 'Close window' : 'Pet window'} plain onPress={() => { void tell($, toggleWindow($)) }} />
             </Box>
             <Box flexDirection="column">
               <Text bold color={color}>{name}</Text>
@@ -1720,13 +1720,13 @@ export const register: Register = on => {
               {born !== undefined && <Text dimColor>{born}</Text>}
               <Text dimColor>{about}</Text>
               <Box flexDirection="row" flexWrap="wrap" columnGap={1} marginTop={1}>
-                <Button key="look" label="Change its look" variant="primary" onPress={() => void openPane($, 'looks', true)} />
-                <Button key="visibility" label={hidden ? 'Show your pet' : 'Hide your pet'} onPress={() => void tell($, setHidden($, !hidden))} />
+                <Button key="look" label="Change its look" variant="primary" onPress={() => { void openPane($, 'looks', true) }} />
+                <Button key="visibility" label={hidden ? 'Show your pet' : 'Hide your pet'} onPress={() => { void tell($, setHidden($, !hidden)) }} />
               </Box>
               {/* Switches, one row of them while they fit: each a box you tick. */}
               <Box flexDirection="row" flexWrap="wrap" columnGap={2}>
-                <Button key="quiet" label={`${quiet ? '[x]' : '[ ]'} Keep it quiet`} plain onPress={() => void tell($, setQuiet($, !quiet))} />
-                <Button key="experimental" label={`${experimental ? '[x]' : '[ ]'} experimental!`} plain onPress={() => void tell($, setExperimental($, !experimental))} />
+                <Button key="quiet" label={`${quiet ? '[x]' : '[ ]'} Keep it quiet`} plain onPress={() => { void tell($, setQuiet($, !quiet)) }} />
+                <Button key="experimental" label={`${experimental ? '[x]' : '[ ]'} experimental!`} plain onPress={() => { void tell($, setExperimental($, !experimental)) }} />
               </Box>
               {/* Plain text on purpose: it shows what this font does with braille. Elsewhere it would test another font. */}
               {experimental && isTerminal && <Text dimColor>{FONT_TEST}</Text>}
@@ -1742,7 +1742,7 @@ export const register: Register = on => {
               <Text dimColor>Give it a personality</Text>
             </Box>
             <Box borderStyle="round" borderColor="subtle" paddingX={1}>
-              <Input key={`trait-${traitsSent}`} value={trait} placeholder="one word, like snarky or warm" submitLabel="set" onSubmit={value => void sendTrait($, value)} />
+              <Input key={`trait-${traitsSent}`} value={trait} placeholder="one word, like snarky or warm" submitLabel="set" onSubmit={value => { void sendTrait($, value) }} />
             </Box>
           </Box>
         )}
@@ -1754,7 +1754,7 @@ export const register: Register = on => {
               <Text dimColor wrap="truncate-end">Just between you two</Text>
               {/* Its one switch sits on the chat it is about, in the heading's row: no row of its own. */}
               <Box flexShrink={0}>
-                <Button key="remember" label={`${remembering ? '[x]' : '[ ]'} Let it remember`} plain onPress={() => void tell($, setRemembering($, !remembering))} />
+                <Button key="remember" label={`${remembering ? '[x]' : '[ ]'} Let it remember`} plain onPress={() => { void tell($, setRemembering($, !remembering)) }} />
               </Box>
             </Box>
           )}
@@ -1798,7 +1798,7 @@ function chatBar($: EngineInterface, Box: BoxElement, Input: InputElement, reque
         placeholder={hidden ? 'Your pet is napping. Show it to talk.' : 'Talk to your pet!'}
         submitLabel="send"
         autoFocus
-        onSubmit={value => void sendChat($, value, requestId)}
+        onSubmit={value => { void sendChat($, value, requestId) }}
       />
     </Box>
   )
