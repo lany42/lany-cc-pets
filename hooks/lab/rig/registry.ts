@@ -3,13 +3,11 @@
 // easing, a track source, a blend mode, a driver) is an entry in one of these
 // tables, and nothing else in the engine knows one pet from another. A new
 // capability is a new entry: written once, in the module of its family, and
-// listed here. The validator rejects a type id no table holds (a declared
-// slot only warns); the evaluator and the driver runtime look every type up
-// here and call it.
+// listed here. The evaluator and the driver runtime look every type up here
+// and call it.
 //
-// Each entry checks its own fields (the validator calls `check` once the
-// document's structure and references hold) and does its own work. Pure:
-// imports nothing at run time but the entries' modules.
+// Each entry does its own work. Pure: imports nothing at run time but the
+// entries' modules.
 import type { Paint } from './kit/canvas'
 import { BLENDS } from './blends'
 import { COMBINERS } from './combiners'
@@ -20,63 +18,10 @@ import { PAINTS } from './paints'
 import { PARTICLE } from './particle'
 import { PHYSICS } from './physics'
 import { REGIONS } from './regions'
-import type {
-  Affine,
-  AnchorRef,
-  Command,
-  DerivedDef,
-  DriverDef,
-  DriversDoc,
-  LayerDef,
-  PaintDef,
-  Problem,
-  Pt,
-  ResolvedPaint,
-  RigDoc,
-  Scalar,
-  ShapeDef,
-  SpaceDef,
-  Timeline,
-  TrackDef,
-  Values,
-  View,
-} from './schema'
+import type { Affine, AnchorRef, Command, DerivedDef, DriverDef, PaintDef, Pt, ResolvedPaint, Scalar, ShapeDef, SpaceDef, Timeline, TrackDef, View } from './schema'
 import { SHAPES } from './shapes'
 import { SOURCES } from './sources'
 import { SPACES } from './spaces'
-
-// ---------------------------------------------------------------- checking
-
-/** What a rig-side entry's `check` may ask of the rig it sits in. */
-export type RigContext = {
-  readonly rig: RigDoc
-  /** Whether `id` names a param or a derived param declared before `before` (any, when absent). */
-  isValue(id: string, before?: string): boolean
-  /** A param's [min, max], or a derived param's from its inputs'. */
-  rangeOf(id: string): readonly [number, number] | undefined
-  isColor(name: string): boolean
-  isSpace(id: string): boolean
-  /** Whether a layer has this anchor (or curve), as `layer#anchor`. */
-  isAnchor(ref: AnchorRef): boolean
-}
-
-/** What a driver-side entry's `check` may ask of the drivers document and its rig. */
-export type DriversContext = {
-  readonly doc: DriversDoc
-  readonly rig: RigDoc
-  /** A rig param or a declared signal. */
-  isChannel(id: string): boolean
-  isSignal(id: string): boolean
-  isLane(id: string): boolean
-  isClip(id: string): boolean
-  isEasing(id: string): boolean
-  isAnchor(ref: AnchorRef): boolean
-  /** A rig param's [min, max]. */
-  rangeOf(id: string): readonly [number, number] | undefined
-}
-
-/** A problem at `path`: an error unless `level` says otherwise. */
-export const problem = (path: string, message: string, level: 'error' | 'warn' = 'error'): Problem => ({ path, message, level })
 
 // ---------------------------------------------------------------- the rig's types
 
@@ -85,10 +30,7 @@ export interface Combiner {
   readonly id: string
   /** The ids it reads, in its def. */
   inputs(def: DerivedDef): readonly string[]
-  check(def: DerivedDef, path: string, ctx: RigContext): Problem[]
   value(def: DerivedDef, get: (id: string) => number): number
-  /** Its range from its inputs' ranges. */
-  range(def: DerivedDef, rangeOf: (id: string) => readonly [number, number]): readonly [number, number]
 }
 
 /**
@@ -110,7 +52,6 @@ export interface ShapeKind {
   props(def: ShapeDef): Readonly<Record<string, number>>
   /** Params its own fields read beyond its scalars (which the evaluator follows itself). */
   inputs?(def: ShapeDef): readonly string[]
-  check(def: ShapeDef, path: string, ctx: RigContext): Problem[]
   /**
    * Its commands in its own units, from its nodes and props at this moment
    * (scalars evaluated, keyforms added). A stroke's or an ellipse's outline is
@@ -124,7 +65,6 @@ export interface ShapeKind {
 export interface SpaceType {
   readonly id: string
   inputs?(def: SpaceDef): readonly string[]
-  check(def: SpaceDef, path: string, ctx: RigContext): Problem[]
   /** Its units to its parent's, `scalar` evaluating any of its scalars at this moment (undefined for one it lacks). */
   local(def: SpaceDef, scalar: (value: Scalar | undefined) => number | undefined): Affine
 }
@@ -147,13 +87,10 @@ export interface PaintType {
   readonly id: string
   /** Params it reads beyond its scalars. */
   inputs?(def: PaintDef): readonly string[]
-  check(def: PaintDef, path: string, ctx: RigContext, layer: LayerDef): Problem[]
   /** It at this moment: colors as numbers, anchors placed, scalars evaluated. */
   resolve(def: PaintDef, at: PaintMoment): ResolvedPaint
   /** The canvas's paint; `M` maps the layer's units to samples (its transform, then the room's `m`). */
   canvas(paint: ResolvedPaint, M: Affine): Paint
-  /** SVG's fill for it (a color, or `url(#id)`) and the `<defs>` that needs; `M` maps the layer's units to the SVG's. */
-  svg(paint: ResolvedPaint, M: Affine, id: string): { readonly fill: string; readonly defs?: string }
 }
 
 // ---------------------------------------------------------------- the drivers' types
@@ -177,9 +114,6 @@ export type SourceMoment = {
 /** A track source (`keys`, `from`, `osc`, `mul`): its id is the track field that holds it. */
 export interface Source {
   readonly id: string
-  /** The clip's tracks it reads. */
-  reads?(track: TrackDef): readonly string[]
-  check(track: TrackDef, path: string, ctx: DriversContext): Problem[]
   /** Its raw value (before the track's `scale` and `offset`). */
   value(track: TrackDef, at: SourceMoment): number
 }
@@ -215,10 +149,6 @@ export type DriverFrame = {
 /** A stateful driver type (`lag`, `pendulum`, `particle`, `lookAt`). */
 export interface DriverType {
   readonly id: string
-  check(def: DriverDef, path: string, ctx: DriversContext): Problem[]
-  /** The params and signals it reads, and those it writes. */
-  inputs(def: DriverDef): readonly string[]
-  outputs(def: DriverDef): readonly string[]
   /**
    * One step: writes its outputs into `frame.values` and returns its next
    * state. `state` is undefined when it starts over (the first step, a step
@@ -241,8 +171,6 @@ export type Registry = {
   readonly sources: ReadonlyMap<string, Source>
   readonly blends: ReadonlyMap<string, BlendMode>
   readonly drivers: ReadonlyMap<string, DriverType>
-  /** Types declared with no implementation yet: a document may name them, and the validator warns. */
-  readonly slots: ReadonlySet<string>
 }
 
 const byId = <T extends { readonly id: string }>(entries: readonly T[]): ReadonlyMap<string, T> => new Map(entries.map(entry => [entry.id, entry]))
@@ -257,16 +185,7 @@ export const REGISTRY: Registry = {
   sources: byId(SOURCES),
   blends: byId(BLENDS),
   drivers: byId([...PHYSICS, ...PARTICLE, ...LOOK_AT]),
-  // When acts play: the choreographer as data; until then each pet's behavior writes its timeline, as code (rig-pets/<id>-behavior.ts on behavior.ts).
-  slots: new Set(['behavior']),
 }
 
 /** A color by palette name as 0xRRGGBB, from `#rrggbb`. */
 export const rgb = (hex: string): number => Number.parseInt(hex.slice(1), 16)
-
-/** Values with any param missing from `params` at its default. */
-export const withDefaults = (rig: RigDoc, params: Values): Record<string, number> => {
-  const out: Record<string, number> = {}
-  for (const param of rig.params) out[param.id] = params[param.id] ?? param.default
-  return out
-}

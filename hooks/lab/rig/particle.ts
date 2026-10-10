@@ -95,8 +95,8 @@
 // only, so the registry, which lists this module, can load it first or
 // after).
 import { hash, keys } from '../motion'
-import type { DriverFrame, DriversContext, DriverType } from './registry'
-import type { AnchorRef, DriverDef, Instance, Problem, Pt, Timeline, Values } from './schema'
+import type { DriverFrame, DriverType } from './registry'
+import type { AnchorRef, DriverDef, Instance, Pt, Timeline, Values } from './schema'
 
 /** Sub-steps a second. */
 export const SUB = 128
@@ -158,7 +158,7 @@ export type ParticleDef = DriverDef & {
 }
 
 // The prototype's air, and its guide.
-const AIR = { gravity: 14, drag: 1.6, glide: 10, lift: 0.35, spin: 0.12, spinDrag: 0.8 }
+export const AIR = { gravity: 14, drag: 1.6, glide: 10, lift: 0.35, spin: 0.12, spinDrag: 0.8 }
 const GUIDE = { k: [30, 400, 3] as const, d: [6, 30, 2] as const, ease: 1.7, fade: 0.2 }
 const MOST = 10
 const SALT = 0x7a1
@@ -284,10 +284,10 @@ export function placeAt(flight: Flight, u: number): { readonly x: number; readon
 }
 
 /** Whether a watch's fates are a fixed list of fate ids. */
-const isList = (fates: Watch['fates']): fates is readonly string[] => Array.isArray(fates)
+export const isList = (fates: Watch['fates']): fates is readonly string[] => Array.isArray(fates)
 
 /** The letters of a clip's id that spell its fates: past its last `after`, or all of it. */
-const spelling = (clip: string, after: string | undefined): string => (after === undefined || after === '' ? clip : clip.slice(clip.lastIndexOf(after) + after.length))
+export const spelling = (clip: string, after: string | undefined): string => (after === undefined || after === '' ? clip : clip.slice(clip.lastIndexOf(after) + after.length))
 
 /** The fates of an instance's particles, in order, as indices into `def.fates` (-1: no such fate). */
 function fatesOf(def: ParticleDef, watch: Watch, instance: Instance): number[] {
@@ -381,7 +381,7 @@ function* watched(watch: Watch, timeline: Timeline, t: number): Generator<readon
 const EACH = new WeakMap<object, readonly Slot[]>()
 
 /** The output channels of a particle driver, set by set. */
-function slotsOf(def: ParticleDef): readonly Slot[] {
+export function slotsOf(def: ParticleDef): readonly Slot[] {
   const out = def.out
   if ('slots' in out) return out.slots
   let slots = EACH.get(out)
@@ -469,128 +469,9 @@ function stepParticles(def: ParticleDef, state: unknown, frame: DriverFrame): Pa
   return { spawned }
 }
 
-// ---------------------------------------------------------------- checking
-
-const isNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
-const isPair = (value: unknown): value is readonly [number, number] => Array.isArray(value) && value.length === 2 && value.every(isNumber)
-/** A list field as the def gives it, or none when it is not a list (a def is checked before it is trusted). */
-const listOf = <T>(value: readonly T[] | undefined): readonly T[] => (Array.isArray(value) ? value : [])
-
-function checkParticle(def: DriverDef, path: string, ctx: DriversContext): Problem[] {
-  const out: Problem[] = []
-  const d = def as ParticleDef
-  const fail = (where: string, message: string) => out.push({ path: `${path}${where}`, message, level: 'error' })
-  const fates = listOf<Fate>(d.fates)
-  if (d.fates !== undefined && !Array.isArray(d.fates)) fail('.fates', 'fates must be a list')
-  const isDrawn = (value: unknown) => value === undefined || isNumber(value) || isPair(value)
-  const checkWind = (wind: unknown, where: string) => {
-    if (wind === undefined) return
-    if (typeof wind !== 'object' || wind === null) {
-      fail(where, 'a wind is { speed?, keys?, sway? }')
-      return
-    }
-    const w = wind as Wind
-    if (!isDrawn(w.speed)) fail(`${where}.speed`, 'a number or [lo, hi]')
-    if (w.keys !== undefined && (!Array.isArray(w.keys) || !w.keys.every(isPair))) fail(`${where}.keys`, 'keys are [[seconds, factor]...]')
-    if (w.sway !== undefined && !isPair(w.sway)) fail(`${where}.sway`, 'a sway is [amplitude, hertz]')
-  }
-  checkWind(d.wind, '.wind')
-  fates.forEach((fate: Fate, k: number) => {
-    const where = `.fates[${k}]`
-    if (typeof fate.id !== 'string') fail(where, 'a fate needs an id')
-    if (fates.findIndex(other => other.id === fate.id) !== k) fail(where, `fate "${fate.id}" is declared twice`)
-    if (fate.targets !== undefined) {
-      const targets = listOf<Target>(fate.targets)
-      if (targets.length === 0) fail(`${where}.targets`, 'targets are a non-empty list')
-      else if (!isNumber(fate.time) || fate.time <= 0) fail(`${where}.time`, 'a fate with targets needs its flight time, over 0 s')
-      targets.forEach((target: Target, j: number) => {
-        if (target.anchor !== undefined ? !ctx.isAnchor(target.anchor) : !isPair(target.at)) fail(`${where}.targets[${j}]`, 'a target is a rig anchor (`layer#anchor`) or a point `at`')
-        if (target.turn !== undefined && !isNumber(target.turn)) fail(`${where}.targets[${j}].turn`, 'a turn is a number')
-      })
-    }
-    checkWind(fate.wind, `${where}.wind`)
-  })
-  const watches = listOf<Watch>(d.watch)
-  if (watches.length === 0) fail('.watch', 'a particle driver watches at least one clip')
-  watches.forEach((watch: Watch, k: number) => {
-    const where = `.watch[${k}]`
-    if (watch.lane !== undefined && !ctx.isLane(watch.lane)) fail(`${where}.lane`, `no lane "${watch.lane}"`)
-    const clips = listOf<string>(watch.clips)
-    if (clips.length === 0) fail(`${where}.clips`, 'a watch names its clips')
-    for (const clip of clips) if (!ctx.isClip(clip)) fail(`${where}.clips`, `no clip "${clip}"`)
-    const args = new Set(clips.flatMap((clip: string) => ctx.doc.clips.find(c => c.id === clip)?.args?.map(arg => arg.id) ?? []))
-    const checkArg = (value: FromArg | undefined, field: string) => {
-      if (value === undefined || isNumber(value)) return
-      if (typeof value !== 'object' || typeof value.arg !== 'string') fail(`${where}.${field}`, 'a number or { arg, scale?, add?, default? }')
-      else if (!args.has(value.arg)) fail(`${where}.${field}`, `no clip watched takes an arg "${value.arg}"`)
-    }
-    checkArg(watch.seed, 'seed')
-    if ((watch.particles === undefined) === (watch.fates === undefined)) fail(where, 'a watch spawns by `fates` or by `particles`, one of them')
-    if (watch.particles !== undefined) {
-      const particles = listOf<Listed>(watch.particles)
-      if (!Array.isArray(watch.particles) || !particles.every((p: Listed) => isNumber(p.at) && p.at >= 0 && isNumber(p.x) && isNumber(p.y) && (p.scale === undefined || isNumber(p.scale)))) {
-        fail(`${where}.particles`, 'particles are [{ at (s, 0 or more), x, y, scale? }...]')
-      }
-    }
-    if (watch.fates !== undefined) {
-      checkArg(watch.side, 'side')
-      checkArg(watch.first, 'first')
-      if (watch.spacing !== undefined && (!isNumber(watch.spacing) || watch.spacing < 0)) fail(`${where}.spacing`, 'spacing is seconds, 0 or more')
-      const isFate = (id: unknown) => fates.some(fate => fate.id === id)
-      const spec = watch.fates
-      if (isList(spec)) {
-        for (const id of spec) if (!isFate(id)) fail(`${where}.fates`, `no fate "${id}"`)
-      } else if (typeof spec === 'object' && spec !== null && 'spell' in spec && typeof spec.spell === 'object' && spec.spell !== null) {
-        for (const [letter, id] of Object.entries(spec.spell)) if (!isFate(id)) fail(`${where}.fates.spell.${letter}`, `no fate "${id}"`)
-        for (const clip of clips) {
-          const word = spelling(clip, spec.after)
-          if (word === '' || [...word].some(letter => !(letter in spec.spell))) fail(`${where}.fates`, `clip "${clip}" doesn't spell its fates in ${Object.keys(spec.spell).join(', ')}`)
-        }
-      } else if (typeof spec === 'object' && spec !== null && 'args' in spec && Array.isArray(spec.args)) {
-        for (const arg of spec.args) if (!args.has(arg)) fail(`${where}.fates`, `no clip watched takes an arg "${arg}"`)
-      } else fail(`${where}.fates`, 'fates are a list of fate ids, { args: [...] } or { spell, after? }')
-    }
-    checkWind(watch.wind, `${where}.wind`)
-  })
-  const spawn = d.spawn
-  if (spawn !== undefined) {
-    if (spawn.x !== undefined && !isPair(spawn.x)) fail('.spawn.x', 'x is [left, right]')
-    if (!isDrawn(spawn.y) || !isDrawn(spawn.turn) || !isDrawn(spawn.spin)) fail('.spawn', 'y, turn and spin are numbers or [lo, hi]')
-    if ((spawn.launch !== undefined && !isNumber(spawn.launch)) || (spawn.fall !== undefined && !isNumber(spawn.fall))) fail('.spawn', 'launch and fall are numbers')
-  }
-  for (const [key, value] of Object.entries(d.air ?? {})) if (!isNumber(value)) fail(`.air.${key}`, 'the air takes numbers')
-  if ((d.air?.drag ?? AIR.drag) < 0 || (d.air?.spinDrag ?? AIR.spinDrag) < 0) fail('.air', 'drag is 0 or more')
-  for (const key of ['k', 'd'] as const) {
-    const value = d.guide?.[key]
-    if (value !== undefined && !(Array.isArray(value) && value.length === 3 && value.every(isNumber))) fail(`.guide.${key}`, `${key} is [base, gain, power]`)
-  }
-  if (d.guide?.fade !== undefined && (!isNumber(d.guide.fade) || d.guide.fade <= 0 || d.guide.fade > 1)) fail('.guide.fade', 'the fade is a share of the flight, over 0 and at most 1')
-  if (!Array.isArray(d.box) || d.box.length !== 4 || !d.box.every(isNumber) || d.box[0] >= d.box[2] || d.box[1] >= d.box[3]) fail('.box', 'the box is [x0, y0, x1, y1], x0 < x1 and y0 < y1')
-  if (d.most !== undefined && (!isNumber(d.most) || d.most <= 0)) fail('.most', 'most is seconds, over 0')
-  if (d.quantum !== undefined && (!isNumber(d.quantum) || d.quantum <= 0)) fail('.quantum', 'the quantum is over 0')
-  if (typeof d.out !== 'object' || d.out === null) fail('.out', 'out is { slots } or { each, count }')
-  else if ('slots' in d.out ? !Array.isArray(d.out.slots) || d.out.slots.length === 0 : typeof d.out.each !== 'string' || !Number.isInteger(d.out.count) || d.out.count < 1) {
-    fail('.out', 'out is { slots: [{ x, y, turn, on }...] } or { each: prefix, count }')
-  } else {
-    for (const id of outputsOfParticle(d)) if (!ctx.isChannel(id)) fail('.out', `no param or signal "${id}"`)
-  }
-  return out
-}
-
-function outputsOfParticle(def: DriverDef): string[] {
-  const d = def as ParticleDef
-  const out = typeof d.out === 'object' && d.out !== null ? slotsOf(d).flatMap(slot => [slot.x, slot.y, slot.turn, slot.on]) : []
-  if (d.newest !== undefined) out.push(d.newest.x, d.newest.y, d.newest.on)
-  return out
-}
-
 export const PARTICLE: readonly DriverType[] = [
   {
     id: 'particle',
-    check: checkParticle,
-    // It reads no channel: its particles come from the timeline and the rig's anchors.
-    inputs: () => [],
-    outputs: outputsOfParticle,
     step: (def, state, frame) => stepParticles(def as ParticleDef, state, frame),
   },
 ]

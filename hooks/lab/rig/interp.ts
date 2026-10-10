@@ -16,17 +16,10 @@
 // Each holds outside its first and last position, and puts weight 1 on a
 // position the value lands on exactly, so a keyform gives its own values.
 //
-// Also here, since every rig-side family checks them and this module loads
-// before the registry that lists them: the checks of a scalar (a number, a
-// binding, keyforms) and of a block's axes, and the params a scalar reads.
+// Also here, since spaces.ts and the evaluator share it and this module
+// loads before the registry that lists it: the params a scalar reads.
 // Registered in registry.ts. Pure: imports nothing at run time.
-import type { Interpolator, RigContext } from './registry'
-import type { BlockAxes, Problem } from './schema'
-
-/** A problem at `path` (registry.ts's `problem`; not imported, so this module loads before the registry that lists it). */
-const problem = (path: string, message: string): Problem => ({ path, message, level: 'error' })
-
-const isNumber = (x: unknown): x is number => typeof x === 'number' && Number.isFinite(x)
+import type { Interpolator } from './registry'
 
 /** The segment of `axis` holding `x` (strictly inside the first and last position): `k` with axis[k] <= x < axis[k + 1]. */
 function segment(axis: readonly number[], x: number): number {
@@ -105,70 +98,6 @@ const cubic: Interpolator = {
 
 /** The keyform interpolators, by id: `linear` (a block's default), `step`, `cubic`. */
 export const INTERPOLATORS: readonly Interpolator[] = [linear, step, cubic]
-
-// ---------------------------------------------------------------- checks the rig-side families share
-
-/**
- * Checks a block's `on` and `axes` (and its `interp`): one to three params or
- * derived params, each axis strictly increasing, finite and inside its
- * param's range. Returns the problems and the grid's size (the product of the
- * axes' lengths; 0 when they don't hold).
- */
-export function checkAxes(block: BlockAxes, path: string, ctx: RigContext): { readonly problems: Problem[]; readonly size: number } {
-  const problems: Problem[] = []
-  if (!Array.isArray(block.on) || block.on.length < 1 || block.on.length > 3) return { problems: [problem(`${path}.on`, 'names one to three params')], size: 0 }
-  if (!Array.isArray(block.axes) || block.axes.length !== block.on.length) return { problems: [problem(`${path}.axes`, `holds one axis per param of "on" (${block.on.length})`)], size: 0 }
-  let size = 1
-  block.on.forEach((id, k) => {
-    const at = `${path}.on[${k}]`
-    if (typeof id !== 'string' || !ctx.isValue(id)) problems.push(problem(at, `"${String(id)}" is not a param or derived param`))
-    const axis = block.axes[k]
-    if (!Array.isArray(axis) || axis.length < 1 || !axis.every(isNumber)) {
-      problems.push(problem(`${path}.axes[${k}]`, 'is not a list of finite numbers'))
-      size = 0
-      return
-    }
-    for (let j = 1; j < axis.length; j++) if (!(axis[j]! > axis[j - 1]!)) problems.push(problem(`${path}.axes[${k}][${j}]`, 'axes are strictly increasing'))
-    const range = typeof id === 'string' ? ctx.rangeOf(id) : undefined
-    if (range !== undefined && (axis[0]! < range[0] || axis[axis.length - 1]! > range[1])) problems.push(problem(`${path}.axes[${k}]`, `lies outside ${id}'s range [${range[0]}, ${range[1]}]`))
-    size *= axis.length
-  })
-  if (block.interp !== undefined && !INTERPOLATORS.some(one => one.id === block.interp)) problems.push(problem(`${path}.interp`, `"${String(block.interp)}" is not an interpolator (${INTERPOLATORS.map(one => one.id).join(', ')})`))
-  return { problems, size }
-}
-
-/** Checks a scalar: a finite number, a binding `{ param, scale?, offset? }` to a param or derived param, or keyforms `{ base, keyforms }` whose blocks hold one number a grid point. */
-export function checkScalar(value: unknown, path: string, ctx: RigContext): Problem[] {
-  if (typeof value === 'number') return Number.isFinite(value) ? [] : [problem(path, 'is not a finite number')]
-  if (value === null || typeof value !== 'object' || Array.isArray(value)) return [problem(path, 'is a number, a binding { param, scale, offset } or keyforms { base, keyforms }')]
-  const one = value as Record<string, unknown>
-  if ('param' in one) {
-    const problems: Problem[] = []
-    if (typeof one.param !== 'string' || !ctx.isValue(one.param)) problems.push(problem(`${path}.param`, `"${String(one.param)}" is not a param or derived param`))
-    for (const field of ['scale', 'offset']) if (one[field] !== undefined && !isNumber(one[field])) problems.push(problem(`${path}.${field}`, 'is not a finite number'))
-    return problems
-  }
-  if ('base' in one || 'keyforms' in one) {
-    const problems: Problem[] = []
-    if (!isNumber(one.base)) problems.push(problem(`${path}.base`, 'is not a finite number'))
-    if (!Array.isArray(one.keyforms)) return [...problems, problem(`${path}.keyforms`, 'is not a list of blocks')]
-    for (let k = 0; k < one.keyforms.length; k++) {
-      const block: unknown = one.keyforms[k]
-      const at = `${path}.keyforms[${k}]`
-      if (block === null || typeof block !== 'object') {
-        problems.push(problem(at, 'is not a block'))
-        continue
-      }
-      const { problems: axes, size } = checkAxes(block as BlockAxes, at, ctx)
-      problems.push(...axes)
-      const values = (block as { values?: unknown }).values
-      if (!Array.isArray(values) || !values.every(isNumber)) problems.push(problem(`${at}.values`, 'is not a list of finite numbers'))
-      else if (size > 0 && values.length !== size) problems.push(problem(`${at}.values`, `holds ${values.length} values for a grid of ${size}`))
-    }
-    return problems
-  }
-  return [problem(path, 'is a number, a binding { param, scale, offset } or keyforms { base, keyforms }')]
-}
 
 /**
  * The params and derived params a value may read, found by walking it: every

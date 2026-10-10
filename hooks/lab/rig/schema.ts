@@ -27,9 +27,6 @@ export type Pt = readonly [x: number, y: number]
 /** A param's (or signal's) value by id. */
 export type Values = Readonly<Record<string, number>>
 
-/** The pattern every id matches: a letter, then letters, digits, `_`, `.` or `-`. */
-export const ID = /^[A-Za-z][\w.-]*$/
-
 /** The schema's version, in each document's `schema`. */
 export const SCHEMA = 1
 
@@ -78,7 +75,7 @@ export type Term = readonly [id: string, weight: number]
  * - `max`, `min`: `terms`, `clamp`: the largest (smallest) weighted input;
  * - `pow`: `of`, `k`: of clamped to [0, 1], raised to k.
  *
- * Other ops carry fields of their own; their registry entry checks them.
+ * Other ops carry fields of their own: combiners.ts says each op's.
  */
 export type DerivedDef = {
   readonly id: string
@@ -440,8 +437,3 @@ export type Instance = {
  * `at <= t < at + length` (or always, a looping clip), in placement order.
  */
 export type Timeline = Readonly<Record<string, readonly Instance[]>>
-
-// ---------------------------------------------------------------- checking
-
-/** A validator's finding: where (a JSON path, `layers[3].keyforms[0]`), what, and how bad (`warn`: a slot, a period under four frames). */
-export type Problem = { readonly path: string; readonly message: string; readonly level: 'error' | 'warn' }

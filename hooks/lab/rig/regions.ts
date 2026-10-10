@@ -43,30 +43,28 @@
 // keyforms like any node. The paint's one approximation is in
 // the curves: a helper polyline stands in for a smooth lid, so a sample
 // within a hair of it may fall on the other side. `canvas` maps each sample
-// back to the layer's units by the inverse of `M` and runs the rules; `svg`
-// draws the rules as a pattern of masked layers (ellipses, circles, rose and
-// curve polygons, half planes), the fill clipping it to the opening (over
-// what its own geometry spans). Pure: imports nothing at run time.
+// back to the layer's units by the inverse of `M` and runs the rules. Pure:
+// imports nothing at run time.
 import type { Paint } from './kit/canvas'
-import type { PaintMoment, PaintType, RigContext } from './registry'
-import type { Affine, LayerDef, PaintDef, Problem, Pt, ResolvedPaint, Scalar } from './schema'
+import type { PaintMoment, PaintType } from './registry'
+import type { Affine, PaintDef, Pt, ResolvedPaint, Scalar } from './schema'
 
 // ---------------------------------------------------------------- the def
 
 /** A place: one of the layer's anchors, by id, or a point in its units. */
 type Place = string | Pt
 type Comparison = 'lt' | 'le' | 'gt' | 'ge'
-const COMPARISONS: readonly Comparison[] = ['lt', 'le', 'gt', 'ge']
-/** The predicate kinds that read the sample's place, and those over params and other predicates. */
-const SHAPES = ['ellipse', 'rose', 'circle', 'above', 'below', 'halfPlane'] as const
-const LOGIC = ['all', 'any', 'not'] as const
+/** The comparisons, a param's (`{ lt: [id, value] }`) or a shape's threshold. */
+export const COMPARISONS: readonly Comparison[] = ['lt', 'le', 'gt', 'ge']
+/** The predicate kinds that read the sample's place. */
+export const SHAPES = ['ellipse', 'rose', 'circle', 'above', 'below', 'halfPlane'] as const
 
 type RuleDef = { readonly when?: unknown; readonly color?: string; readonly rules?: readonly RuleDef[]; readonly doc?: string }
 
 // ---------------------------------------------------------------- resolved: numbers only
 
 /** A predicate at a moment: places, radii and curves as numbers, params folded to constants. */
-type Region =
+export type Region =
   | { readonly kind: 'const'; readonly value: boolean }
   | { readonly kind: 'ellipse'; readonly x: number; readonly y: number; readonly rx: number; readonly ry: number; readonly sx?: number; readonly sy?: number; readonly axis?: 'x' | 'y'; readonly op: Comparison; readonly value: number }
   | { readonly kind: 'rose'; readonly x: number; readonly y: number; readonly radius: number; readonly k: number; readonly base: number; readonly depth: number }
@@ -76,10 +74,10 @@ type Region =
   | { readonly kind: 'all' | 'any'; readonly of: readonly Region[] }
   | { readonly kind: 'not'; readonly of: Region }
 
-type Rule = { readonly when?: Region; readonly color?: number; readonly rules?: readonly Rule[] }
+export type Rule = { readonly when?: Region; readonly color?: number; readonly rules?: readonly Rule[] }
 
 /** The paint resolved: its rules, colors as 0xRRGGBB. */
-type Resolved = ResolvedPaint & { readonly type: 'regions'; readonly rules: readonly Rule[] }
+export type Resolved = ResolvedPaint & { readonly type: 'regions'; readonly rules: readonly Rule[] }
 
 const ALWAYS: Region = { kind: 'const', value: true }
 const NEVER: Region = { kind: 'const', value: false }
@@ -250,7 +248,7 @@ function painter(list: readonly Rule[]): (u: number, v: number) => number | unde
   }
 }
 
-// ---------------------------------------------------------------- checking
+// ---------------------------------------------------------------- inputs
 
 /** The ids a scalar reads: a binding's param, a keyed scalar's blocks' params. */
 function scalarInputs(value: unknown): string[] {
@@ -283,261 +281,12 @@ function ruleInputs(list: unknown): string[] {
   return Array.isArray(list) ? list.flatMap((rule: RuleDef) => [...predicateInputs(rule?.when), ...ruleInputs(rule?.rules)]) : []
 }
 
-const isNumber = (x: unknown): x is number => typeof x === 'number' && Number.isFinite(x)
-const isObject = (x: unknown): x is Readonly<Record<string, unknown>> => x !== null && typeof x === 'object' && !Array.isArray(x)
-
-/** Problems with a scalar: a finite number, a binding to a declared value, or keyforms whose grids hold their axes' product. */
-function checkScalar(value: unknown, path: string, ctx: RigContext, out: Problem[]): void {
-  if (isNumber(value)) return
-  if (!isObject(value)) return void out.push(problemAt(path, 'is not a number, a param binding or keyforms'))
-  if (value.param !== undefined) {
-    if (typeof value.param !== 'string' || !ctx.isValue(value.param)) out.push(problemAt(`${path}.param`, `"${String(value.param)}" is not a param or derived param`))
-    for (const key of ['scale', 'offset']) if (value[key] !== undefined && !isNumber(value[key])) out.push(problemAt(`${path}.${key}`, 'is not a finite number'))
-    return
-  }
-  if (!isNumber(value.base)) out.push(problemAt(`${path}.base`, 'is not a finite number'))
-  if (!Array.isArray(value.keyforms)) return void out.push(problemAt(`${path}.keyforms`, 'is not a list of blocks'))
-  value.keyforms.forEach((block: unknown, k: number) => {
-    const at = `${path}.keyforms[${k}]`
-    if (!isObject(block) || !Array.isArray(block.on) || !Array.isArray(block.axes) || !Array.isArray(block.values)) return void out.push(problemAt(at, 'is not a block of `on`, `axes` and `values`'))
-    for (const id of block.on) if (typeof id !== 'string' || !ctx.isValue(id)) out.push(problemAt(`${at}.on`, `"${String(id)}" is not a param or derived param`))
-    const size = block.axes.reduce((product: number, axis: unknown) => product * (Array.isArray(axis) ? axis.length : Number.NaN), 1)
-    if (block.values.length !== size) out.push(problemAt(`${at}.values`, `${block.values.length} values but its axes make ${size}`))
-  })
-}
-
-const problemAt = (path: string, message: string): Problem => ({ path, message, level: 'error' })
-
-/** Problems with a predicate at `path`, against the layer's anchors and curves. */
-function checkPredicate(def: unknown, path: string, ctx: RigContext, layer: LayerDef, out: Problem[]): void {
-  if (typeof def === 'boolean') return
-  if (!isObject(def)) return void out.push(problemAt(path, 'is not a predicate'))
-  const kinds = Object.keys(def)
-  const known = [...SHAPES, ...LOGIC, ...COMPARISONS] as readonly string[]
-  if (kinds.length !== 1 || !known.includes(kinds[0]!)) return void out.push(problemAt(path, `takes exactly one of ${known.join(', ')} (has ${kinds.join(', ') || 'none'})`))
-  const kind = kinds[0]!
-  const at = `${path}.${kind}`
-  const body = def[kind]
-  if (kind === 'all' || kind === 'any') {
-    if (!Array.isArray(body) || body.length === 0) return void out.push(problemAt(at, 'is not a list of predicates'))
-    return body.forEach((one, k) => checkPredicate(one, `${at}[${k}]`, ctx, layer, out))
-  }
-  if (kind === 'not') return checkPredicate(body, at, ctx, layer, out)
-  if ((COMPARISONS as readonly string[]).includes(kind)) {
-    if (!Array.isArray(body) || body.length !== 2 || typeof body[0] !== 'string' || !isNumber(body[1])) return void out.push(problemAt(at, 'is not [param, value]'))
-    if (!ctx.isValue(body[0])) out.push(problemAt(at, `"${body[0]}" is not a param or derived param`))
-    return
-  }
-  if (!isObject(body)) return void out.push(problemAt(at, 'is not an object of its fields'))
-  const fields: Readonly<Record<string, readonly string[]>> = {
-    ellipse: ['at', 'rx', 'ry', 'scale', 'axis', ...COMPARISONS],
-    rose: ['at', 'radius', 'lobes', 'base'],
-    circle: ['at', 'r'],
-    above: ['curve', 'offset'],
-    below: ['curve', 'offset'],
-    halfPlane: ['at', 'normal', ...COMPARISONS],
-  }
-  for (const key of Object.keys(body)) if (!fields[kind]!.includes(key)) out.push(problemAt(`${at}.${key}`, `is not a field of ${kind} (${fields[kind]!.join(', ')})`))
-  const checkPlace = (place: unknown): void => {
-    if (typeof place === 'string') {
-      if (!(layer.anchors ?? []).some(anchor => anchor.id === place)) out.push(problemAt(`${at}.at`, `"${place}" is not an anchor of layer "${layer.id}"`))
-    } else if (!(Array.isArray(place) && place.length === 2 && place.every(isNumber))) out.push(problemAt(`${at}.at`, 'is not an anchor id or a point [x, y]'))
-  }
-  const checkOp = (): void => {
-    const ops = COMPARISONS.filter(op => body[op] !== undefined)
-    if (ops.length !== 1) out.push(problemAt(at, `takes exactly one of ${COMPARISONS.join(', ')} (has ${ops.length})`))
-    else if (!isNumber(body[ops[0]!])) out.push(problemAt(`${at}.${ops[0]}`, 'is not a finite number'))
-  }
-  if (kind === 'ellipse') {
-    checkPlace(body.at)
-    checkScalar(body.rx, `${at}.rx`, ctx, out)
-    checkScalar(body.ry, `${at}.ry`, ctx, out)
-    if (body.scale !== undefined && !(Array.isArray(body.scale) && body.scale.length === 2 && body.scale.every(s => isNumber(s) && s > 0))) out.push(problemAt(`${at}.scale`, 'is not [sx, sy], both positive'))
-    if (body.axis !== undefined && body.axis !== 'x' && body.axis !== 'y') out.push(problemAt(`${at}.axis`, 'is not "x" or "y"'))
-    checkOp()
-  } else if (kind === 'rose') {
-    checkPlace(body.at)
-    checkScalar(body.radius, `${at}.radius`, ctx, out)
-    if (!(isNumber(body.lobes) && body.lobes > 0)) out.push(problemAt(`${at}.lobes`, 'is not a positive number'))
-    if (!(isNumber(body.base) && body.base >= 0 && body.base <= 1)) out.push(problemAt(`${at}.base`, 'is not a number from 0 to 1'))
-  } else if (kind === 'circle') {
-    checkPlace(body.at)
-    checkScalar(body.r, `${at}.r`, ctx, out)
-  } else if (kind === 'above' || kind === 'below') {
-    const curve = (layer.curves ?? []).find(one => one.id === body.curve)
-    if (curve === undefined) out.push(problemAt(`${at}.curve`, `"${String(body.curve)}" is not a helper curve of layer "${layer.id}"`))
-    else if (curve.points.length < 2) out.push(problemAt(`${at}.curve`, `"${curve.id}" has ${curve.points.length} points: a line needs two`))
-    if (body.offset !== undefined && !isNumber(body.offset)) out.push(problemAt(`${at}.offset`, 'is not a finite number'))
-  } else {
-    checkPlace(body.at)
-    const normal = body.normal
-    if (!(Array.isArray(normal) && normal.length === 2 && normal.every(isNumber) && (normal[0] !== 0 || normal[1] !== 0))) out.push(problemAt(`${at}.normal`, 'is not a direction [nx, ny]'))
-    checkOp()
-  }
-}
-
-/** Problems with a list of rules at `path`; the top list's last rule must color every sample left. */
-function checkRules(list: unknown, path: string, ctx: RigContext, layer: LayerDef, out: Problem[], isTop: boolean): void {
-  if (!Array.isArray(list) || list.length === 0) return void out.push(problemAt(path, 'is not a list of rules'))
-  list.forEach((rule: unknown, k: number) => {
-    const at = `${path}[${k}]`
-    if (!isObject(rule)) return void out.push(problemAt(at, 'is not a rule ({ when?, color } or { when?, rules })'))
-    for (const key of Object.keys(rule)) if (!['when', 'color', 'rules', 'doc'].includes(key)) out.push(problemAt(`${at}.${key}`, 'is not a field of a rule (when, color, rules, doc)'))
-    if (rule.when !== undefined) checkPredicate(rule.when, `${at}.when`, ctx, layer, out)
-    if ((rule.color === undefined) === (rule.rules === undefined)) out.push(problemAt(at, 'takes a color or nested rules, one of them'))
-    if (rule.color !== undefined && (typeof rule.color !== 'string' || !ctx.isColor(rule.color))) out.push(problemAt(`${at}.color`, `"${String(rule.color)}" is not a palette color`))
-    if (rule.rules !== undefined) checkRules(rule.rules, `${at}.rules`, ctx, layer, out, false)
-  })
-  const last = list[list.length - 1]
-  if (isTop && isObject(last) && (last.when !== undefined || last.color === undefined)) out.push(problemAt(`${path}[${list.length - 1}]`, 'the last rule must take no `when` and a color, so every sample has one'))
-}
-
-// ---------------------------------------------------------------- SVG
-
-/** A box in the layer's units, [x0, y0, x1, y1]: what the pattern and its masks cover. */
-type Box = readonly [x0: number, y0: number, x1: number, y1: number]
-/** Points round a rose's outline. */
-const ROSE_POINTS = 180
-
-const num = (x: number): string => String(Math.round(x * 1e4) / 1e4 || 0)
-const points = (list: readonly Pt[]): string => list.map(([x, y]) => `${num(x)},${num(y)}`).join(' ')
-const area = ([x0, y0, x1, y1]: Box): string => `x="${num(x0)}" y="${num(y0)}" width="${num(x1 - x0)}" height="${num(y1 - y0)}"`
-
-/**
- * What the rules' own geometry spans (their anchors, radii and curves), with a
- * quarter of its size and two units to spare: the opening it fills lies
- * between its helper curves. A fill reaching further would see the pattern
- * repeat (a pattern as big as anything at all is more than renderers allot).
- */
-function extent(list: readonly Rule[]): Box {
-  let x0 = Infinity
-  let y0 = Infinity
-  let x1 = -Infinity
-  let y1 = -Infinity
-  const grow = (x: number, y: number, r = 0): void => {
-    x0 = Math.min(x0, x - r)
-    y0 = Math.min(y0, y - r)
-    x1 = Math.max(x1, x + r)
-    y1 = Math.max(y1, y + r)
-  }
-  const visit = (r: Region): void => {
-    if (r.kind === 'ellipse') grow(r.x, r.y, (Math.max(r.rx, r.ry) * Math.abs(r.value)) / Math.min(r.sx ?? 1, r.sy ?? 1))
-    else if (r.kind === 'rose') grow(r.x, r.y, r.radius)
-    else if (r.kind === 'circle') grow(r.x, r.y, r.r)
-    else if (r.kind === 'curve') r.xs.forEach((x, k) => grow(x, r.ys[k]! + r.offset))
-    else if (r.kind === 'half') grow(r.x, r.y)
-    else if (r.kind === 'not') visit(r.of)
-    else if (r.kind === 'all' || r.kind === 'any') r.of.forEach(visit)
-  }
-  const walk = (rules: readonly Rule[]): void => {
-    for (const rule of rules) {
-      if (rule.when !== undefined) visit(rule.when)
-      if (rule.rules !== undefined) walk(rule.rules)
-    }
-  }
-  walk(list)
-  // nothing placed (rules over params alone): one color, which repeats as well as it lies
-  if (x0 > x1) return [0, 0, 1, 1]
-  const spare = 2 + Math.max(x1 - x0, y1 - y0) / 4
-  return [x0 - spare, y0 - spare, x1 + spare, y1 + spare]
-}
-
-/** `box` cut to one side of a line: (p - (x, y)) . n on the `isLess` side of `value`. */
-function halfPolygon(box: Box, x: number, y: number, nx: number, ny: number, value: number, isLess: boolean): Pt[] {
-  const side = (p: Pt): number => ((p[0] - x) * nx + (p[1] - y) * ny - value) * (isLess ? -1 : 1)
-  const [bx0, by0, bx1, by1] = box
-  const corners: Pt[] = [[bx0, by0], [bx1, by0], [bx1, by1], [bx0, by1]]
-  const out: Pt[] = []
-  corners.forEach((a, k) => {
-    const b = corners[(k + 1) % 4]!
-    const sa = side(a)
-    const sb = side(b)
-    if (sa >= 0) out.push(a)
-    if (sa * sb < 0) out.push([a[0] + ((b[0] - a[0]) * sa) / (sa - sb), a[1] + ((b[1] - a[1]) * sa) / (sa - sb)])
-  })
-  return out
-}
-
-/** Masks for SVG over `box`, white where a region holds, written into `defs`; `mask(r)` is its id, or undefined where it always holds. */
-function svgMasks(id: string, box: Box, defs: string[]): (r: Region) => string | undefined {
-  let count = 0
-  const everywhere = (fill: string, extra = ''): string => `<rect ${area(box)} fill="${fill}"${extra}/>`
-  const add = (content: string): string => {
-    const name = `${id}-m${count++}`
-    defs.push(`<mask id="${name}" maskUnits="userSpaceOnUse" ${area(box)}>${content}</mask>`)
-    return name
-  }
-  const within = (shape: string, isInside: boolean): string => (isInside ? shape.replace('/>', ' fill="#fff"/>') : everywhere('#fff') + shape.replace('/>', ' fill="#000"/>'))
-  const mask = (r: Region): string | undefined => {
-    switch (r.kind) {
-      case 'const':
-        return r.value ? undefined : add('')
-      case 'ellipse': {
-        const isLess = r.op === 'lt' || r.op === 'le'
-        if (r.axis !== undefined) {
-          // a line across: dx or dy against the value, as a coordinate
-          const scale = (r.axis === 'x' ? r.sx : r.sy) ?? 1
-          const edge = (r.axis === 'x' ? r.x : r.y) + (r.value * (r.axis === 'x' ? r.rx : r.ry)) / scale
-          const polygon = r.axis === 'x' ? halfPolygon(box, edge, 0, 1, 0, 0, isLess) : halfPolygon(box, 0, edge, 0, 1, 0, isLess)
-          return add(`<polygon points="${points(polygon)}" fill="#fff"/>`)
-        }
-        if (r.value <= 0) return isLess ? add('') : undefined
-        const ex = (r.rx * r.value) / (r.sx ?? 1)
-        const ey = (r.ry * r.value) / (r.sy ?? 1)
-        return add(within(`<ellipse cx="${num(r.x)}" cy="${num(r.y)}" rx="${num(Math.abs(ex))}" ry="${num(Math.abs(ey))}"/>`, isLess))
-      }
-      case 'rose': {
-        const outline: Pt[] = Array.from({ length: ROSE_POINTS }, (_, k) => {
-          const angle = (k / ROSE_POINTS) * Math.PI * 2
-          const r1 = Math.max(0, r.radius) * (r.base + r.depth * Math.abs(Math.cos(r.k * angle)))
-          return [r.x + r1 * Math.cos(angle), r.y + r1 * Math.sin(angle)]
-        })
-        return add(`<polygon points="${points(outline)}" fill="#fff"/>`)
-      }
-      case 'circle':
-        return add(`<circle cx="${num(r.x)}" cy="${num(r.y)}" r="${num(Math.max(0, r.r))}" fill="#fff"/>`)
-      case 'curve': {
-        const n = r.xs.length
-        const line: Pt[] = r.xs.map((x, k) => [x, r.ys[k]! + r.offset])
-        const toward = r.isAbove ? box[1] : box[3]
-        const outline: Pt[] = [[box[0], r.ys[0]! + r.offset], ...line, [box[2], r.ys[n - 1]! + r.offset], [box[2], toward], [box[0], toward]]
-        return add(`<polygon points="${points(outline)}" fill="#fff"/>`)
-      }
-      case 'half':
-        return add(`<polygon points="${points(halfPolygon(box, r.x, r.y, r.nx, r.ny, r.value, r.op === 'lt' || r.op === 'le'))}" fill="#fff"/>`)
-      case 'not': {
-        const of = mask(r.of)
-        return add(of === undefined ? '' : everywhere('#fff') + everywhere('#000', ` mask="url(#${of})"`))
-      }
-      case 'all': {
-        const names = r.of.map(mask).filter((name): name is string => name !== undefined)
-        if (names.length === 0) return undefined
-        return add(names.reduce((inner, name) => `<g mask="url(#${name})">${inner}</g>`, everywhere('#fff')))
-      }
-      case 'any': {
-        const names = r.of.map(mask)
-        if (names.some(name => name === undefined)) return undefined
-        return add(names.map(name => everywhere('#fff', ` mask="url(#${name})"`)).join(''))
-      }
-    }
-  }
-  return mask
-}
-
-const hex = (color: number): string => `#${color.toString(16).padStart(6, '0')}`
-
 // ---------------------------------------------------------------- the entry
 
 const regions: PaintType = {
   id: 'regions',
   inputs(def: PaintDef): readonly string[] {
     return [...new Set(ruleInputs(def.rules))]
-  },
-  check(def: PaintDef, path: string, ctx: RigContext, layer: LayerDef): Problem[] {
-    const out: Problem[] = []
-    for (const key of Object.keys(def)) if (!['type', 'rules', 'doc'].includes(key)) out.push(problemAt(`${path}.${key}`, 'is not a field of a regions paint (type, rules, doc)'))
-    checkRules(def.rules, `${path}.rules`, ctx, layer, out, true)
-    return out
   },
   resolve(def: PaintDef, at: PaintMoment): ResolvedPaint {
     const resolved: Resolved = { type: 'regions', rules: rules(def.rules as readonly RuleDef[], at) }
@@ -549,31 +298,6 @@ const regions: PaintType = {
     const [a, b, c, d, e, f] = M
     const det = a * d - b * c
     return { at: (x, y) => run((d * (x - e) - c * (y - f)) / det, (-b * (x - e) + a * (y - f)) / det) ?? 0 }
-  },
-  // A pattern in the layer's units (the path that fills with it carries M as its transform): each rule a square in its
-  // color, masked to where it holds and every rule above it does not, laid from the last rule to the first.
-  svg(paint: ResolvedPaint, _M: Affine, id: string): { readonly fill: string; readonly defs?: string } {
-    const list = (paint as Resolved).rules
-    const box = extent(list)
-    const defs: string[] = []
-    const mask = svgMasks(id, box, defs)
-    const layers: string[] = []
-    const lay = (list: readonly Rule[], within: readonly Region[]): void => {
-      for (let k = list.length - 1; k >= 0; k--) {
-        const rule = list[k]!
-        const where = rule.when === undefined ? within : [...within, rule.when]
-        if (rule.rules !== undefined) {
-          lay(rule.rules, where)
-          continue
-        }
-        const name = where.length === 0 ? undefined : mask(where.length === 1 ? where[0]! : { kind: 'all', of: where })
-        layers.push(`<rect ${area(box)} fill="${hex(rule.color!)}"${name === undefined ? '' : ` mask="url(#${name})"`}/>`)
-      }
-    }
-    lay(list, [])
-    // a pattern's content is drawn from its tile's corner: moved back, it is in the layer's units, as are its masks
-    const pattern = `<pattern id="${id}" patternUnits="userSpaceOnUse" ${area(box)}><g transform="translate(${num(-box[0])} ${num(-box[1])})">${layers.join('')}</g></pattern>`
-    return { fill: `url(#${id})`, defs: defs.join('') + pattern }
   },
 }
 

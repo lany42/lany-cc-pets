@@ -24,17 +24,10 @@
 // A prop is listed (and so may take keyform blocks) only where the shape
 // gives it: a stroke's `scale` and an ellipse's `angle` move only when
 // written, even as their identity. Registered in registry.ts. Pure: imports
-// nothing at run time but the kit's pen and the shared scalar checks.
+// nothing at run time but the kit's pen.
 import { ellipse, IDENTITY, Pen, stroke } from './kit/pen'
-import { checkScalar } from './interp'
-import type { RigContext, ShapeKind } from './registry'
-import type { Command, Problem, Pt } from './schema'
-
-/** A problem at `path` (registry.ts's `problem`; not imported, so this module loads before the registry that lists it). */
-const problem = (path: string, message: string): Problem => ({ path, message, level: 'error' })
-
-const isNumber = (x: unknown): x is number => typeof x === 'number' && Number.isFinite(x)
-const isPt = (x: unknown): x is Pt => Array.isArray(x) && x.length === 2 && isNumber(x[0]) && isNumber(x[1])
+import type { ShapeKind } from './registry'
+import type { Command, Pt } from './schema'
 
 /**
  * A pen that keeps what it is told as path commands in local units, instead
@@ -84,17 +77,6 @@ class Recorder extends Pen {
 /** The one recorder every stroke and ellipse draws into (evaluation is synchronous: each takes its commands before the next draws). */
 const recorder = new Recorder()
 
-/** Checks a table prop: `length` finite numbers. */
-function checkTable(value: unknown, path: string, length: number, isFloor: boolean): Problem[] {
-  if (!Array.isArray(value) || !value.every(isNumber)) return [problem(path, 'is a list of finite numbers')]
-  if (value.length !== length) return [problem(path, `holds ${value.length} numbers, not ${length}`)]
-  if (isFloor && value.some(x => x < 0)) return [problem(path, 'floors are 0 or more (hairlines)')]
-  return []
-}
-
-/** Checks a segment count: a whole number from `min` to 256. */
-const checkCount = (n: unknown, path: string, min: number): Problem[] => (n === undefined || (Number.isInteger(n) && (n as number) >= min && (n as number) <= 256) ? [] : [problem(path, `is a whole number from ${min} to 256`)])
-
 const path: ShapeKind = {
   id: 'path',
   nodes(def) {
@@ -106,26 +88,6 @@ const path: ShapeKind = {
     return out
   },
   props: () => ({}),
-  check(def, at) {
-    const d = def.d as unknown
-    if (!Array.isArray(d) || d.length === 0) return [problem(`${at}.d`, 'is a list of path commands')]
-    const problems: Problem[] = []
-    let isOpen = false
-    for (let k = 0; k < d.length; k++) {
-      const where = `${at}.d[${k}]`
-      const c: unknown = d[k]
-      const [op, ...rest] = Array.isArray(c) ? (c as unknown[]) : []
-      const count = op === 'M' || op === 'L' ? 2 : op === 'C' ? 6 : op === 'Z' ? 0 : -1
-      if (count < 0) {
-        problems.push(problem(where, `${JSON.stringify(op)} is not M, L, C or Z (absolute only)`))
-        continue
-      }
-      if (rest.length !== count || !rest.every(isNumber)) problems.push(problem(where, `${String(op)} takes ${count} finite numbers`))
-      else if (op !== 'M' && !isOpen) problems.push(problem(where, 'every subpath opens with M'))
-      isOpen = op !== 'Z'
-    }
-    return problems
-  },
   commands(def, nodes) {
     const out: Command[] = []
     let k = 0
@@ -159,26 +121,6 @@ const strokeKind: ShapeKind = {
     ]
   },
   props: def => ({ width: (def.n ?? 16) + 1, ...(def.scale !== undefined ? { scale: 0 } : {}) }),
-  check(def, at, ctx: RigContext) {
-    const d = def.d as unknown
-    const isCubic =
-      Array.isArray(d) &&
-      d.length === 2 &&
-      Array.isArray(d[0]) &&
-      d[0].length === 3 &&
-      d[0][0] === 'M' &&
-      Array.isArray(d[1]) &&
-      d[1].length === 7 &&
-      d[1][0] === 'C' &&
-      [...d[0].slice(1), ...d[1].slice(1)].every(isNumber)
-    const problems: Problem[] = isCubic ? [] : [problem(`${at}.d`, 'is one cubic, [["M", x, y], ["C", x1, y1, x2, y2, x, y]]')]
-    problems.push(...checkCount(def.n, `${at}.n`, 1))
-    const n = Number.isInteger(def.n) ? (def.n as number) : 16
-    problems.push(...checkTable(def.width, `${at}.width`, n + 1, false))
-    if (def.floor !== undefined) problems.push(...checkTable(def.floor, `${at}.floor`, n + 1, true))
-    if (def.scale !== undefined) problems.push(...checkScalar(def.scale, `${at}.scale`, ctx))
-    return problems
-  },
   commands(def, nodes, props, view) {
     const n = def.n ?? 16
     const width = props.width as readonly number[]
@@ -199,22 +141,6 @@ const ellipseKind: ShapeKind = {
   id: 'ellipse',
   nodes: def => (def.at !== undefined ? [def.at] : []),
   props: def => ({ rx: 0, ry: 0, ...(def.angle !== undefined ? { angle: 0 } : {}) }),
-  check(def, at, ctx: RigContext) {
-    const problems: Problem[] = isPt(def.at) ? [] : [problem(`${at}.at`, 'is [x, y], finite')]
-    for (const field of ['rx', 'ry'] as const) problems.push(...(def[field] === undefined ? [problem(`${at}.${field}`, 'is required')] : checkScalar(def[field], `${at}.${field}`, ctx)))
-    if (def.angle !== undefined) problems.push(...checkScalar(def.angle, `${at}.angle`, ctx))
-    problems.push(...checkCount(def.n, `${at}.n`, 3))
-    const floor = def.floor as unknown
-    if (floor !== undefined) {
-      if (floor === null || typeof floor !== 'object' || Array.isArray(floor)) problems.push(problem(`${at}.floor`, 'is { rx?, ry? }, in hairlines'))
-      else
-        for (const [key, value] of Object.entries(floor)) {
-          if (key !== 'rx' && key !== 'ry') problems.push(problem(`${at}.floor.${key}`, 'floors only rx and ry'))
-          else if (!isNumber(value) || value < 0) problems.push(problem(`${at}.floor.${key}`, 'is a finite number, 0 or more'))
-        }
-    }
-    return problems
-  },
   commands(def, nodes, props, view) {
     const floor = def.floor !== undefined && !Array.isArray(def.floor) ? (def.floor as Readonly<Record<string, number>>) : undefined
     let rx = props.rx as number
@@ -236,15 +162,6 @@ const band: ShapeKind = {
   id: 'band',
   nodes: def => def.points ?? [],
   props: def => ({ thick: (def.points ?? []).length }),
-  check(def, at) {
-    const points = def.points as unknown
-    if (!Array.isArray(points) || points.length < 2 || !points.every(isPt)) return [problem(`${at}.points`, 'is a polyline of two or more [x, y], finite')]
-    const problems = checkTable(def.thick, `${at}.thick`, points.length, false)
-    if (def.floor !== undefined) problems.push(...checkTable(def.floor, `${at}.floor`, points.length, true))
-    const split = def.split as unknown
-    if (split !== undefined && !(Array.isArray(split) && split.length === 2 && split.every(isNumber))) problems.push(problem(`${at}.split`, 'is [up, down], finite'))
-    return problems
-  },
   commands(def, nodes, props, view) {
     const thick = props.thick as readonly number[]
     const floor = Array.isArray(def.floor) ? (def.floor as readonly number[]) : undefined

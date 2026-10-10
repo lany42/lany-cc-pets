@@ -25,16 +25,12 @@
 //           as the stages before it left it and writes its outputs.
 //
 // The state is a value: `step` never changes the state or timeline it is
-// given, and a `Player` keeps the last state for a caller that steps in
-// order. It starts over (every driver handed `undefined`, `dt` 0) on the
+// given. It starts over (every driver handed `undefined`, `dt` 0) on the
 // first step and on a step back in time; a repeated `t` is `dt` 0 without
 // starting over. After a gap of over 2 s (the pet hidden, asleep), when a
 // pet's behavior starts its schedule over (behavior.ts's `startsOver`) but
 // its moods ease on, each driver is handed its state, the real `dt` and
 // `gap`, and decides: `lag` eases across the gap, a pendulum starts over.
-// Stateless pipelines can be posed at any moment with `paramsAt`, and one
-// clip at any moment of itself with `playClip`: what a still of an act is,
-// and what a pet's clip tests read.
 //
 // It runs every frame in the live pets, so binding compiles what it can and a
 // step allocates little: the pose and the two records it returns, each a copy
@@ -209,7 +205,7 @@ function bind(rig: Rig, doc: DriversDoc): Bound {
 }
 
 /** `program` compiled, binding it on first use when it was made by hand rather than by `bindDrivers`. */
-function boundOf(program: Program): Bound {
+export function boundOf(program: Program): Bound {
   let bound = BOUND.get(program)
   if (bound === undefined) {
     bound = bind(program.rig, program.doc)
@@ -296,7 +292,7 @@ function isMuted(tags: readonly string[], mute: readonly string[]): boolean {
 }
 
 /** Lays `clip` over `values` at clip time `u` (and timeline time `t`), skipping tracks tagged with any of `mute`. */
-function lay(reader: Reader, clip: Clip, u: number, t: number, args: Values | undefined, values: Record<string, number>, mute: readonly string[]): void {
+export function lay(reader: Reader, clip: Clip, u: number, t: number, args: Values | undefined, values: Record<string, number>, mute: readonly string[]): void {
   reader.clip = clip
   reader.args = args
   const tracks = clip.tracks
@@ -311,7 +307,7 @@ function lay(reader: Reader, clip: Clip, u: number, t: number, args: Values | un
   }
 }
 
-function clipOf(bound: Bound, id: string): Clip {
+export function clipOf(bound: Bound, id: string): Clip {
   const clip = bound.clips.get(id)
   if (clip === undefined) throw new Error(`no clip "${id}"`)
   return clip
@@ -325,7 +321,7 @@ function play(reader: Reader, clip: Clip, instance: Instance, t: number, values:
 }
 
 /** A lanes stage at `t`: lane by lane, each lane's active instances in the order placed. */
-function layLanes(bound: Bound, stage: Extract<Stage, { lanes: unknown }>, timeline: Timeline, t: number, values: Record<string, number>): void {
+export function layLanes(bound: Bound, stage: Extract<Stage, { lanes: unknown }>, timeline: Timeline, t: number, values: Record<string, number>): void {
   for (const lane of stage.lanes) {
     const list = timeline[lane.id]
     if (list === undefined) continue
@@ -348,7 +344,7 @@ function layLanes(bound: Bound, stage: Extract<Stage, { lanes: unknown }>, timel
   }
 }
 
-function stagesOf(bound: Bound, pipeline: string): readonly Stage[] {
+export function stagesOf(bound: Bound, pipeline: string): readonly Stage[] {
   const stages = bound.pipelines.get(pipeline)
   if (stages === undefined) throw new Error(`no pipeline "${pipeline}" (${[...bound.pipelines.keys()].join(', ')})`)
   return stages
@@ -373,7 +369,7 @@ function pick(values: Values, all: readonly number[] | undefined, at: number, id
 }
 
 /** A pose's params and signals as two new records. */
-function results(bound: Bound, values: Values): { readonly params: Values; readonly signals: Values } {
+export function results(bound: Bound, values: Values): { readonly params: Values; readonly signals: Values } {
   const P = bound.params.length
   // In key order, unless a driver added or took away a key: then by key.
   const read = bound.ordered ? (Object.values(values) as number[]) : undefined
@@ -409,60 +405,4 @@ export function step(program: Program, pipeline: string, state: DriverState | un
   }
   const { params, signals } = results(bound, values)
   return { params, signals, state: { t, drivers } }
-}
-
-/** A stateless pipeline's params at `t`, from `base` (the rig's defaults where it is silent); throws on a pipeline with a driver stage. */
-export function paramsAt(program: Program, pipeline: string, timeline: Timeline, t: number, base?: Values): Values {
-  const bound = boundOf(program)
-  const stages = stagesOf(bound, pipeline)
-  for (const stage of stages) if ('driver' in stage) throw new Error(`pipeline "${pipeline}" runs driver "${stage.driver.id}", which keeps state: step it instead`)
-  const values: Record<string, number> = { ...bound.start }
-  if (base !== undefined) {
-    for (const ids of [bound.params, bound.signals])
-      for (const id of ids) {
-        const v = base[id]
-        if (v !== undefined) values[id] = v
-      }
-  }
-  for (const stage of stages) if ('lanes' in stage) layLanes(bound, stage, timeline, t, values)
-  return results(bound, values).params
-}
-
-/**
- * One clip instance's tracks laid over `base` at clip time `u` (and timeline
- * time `t`, for absolute-clock tracks): what a still of an act is, and what
- * each pet's clip tests read. Tracks tagged with any of `mute` are skipped.
- * It returns every param and signal (at its default where `base` lacks it)
- * and whatever else `base` holds, the clip's tracks laid over them; `args`
- * default from the clip's.
- */
-export function playClip(program: Program, clip: string, u: number, base: Values, args?: Values, t?: number, mute?: readonly string[]): Values {
-  const bound = boundOf(program)
-  const values: Record<string, number> = { ...bound.start, ...base }
-  lay(bound.reader, clipOf(bound, clip), u, t ?? u, args, values, mute ?? NO_TAGS)
-  return values
-}
-
-/** Plays a pipeline over wall-clock or tick time: `at(timeline, t)` steps it, keeping the state. */
-export class Player {
-  readonly program: Program
-  readonly pipeline: string
-  private state: DriverState | undefined
-
-  constructor(program: Program, pipeline: string) {
-    this.program = program
-    this.pipeline = pipeline
-  }
-
-  /** The params at `t`, stepped on from the last call (started over by a step back in time). */
-  at(timeline: Timeline, t: number): Values {
-    const next = step(this.program, this.pipeline, this.state, timeline, t)
-    this.state = next.state
-    return next.params
-  }
-
-  /** Starts over at the next step. */
-  reset(): void {
-    this.state = undefined
-  }
 }

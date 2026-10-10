@@ -35,8 +35,8 @@
 //
 // Pure: imports nothing at run time but the blend modes.
 import { BLENDS } from './blends'
-import type { BlendMode, DriversContext, DriverType } from './registry'
-import type { DriverDef, Problem } from './schema'
+import type { BlendMode, DriverType } from './registry'
+import type { DriverDef } from './schema'
 
 /** A `lag` driver's fields. */
 export type LagDef = DriverDef & {
@@ -65,12 +65,6 @@ export type PendulumDef = DriverDef & {
 /** A pendulum's state: its swing `e` and `e'`, its inputs' last values, and the last step's slope of its x'' terms. */
 export type PendulumState = { readonly e: number; readonly v: number; readonly last: readonly number[]; readonly slope: number }
 
-/** A period under this (four frames at 32 a second) can't read as motion. */
-const SHORTEST = 0.125
-
-const problem = (path: string, message: string, level: 'error' | 'warn' = 'error'): Problem => ({ path, message, level })
-const isNumber = (x: unknown): x is number => typeof x === 'number' && Number.isFinite(x)
-const isRecord = (x: unknown): x is Readonly<Record<string, unknown>> => typeof x === 'object' && x !== null && !Array.isArray(x)
 const BLEND = new Map(BLENDS.map(blend => [blend.id, blend]))
 
 // ---------------------------------------------------------------- lag
@@ -86,7 +80,7 @@ type Lag = {
 
 const LAGS = new WeakMap<object, Lag>()
 
-function lagOf(def: LagDef): Lag {
+export function lagOf(def: LagDef): Lag {
   let lag = LAGS.get(def)
   if (lag === undefined) {
     const ids = Object.keys(def.times)
@@ -110,37 +104,6 @@ function lagOf(def: LagDef): Lag {
 
 const lag: DriverType = {
   id: 'lag',
-  check(def, path, ctx) {
-    const out: Problem[] = []
-    const times = def.times
-    if (!isRecord(times) || Object.keys(times).length === 0) return [problem(`${path}.times`, 'needs { param: seconds | { signal } }, at least one')]
-    for (const [id, time] of Object.entries(times)) {
-      const at = `${path}.times.${id}`
-      if (!ctx.isChannel(id)) out.push(problem(at, `"${id}" is not a param or signal`))
-      if (isRecord(time)) {
-        if (typeof time.signal !== 'string' || !ctx.isSignal(time.signal)) out.push(problem(at, `${JSON.stringify(time.signal)} is not a declared signal`))
-      } else if (!isNumber(time) || time <= 0) out.push(problem(at, 'a lag is a positive number of seconds, or { signal }'))
-    }
-    if (def.scale !== undefined && (typeof def.scale !== 'string' || !ctx.isSignal(def.scale))) out.push(problem(`${path}.scale`, `${JSON.stringify(def.scale)} is not a declared signal`))
-    const quantum = def.quantum
-    if (quantum !== undefined) {
-      if (!isRecord(quantum)) out.push(problem(`${path}.quantum`, 'needs { param: steps a unit }'))
-      else
-        for (const [id, q] of Object.entries(quantum)) {
-          if (!(id in times)) out.push(problem(`${path}.quantum.${id}`, `"${id}" is not one of its times`))
-          if (!isNumber(q) || !Number.isInteger(q) || q <= 0) out.push(problem(`${path}.quantum.${id}`, 'steps a unit: a positive whole number'))
-        }
-    }
-    return out
-  },
-  inputs(def) {
-    const { ids, signals, scale } = lagOf(def as LagDef)
-    const out = new Set(ids)
-    for (const signal of signals) if (signal !== undefined) out.add(signal)
-    if (scale !== undefined) out.add(scale)
-    return [...out]
-  },
-  outputs: def => lagOf(def as LagDef).ids,
   step(def, state, frame) {
     const lag = lagOf(def as LagDef)
     const values = frame.values
@@ -193,7 +156,7 @@ type Pendulum = {
 
 const PENDULUMS = new WeakMap<object, Pendulum>()
 
-function pendulumOf(def: PendulumDef): Pendulum {
+export function pendulumOf(def: PendulumDef): Pendulum {
   let p = PENDULUMS.get(def)
   if (p === undefined) {
     const w = (2 * Math.PI) / def.period
@@ -270,43 +233,8 @@ function swing(p: Pendulum, e: number, v: number, ess: number, dt: number): read
   return [d + ess, dv]
 }
 
-/** Problems with a pendulum's input list. */
-function checkGains(list: unknown, path: string, ctx: DriversContext): Problem[] {
-  if (list === undefined) return []
-  if (!Array.isArray(list)) return [problem(path, 'a list of [input, gain]')]
-  const out: Problem[] = []
-  list.forEach((entry: unknown, k) => {
-    const at = `${path}[${k}]`
-    if (!Array.isArray(entry) || entry.length !== 2) out.push(problem(at, 'an input is [param or signal, gain]'))
-    else {
-      if (typeof entry[0] !== 'string' || !ctx.isChannel(entry[0])) out.push(problem(`${at}[0]`, `${JSON.stringify(entry[0])} is not a param or signal`))
-      if (!isNumber(entry[1])) out.push(problem(`${at}[1]`, 'its gain is not a finite number'))
-    }
-  })
-  return out
-}
-
 const pendulum: DriverType = {
   id: 'pendulum',
-  check(def, path, ctx) {
-    const out: Problem[] = []
-    const { period, damping } = def
-    if (!isNumber(period) || period <= 0) out.push(problem(`${path}.period`, 'a positive number of seconds'))
-    else if (period < SHORTEST) out.push(problem(`${path}.period`, `${period} s is under four frames (${SHORTEST} s): it can't read as motion`, 'warn'))
-    if (!isNumber(damping) || damping <= 0) out.push(problem(`${path}.damping`, 'a positive damping ratio (an undamped swing never rests)'))
-    out.push(...checkGains(def.follow, `${path}.follow`, ctx), ...checkGains(def.kick, `${path}.kick`, ctx))
-    const count = (Array.isArray(def.follow) ? def.follow.length : 0) + (Array.isArray(def.kick) ? def.kick.length : 0)
-    if (count === 0) out.push(problem(path, 'no inputs in `follow` or `kick`: it would never move'))
-    const target = def.out
-    if (!isRecord(target)) out.push(problem(`${path}.out`, 'needs { param, blend }'))
-    else {
-      if (typeof target.param !== 'string' || ctx.rangeOf(target.param) === undefined) out.push(problem(`${path}.out.param`, `${JSON.stringify(target.param)} is not a rig param`))
-      if (typeof target.blend !== 'string' || !BLEND.has(target.blend)) out.push(problem(`${path}.out.blend`, `unknown blend ${JSON.stringify(target.blend)}`))
-    }
-    return out
-  },
-  inputs: def => pendulumOf(def as PendulumDef).inputs,
-  outputs: def => [pendulumOf(def as PendulumDef).out],
   step(def, state, frame) {
     const p = pendulumOf(def as PendulumDef)
     const values = frame.values

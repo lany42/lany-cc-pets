@@ -29,8 +29,8 @@
 //            ranges.
 //
 // Pure: imports nothing at run time (the registry's types only).
-import type { DriverFrame, DriversContext, DriverType } from './registry'
-import type { DriverDef, Problem } from './schema'
+import type { DriverFrame, DriverType } from './registry'
+import type { DriverDef } from './schema'
 
 /** One output of a `lookAt`: the param it writes and how it maps its target. */
 export type LookOut = {
@@ -76,40 +76,9 @@ function stepLookAt(def: LookAtDef, frame: DriverFrame): undefined {
   return undefined
 }
 
-const isNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
-
-function checkLookAt(def: DriverDef, path: string, ctx: DriversContext): Problem[] {
-  const out: Problem[] = []
-  const fail = (where: string, message: string) => out.push({ path: `${path}${where}`, message, level: 'error' })
-  const d = def as LookAtDef
-  if (typeof d.target !== 'object' || d.target === null || Object.keys(d.target).length === 0) fail('.target', 'a target is { name: channel } with at least one channel')
-  else for (const [name, channel] of Object.entries(d.target)) if (typeof channel !== 'string' || !ctx.isChannel(channel)) fail(`.target.${name}`, `no param or signal "${String(channel)}"`)
-  for (const field of ['when', 'weight'] as const) {
-    const channel = d[field]
-    if (channel !== undefined && (typeof channel !== 'string' || !ctx.isChannel(channel))) fail(`.${field}`, `no param or signal "${String(channel)}"`)
-  }
-  const outs: readonly LookOut[] = Array.isArray(d.out) ? d.out : []
-  if (outs.length === 0) fail('.out', 'a lookAt writes at least one param')
-  outs.forEach((o: LookOut, k: number) => {
-    const where = `.out[${k}]`
-    if (typeof o.param !== 'string' || ctx.rangeOf(o.param) === undefined) fail(`${where}.param`, `no rig param "${String(o.param)}"`)
-    if (typeof d.target !== 'object' || d.target === null || !(o.of in d.target)) fail(`${where}.of`, `the target has no channel named "${String(o.of)}"`)
-    if (!isNumber(o.centre) || !isNumber(o.span) || o.span === 0) fail(where, 'centre and span are numbers, the span not 0')
-    if (o.clamp !== undefined && !(Array.isArray(o.clamp) && o.clamp.length === 2 && o.clamp.every(isNumber) && o.clamp[0] <= o.clamp[1])) fail(`${where}.clamp`, 'a clamp is [lo, hi], lo at most hi')
-    if (o.quantum !== undefined && (!isNumber(o.quantum) || o.quantum <= 0)) fail(`${where}.quantum`, 'a quantum is over 0')
-  })
-  return out
-}
-
 export const LOOK_AT: readonly DriverType[] = [
   {
     id: 'lookAt',
-    check: checkLookAt,
-    inputs: def => {
-      const d = def as LookAtDef
-      return [...Object.values(d.target ?? {}), ...(d.when !== undefined ? [d.when] : []), ...(d.weight !== undefined ? [d.weight] : []), ...(d.out ?? []).map(o => o.param)]
-    },
-    outputs: def => ((def as LookAtDef).out ?? []).map(o => o.param),
     step: (def, _state, frame) => stepLookAt(def as LookAtDef, frame),
   },
 ]

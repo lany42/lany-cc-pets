@@ -37,7 +37,7 @@ export const PAINTED_ROWS = 10
 const CELL_W = 8
 const CELL_H = 18
 /** The terminal's background as the studio tools take it, dark and light: what a sample at a painted pet's edge blends with. */
-const GROUND = { dark: 0x1e1f22, light: 0xfafaf8 }
+export const GROUND = { dark: 0x1e1f22, light: 0xfafaf8 }
 
 /** A rectangle of cells, c0 and r0 in, c1 and r1 out. */
 export type Rect = { c0: number; r0: number; c1: number; r1: number }
@@ -160,7 +160,7 @@ export function dirty(pet: PaintedPet, last: Channels, next: Channels, m: Affine
  * her and its tail toward `anchor`; false when the region can't hold a
  * bubble at all (the band bubbles the words instead).
  */
-function bubble(cells: Uint32Array, columns: number, text: string, region: Rect, anchor: { c: number; r: number }, border: number): boolean {
+export function bubble(cells: Uint32Array, columns: number, text: string, region: Rect, anchor: { c: number; r: number }, border: number): boolean {
   const room = Math.min(48, region.c1 - region.c0 - 4)
   const most = region.r1 - region.r0 - 2
   if (room < 8 || most < 1) return false
@@ -229,7 +229,7 @@ export function repaint(pet: PaintedPet, canvas: Canvas, place: Layout, pose: Ch
  * where `place` lays it out: the box blanked, each glyph in `ink` on the
  * terminal's background, spaces blank, rows above the room left out.
  */
-function asciiInto(data: Uint32Array, columns: number, rows: number, place: Layout, lines: readonly string[], ink: number): void {
+export function asciiInto(data: Uint32Array, columns: number, rows: number, place: Layout, lines: readonly string[], ink: number): void {
   const { c0, c1 } = place.box
   for (let r = 0; r < rows; r++) {
     for (let c = c0; c < c1; c++) {
@@ -251,24 +251,6 @@ function asciiInto(data: Uint32Array, columns: number, rows: number, place: Layo
       data[at + 1] = cp === 0x20 ? DEFAULT : ink
     })
   })
-}
-
-/**
- * One frame of `pet` at `pose`, painted whole in a room, with `words` in its
- * bubble: what a step draws, without the clock (a still, as the tests take it).
- */
-export function frameAt(pet: PaintedPet, pose: Channels, columns: number, rows: number, isLight: boolean, words?: string): LabCells {
-  const canvas = new Canvas(columns, rows)
-  const theme = isLight ? 'light' : 'dark'
-  canvas.ground = GROUND[theme]
-  const place = layoutOf(pet, columns, rows)
-  if (place.isPainted) pet.window.paint(canvas, pose, place.m)
-  else pet.chibi?.paint(canvas, pose, place.m[4], place.m[5])
-  const data = new Uint32Array(columns * rows * 3)
-  encode(canvas, data)
-  if (!place.isPainted && pet.chibi === undefined) asciiInto(data, columns, rows, place, spriteFrame(asciiOf(pet), 'idle', 0), pet.border[theme])
-  if (words !== undefined) bubble(data, columns, words, place.words, place.anchor, pet.border[theme])
-  return { columns, rows, data, version: 1 }
 }
 
 /** `pet`, alive in a room: stepped each tick and each frame between, repainting what moved. */
