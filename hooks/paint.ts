@@ -2,7 +2,7 @@
 // color, a rainbow, a shine, or (opt-in) regions of colors that hold still.
 // Pure: turns a paint, a tick and some text into runs of one style each,
 // which the render hooks draw as nested Text. It imports nothing at run time
-// but runs.ts (pure too), so sprite.ts and the Node preview load it too.
+// but runs.ts (pure too), so the Node preview loads it too.
 import type { Color } from 'claude-code'
 
 import { addCell } from './runs'
@@ -32,9 +32,6 @@ export type Paint =
 /** A regions paint (see Paint). */
 export type Regions = { kind: 'regions'; colors: readonly Color[]; map: readonly string[]; border?: Color; words?: readonly (Color | number)[] }
 
-/** The most colors a regions paint takes: one digit a cell. */
-export const REGIONS_MOST = 9
-
 /** A rainbow of theme keys, so it follows the person's light or dark theme. */
 export const RAINBOW: readonly Color[] = ['error', 'warning', 'success', 'planMode', 'suggestion', 'autoAccept']
 export const DEFAULT_PAINT: Color = 'claude'
@@ -43,7 +40,7 @@ const RAINBOW_TICKS = 2
 const SHINE: Color = 'text'
 const SHINE_EVERY = 32
 /** How many ticks a glint takes to cross a sprite; it moves two diagonals a tick. */
-const SWEEP_TICKS = 11
+export const SWEEP_TICKS = 11
 
 /** A paint with every default filled in: what each painter below draws from. */
 type FullPaint =
@@ -52,7 +49,7 @@ type FullPaint =
   | { kind: 'shiny'; color: Color; shine: Color; every: number }
   | { kind: 'regions'; colors: readonly Color[]; map: readonly string[]; border: Color; words: readonly (Color | number)[] | undefined }
 
-function withDefaults(paint: Paint | undefined): FullPaint {
+export function withDefaults(paint: Paint | undefined): FullPaint {
   if (paint === undefined || typeof paint === 'string') return { kind: 'steady', color: paint ?? DEFAULT_PAINT }
   if (paint.kind === 'rainbow') {
     const colors = paint.colors !== undefined && paint.colors.length > 0 ? paint.colors : RAINBOW
@@ -153,36 +150,6 @@ export function borderOf(paint: Paint | undefined, tick: number): Color {
   return glintAt(full, tick) === undefined ? full.color : full.shine
 }
 
-/** What's wrong with a paint, if anything; `checkSprite` reports these. */
-export function paintProblems(paint: Paint | undefined): string[] {
-  if (paint === undefined) return []
-  if (typeof paint === 'string') return paint.trim() === '' ? ['color is empty'] : []
-  const problems: string[] = []
-  const isTicks = (n: number | undefined, least: number) => n === undefined || (Number.isInteger(n) && n >= least)
-  if (paint.kind === 'rainbow') {
-    if (paint.colors !== undefined && paint.colors.length < 2) problems.push('a rainbow needs 2 or more colors')
-    if (paint.colors?.some(color => color.trim() === '')) problems.push('a rainbow color is empty')
-    if (!isTicks(paint.ticks, 1)) problems.push('a rainbow steps every 1 or more ticks')
-  } else if (paint.kind === 'shiny') {
-    if (paint.color.trim() === '') problems.push('a shiny paint needs a color')
-    if (paint.shine?.trim() === '') problems.push('a shine color is empty')
-    if (!isTicks(paint.every, SWEEP_TICKS + 1)) problems.push(`a shine sweeps every ${SWEEP_TICKS + 1} or more ticks`)
-  } else if (paint.kind === 'regions') {
-    problems.push(...regionsProblems(paint))
-  } else {
-    problems.push('paint is a color, { kind: "rainbow" }, { kind: "shiny" } or { kind: "regions" }')
-  }
-  return problems
-}
-
-/** A paint in a few words, for the preview. */
-export function describePaint(paint: Paint | undefined): string {
-  const full = withDefaults(paint)
-  if (full.kind === 'steady') return full.color
-  if (full.kind === 'regions') return `regions (${full.colors.join(', ')}; border ${full.border}${full.words !== undefined ? `; words ${full.words.join(' ')}` : ''})`
-  return full.kind === 'rainbow' ? `rainbow (${full.colors.join(', ')})` : `shiny ${full.color} with ${full.shine} glints`
-}
-
 const mod = (n: number, by: number) => ((n % by) + by) % by
 
 // Regions (opt-in): colors that hold still, cell by cell.
@@ -204,47 +171,4 @@ function wordColorAt(words: readonly (Color | number)[], at: number): Color | un
     else if (at < part) return color
   }
   return color
-}
-
-/** What's wrong with a regions paint's own fields; its map's size against the sprite is `paintFitProblems`'. */
-function regionsProblems(paint: Regions): string[] {
-  const problems: string[] = []
-  const { colors, map, border, words } = paint
-  if (colors.length < 1 || colors.length > REGIONS_MOST) problems.push(`a regions paint takes 1 to ${REGIONS_MOST} colors, not ${colors.length}`)
-  if (colors.some(color => color.trim() === '')) problems.push('a regions color is empty')
-  if (map.length === 0) problems.push('a regions paint needs a map: a digit a cell')
-  const used = new Set<string>()
-  map.forEach((line, row) => {
-    for (const digit of line) {
-      const at = Number(digit)
-      if (!/^[1-9]$/.test(digit) || at > colors.length) {
-        problems.push(`regions map row ${row + 1} has "${digit}", not a digit 1-${colors.length}`)
-        break
-      }
-      used.add(digit)
-    }
-  })
-  colors.forEach((color, at) => {
-    if (!used.has(String(at + 1))) problems.push(`regions color ${at + 1} (${color}) paints no cell of the map`)
-  })
-  if (border?.trim() === '') problems.push('a regions border is empty')
-  if (words !== undefined) {
-    const isShaped = words.length % 2 === 1 && words.every((part, at) => (at % 2 === 0 ? typeof part === 'string' && part.trim() !== '' : typeof part === 'number'))
-    const untils = words.filter((part): part is number => typeof part === 'number')
-    const isRising = untils.every((until, at) => Number.isInteger(until) && until >= 1 && (at === 0 || until > (untils[at - 1] ?? 0)))
-    if (!isShaped || !isRising) problems.push('regions words are [color, until, color, ...]: colors between characters counts that rise from 1')
-  }
-  return problems
-}
-
-/** What's wrong with a paint on a sprite of `width` x `height`: a regions map must be that size, a digit for every cell. Empty for the other paints. */
-export function paintFitProblems(paint: Paint | undefined, width: number, height: number): string[] {
-  if (paint === undefined || typeof paint === 'string' || paint.kind !== 'regions') return []
-  const problems: string[] = []
-  if (paint.map.length !== height) problems.push(`its regions map has ${paint.map.length} rows, not ${height}`)
-  paint.map.forEach((line, row) => {
-    const cells = [...line].length
-    if (cells !== width) problems.push(`its regions map row ${row + 1} is ${cells} cells, not ${width}`)
-  })
-  return problems
 }
