@@ -144,7 +144,7 @@ function colorAt(stops: readonly (readonly [number, number])[], y: number): numb
   return stops[stops.length - 1]![1]
 }
 
-/** A lit frame (kit.ts `litFrame`) with a field under it: pass it to `pack` as its `out`, then paint `bg` and `field`. */
+/** A lit frame (kit.ts `litFrame`) with a field under it: pass it to `packFast` as its `out`, then paint `bg` and `field`. */
 export type FieldFrame = Frame & { readonly bg: Uint8Array; readonly field: Field }
 
 /** A frame that paints a field (and backgrounds), `cols` x `rows`: made once a room, reused every frame. */

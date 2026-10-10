@@ -1,16 +1,16 @@
 // The scene kit (from braille-ambient, as it was but for its encoders): the
 // small engine every scene draws with. A scene paints colored dots back to
 // front onto a `Dots` canvas (2x4 dots per terminal cell, as braille has),
-// lays words over it as whole cells, and `pack`s the result into one Frame:
-// a code point and an ink per cell. scene/index.ts makes a Frame Text runs;
-// the Raster and Svg encoders wait for their phase. Opt-in, a scene may also
-// paint light: a background ink per cell (`litFrame`), cells relit without a
-// dot moving (`relight`), and inks mixed into ramps. Pure: imports only the
-// lab's braille.ts (the dot canvas and braille's bits), bubble.ts (a
-// bubble's wrap and border) and util.ts (small helpers), all pure, and
-// passes on what every scene draws with from them (`Dots`, `wrap`, `bayer`,
-// `moonPhase`, `hex`, `isNarrow`).
-import { DOT_BIT, POPCOUNT } from '../braille'
+// lays words over it as whole cells, and packs the result (`packFast`) into
+// one Frame: a code point and an ink per cell. scene/index.ts makes a Frame
+// Text runs; the Raster and Svg encoders wait for their phase. Opt-in, a
+// scene may also paint light: a background ink per cell (`litFrame`), cells
+// relit without a dot moving (`relight`), and inks mixed into ramps. Pure:
+// imports only the lab's braille.ts (the dot canvas and braille's bits),
+// bubble.ts (a bubble's wrap and border) and util.ts (small helpers), all
+// pure, and passes on what every scene draws with from them (`Dots`,
+// `wrap`, `bayer`, `moonPhase`, `hex`, `isNarrow`).
+import { POPCOUNT } from '../braille'
 import type { Dots } from '../braille'
 import { ASCII, ROUND, wrap } from '../bubble'
 import { bayer, mixRgb } from '../util'
@@ -31,8 +31,6 @@ export type Theme = 'dark' | 'light'
 export type Ink = { readonly dark: number; readonly light: number; readonly weight: number }
 /** Index 0 is "no ink"; a scene lists its inks from 1. */
 export type Palette = readonly Ink[]
-
-export const NONE: Ink = { dark: 0, light: 0, weight: 0 }
 
 /** An ink as a scene's palette lists it: its dark and light colors, and its weight (1 unless given). */
 export const ink = (dark: number, light: number, weight = 1): Ink => ({ dark, light, weight })
@@ -97,42 +95,6 @@ export type SceneDef = {
 // `get`, `line` (Bresenham, `every` > 1 dotted), `stamp`, `clearCells`,
 // `text`, `glyphAt`, and the rest every kind shares.
 
-/**
- * Packs the canvas into a frame. A cell's color is the ink with the greatest
- * `count x weight` among its dots, so a two-dot eye beats six dots of water
- * and a patch's edge doesn't flicker as a creature slides a dot.
- */
-export function pack(d: Dots, palette: Palette, out?: Frame): Frame {
-  const n = d.cols * d.rows
-  const frame: Frame = out !== undefined && out.cp.length === n ? out : { cols: d.cols, rows: d.rows, cp: new Uint16Array(n), ink: new Uint8Array(n), palette }
-  const score = new Float32Array(palette.length)
-  for (let r = 0; r < d.rows; r++) {
-    for (let c = 0; c < d.cols; c++) {
-      const i = r * d.cols + c
-      const g = d.glyph[i]!
-      if (g !== 0) {
-        frame.cp[i] = g
-        frame.ink[i] = d.glyphInk[i]!
-        continue
-      }
-      let mask = 0
-      score.fill(0)
-      for (let k = 0; k < 8; k++) {
-        const x = c * 2 + (k & 1), y = r * 4 + (k >> 1)
-        const ink = d.dot[y * d.w + x]!
-        if (ink === 0) continue
-        mask |= DOT_BIT[k]!
-        score[ink] = score[ink]! + (palette[ink]?.weight ?? 1)
-      }
-      let best = 0
-      for (let k = 1; k < score.length; k++) if (score[k]! > score[best]!) best = k
-      frame.cp[i] = mask === 0 ? 0x20 : 0x2800 + mask
-      frame.ink[i] = mask === 0 ? 0 : best
-    }
-  }
-  return frame
-}
-
 // ---------------------------------------------------------------- outputs
 
 export const colorOf = (ink: Ink, theme: Theme): number => (theme === 'dark' ? ink.dark : ink.light)
@@ -152,10 +114,10 @@ export function ramp(a: Ink, b: Ink, n: number): Ink[] {
 }
 
 /**
- * A frame that paints backgrounds: `pack` fills its cells as any frame's
- * (pass it as `pack`'s `out`), and the scene writes its `bg`, an ink per cell
- * (0 for the terminal's own), each frame. The adapter draws them as Text
- * backgrounds; a cell under the bubble should be left at 0.
+ * A frame that paints backgrounds: `packFast` fills its cells as any
+ * frame's (pass it as `packFast`'s `out`), and the scene writes its `bg`, an
+ * ink per cell (0 for the terminal's own), each frame. The adapter draws
+ * them as Text backgrounds; a cell under the bubble should be left at 0.
  */
 export function litFrame(cols: number, rows: number, palette: Palette): Frame & { readonly bg: Uint8Array } {
   const n = cols * rows
@@ -259,7 +221,7 @@ export function drawBubble(
     { c0: 0, c1: keepOut.c0 - 1, r0: 0, r1: d.rows, side: 'left' },
     { c0: keepOut.c1 + 1, c1: d.cols, r0: 0, r1: d.rows, side: 'right' },
   ]
-  let best: { room: Room; lines: string[]; whole: boolean; cap: number } | undefined
+  let best: { room: Room; lines: string[]; cap: number } | undefined
   for (const room of rooms) {
     const inner = Math.min(64, room.c1 - room.c0 - 4)
     const maxLines = room.r1 - room.r0 - 2
@@ -273,8 +235,8 @@ export function drawBubble(
     }
     const whole = all.length <= maxLines
     const cap = inner * maxLines
-    if (whole) { best = { room, lines: all, whole, cap }; break }
-    if (best === undefined || cap > best.cap) best = { room, lines: wrap(text, inner, maxLines), whole, cap }
+    if (whole) { best = { room, lines: all, cap }; break }
+    if (best === undefined || cap > best.cap) best = { room, lines: wrap(text, inner, maxLines), cap }
   }
   if (best === undefined) return undefined
   const { room, lines } = best
@@ -335,9 +297,8 @@ export function drawBubble(
 }
 
 // ---------------------------------------------------------------- performance (opt-in)
-// For a scene whose frame costs more than it should: a faster `pack`, still
-// layers kept per room and built a slice a tick, and a motion governor that
-// holds a creature's parts to a budget of dots a tick. Nothing above uses
+// For a scene whose frame costs more than it should: a faster packer, and
+// still layers kept per room and built a slice a tick. Nothing above uses
 // them; a scene that uses none draws exactly as before.
 
 /** Each ink's score for 1 to 8 dots, worked out once a palette (`packFast`). */
@@ -347,10 +308,10 @@ const tallyInk = new Uint8Array(8)
 const tallyCount = new Uint8Array(8)
 
 /**
- * The score table for a palette: at `ink * 9 + n`, what `pack` sums for `n`
- * dots of that ink (float32, one weight at a time, so exactly its numbers),
- * and NaN past the palette's end, where `pack` scores nothing. Kept per
- * palette, and made again if a weight changed since.
+ * The score table for a palette: at `ink * 9 + n`, what the packing rule
+ * sums for `n` dots of that ink (float32, one weight at a time, so exactly
+ * its numbers), and NaN past the palette's end, where it scores nothing.
+ * Kept per palette, and made again if a weight changed since.
  */
 function packTable(palette: Palette): Float32Array {
   const known = PACK_TABLES.get(palette)
@@ -378,18 +339,18 @@ function packTable(palette: Palette): Float32Array {
 }
 
 /**
- * `pack`, frame for frame (proved byte-identical on every scene by a
- * studio tool), for a fraction of its cost. `pack` scores
- * every ink of the palette for every cell; this counts the few inks a cell
- * holds and looks their scores up in a table made once a palette, and a
- * cell of one ink (most of them) needs no counting at all. The rules are
- * `pack`'s: the greatest count x weight wins, summed in float32; a tie goes
- * to the lower ink; a cell whose best score is not above 0 (it holds only
- * inks of weight 0 or less) keeps its dots with ink 0, the theme's own
- * color; an ink past the palette's end scores nothing. The table is kept
- * per palette array and made again when a weight changes.
+ * Packs the canvas into a frame. A cell's color is the ink with the
+ * greatest count x weight among its dots, summed in float32, so a two-dot
+ * eye beats six dots of water and a patch's edge doesn't flicker as a
+ * creature slides a dot; a tie goes to the lower ink; a cell whose best
+ * score is not above 0 (it holds only inks of weight 0 or less) keeps its
+ * dots with ink 0, the theme's own color; an ink past the palette's end
+ * scores nothing. It counts the few inks a cell holds and looks their
+ * scores up in a table made once a palette, and a cell of one ink (most of
+ * them) needs no counting at all. The table is kept per palette array and
+ * made again when a weight changes.
  *
- *     this.out = packFast(this.d, PALETTE, this.out)   // in place of pack
+ *     this.out = packFast(this.d, PALETTE, this.out)
  */
 export function packFast(d: Dots, palette: Palette, out?: Frame): Frame {
   const n = d.cols * d.rows
@@ -407,7 +368,7 @@ export function packFast(d: Dots, palette: Palette, out?: Frame): Frame {
         inks[i] = glyphInk[i]!
         continue
       }
-      // the cell's eight dots, in pack's order: left, right, a row at a time (DOT_BIT, unrolled below)
+      // the cell's eight dots, in DOT_BIT's order: left, right, a row at a time (unrolled below)
       const a = top + c * 2
       const d0 = dot[a]!, d1 = dot[a + 1]!, d2 = dot[a + w]!, d3 = dot[a + w + 1]!
       const d4 = dot[a + 2 * w]!, d5 = dot[a + 2 * w + 1]!, d6 = dot[a + 3 * w]!, d7 = dot[a + 3 * w + 1]!
@@ -544,141 +505,10 @@ export class StillCache<T, K extends string | number = string, X = undefined> {
   }
 }
 
-type Part = { shown: number[]; next: number[]; waited: number }
-
-/**
- * A budget of dots a tick for a creature drawn in parts (deep-water's
- * jellyfish: its bell's halves, rim, loops, each strand and arm). Each
- * frame the scene draws the parts where they should be (`begin` a part,
- * `put` its dots), and `govern` lets them take their new places, the
- * longest-waiting first, until the tick's budget of dots moved is spent; the
- * rest keep their old places a tick longer (their color still changes), and
- * one part a tick may overspend once it has waited three ticks, so none
- * waits for ever. A part's cost is the dots that differ between its old
- * place and its new one. Newly drawn (born, or in a new room), every part
- * moves at once. Then it paints every part onto the canvas.
- *
- * Give it what the room may change in a tick, less what the rest of the
- * scene changed (`DotWatch`), and nothing on the tick words land. A creature
- * that moves below the dot (continuous numbers) then trails a little when
- * it would overspend, and a pulse never moves more of it at once than the
- * budget allows.
- *
- *     private body = new MotionGovernor()
- *     private watch = new DotWatch()
- *     ... after the rest of the scene is drawn:
- *     const moved = this.watch.toggled(d)
- *     this.body.begin(0); for (const [x, y] of bell) this.body.put(d, x, y, P.bell)
- *     this.body.begin(1); for (const [x, y] of arm) this.body.put(d, x, y, P.arm)
- *     this.body.govern(d, 2, Math.round(d.w * d.h * 0.011) - moved)
- */
-export class MotionGovernor {
-  private parts: Part[] = []
-  private part = 0
-  private mark = new Int32Array(0)
-  private gen = 0
-  private w = -1
-  private h = -1
-
-  /** Starts part `n`: the dots `put` from here until the next `begin` are its new place. */
-  begin(n: number): void {
-    while (this.parts.length <= n) this.parts.push({ shown: [], next: [], waited: 0 })
-    this.part = n
-    this.parts[n]!.next.length = 0
-  }
-
-  /** A dot of the current part, rounded; off the canvas, left out. */
-  put(d: Dots, x: number, y: number, ink: number): void {
-    x = Math.round(x)
-    y = Math.round(y)
-    if (x < 0 || y < 0 || x >= d.w || y >= d.h) return
-    this.parts[this.part]!.next.push(y * d.w + x, ink)
-  }
-
-  /** Dots that differ between two places (where they stand, not their ink). */
-  private moved(a: number[], b: number[]): number {
-    const m = this.mark
-    const g = (this.gen += 2)
-    for (let k = 0; k < a.length; k += 2) m[a[k]!] = g
-    let cost = 0
-    for (let k = 0; k < b.length; k += 2) {
-      const i = b[k]!
-      if (m[i] !== g && m[i] !== g + 1) cost++
-      m[i] = g + 1
-    }
-    for (let k = 0; k < a.length; k += 2) if (m[a[k]!] === g) cost++
-    return cost
-  }
-
-  /** Moves parts 0 to `count - 1` within `budget` dots (see the class), then paints them all onto `d`. */
-  govern(d: Dots, count: number, budget: number): void {
-    const parts = this.parts
-    // a new canvas: nothing shown is where it was
-    if (d.w !== this.w || d.h !== this.h) {
-      for (const p of parts) {
-        p.shown = []
-        p.waited = 0
-      }
-      this.w = d.w
-      this.h = d.h
-    }
-    if (this.mark.length !== d.w * d.h) {
-      this.mark = new Int32Array(d.w * d.h)
-      this.gen = 0
-    }
-    // newly drawn (born, or the room changed): all of it at once
-    let fresh = true
-    for (let i = 0; i < count && fresh; i++) if (parts[i]!.shown.length > 0) fresh = false
-    if (fresh) budget = Number.POSITIVE_INFINITY
-    const order: number[] = []
-    const costs: number[] = []
-    for (let i = 0; i < count; i++) {
-      const p = parts[i]!
-      costs[i] = this.moved(p.shown, p.next)
-      if (costs[i]! > 0) order.push(i)
-      else {
-        const s = p.shown
-        p.shown = p.next
-        p.next = s
-        p.waited = 0
-      }
-    }
-    order.sort((a, b) => parts[b]!.waited - parts[a]!.waited || a - b)
-    let spent = 0
-    // one part a tick may go over the budget, the one that has waited longest, so none waits for ever
-    let forced = false
-    for (const i of order) {
-      const p = parts[i]!
-      const fits = spent + costs[i]! <= budget
-      if (fits || (!forced && budget > 0 && p.waited >= 3)) {
-        const s = p.shown
-        p.shown = p.next
-        p.next = s
-        p.waited = 0
-        spent += costs[i]!
-        if (!fits) forced = true
-      } else {
-        p.waited++
-        if (p.shown.length === p.next.length) for (let k = 1; k < p.shown.length; k += 2) p.shown[k] = p.next[k]!
-      }
-    }
-    const dot = d.dot
-    for (let i = 0; i < count; i++) {
-      const s = parts[i]!.shown
-      for (let k = 0; k < s.length; k += 2) dot[s[k]!] = s[k + 1]!
-    }
-  }
-
-  /** Forgets every part's place: the next `govern` moves them all at once (a new creature, a jump). */
-  reset(): void {
-    this.parts = []
-  }
-}
-
 /**
  * Counts the dots of a canvas that came on or went off since it last
  * looked (its first look, or a canvas of another size, counts 0): what the
- * rest of a scene moved this tick, to take from a governor's budget.
+ * rest of a scene moved this tick, to take from a budget of dots a tick.
  */
 export class DotWatch {
   private was = new Uint8Array(0)
@@ -691,113 +521,5 @@ export class DotWatch {
       was.set(dots)
     } else this.was = Uint8Array.from(dots)
     return n
-  }
-}
-
-// ---------------------------------------------------------------- a light rig (opt-in)
-// The Dreamer's lightning, made reusable:
-// a light that rises and fades (`envelope`), falling off from where it
-// strikes and taken by each cell as the scene says (its facing, its
-// material), cut into levels that `relight` turns into inks (`litTables`);
-// and the washes and glows of a painted night (`rampStep`, `glowBehind`).
-
-/** A light's strength `age` ticks after it rose: `curve[age] x power`, 0 once the curve has run out ([1, 0.62, 0.4, 0.22, 0.1]: a rise, then a fade over a second). */
-export const envelope = (curve: readonly number[], age: number, power = 1): number => (curve[age] ?? 0) * power
-
-/** `relight`'s tables, one a level, from rows of [ink, its ink at level 1, at 2, ...]; an ink no row names keeps its color. */
-export function litTables(inks: number, lifts: readonly (readonly number[])[], levels = 3): Uint8Array[] {
-  return Array.from({ length: levels }, (_, k) => {
-    const table = new Uint8Array(inks)
-    for (const lift of lifts) table[lift[0]!] = lift[k + 1]!
-    return table
-  })
-}
-
-/** Which of `steps` bands from `from` to `to` (dots) a row at `y` falls in, 0 to steps - 1: the step of a `ramp` of washes it takes. */
-export const rampStep = (y: number, from: number, to: number, steps: number): number => Math.min(steps - 1, Math.floor(((y - from) / (to - from)) * steps))
-
-/** Sets a cell's background from the ink `pack` gave it, where `table` names one (an eye's glow behind its own cells). */
-export function glowBehind(frame: Frame, bg: Uint8Array, table: Uint8Array): void {
-  for (let i = 0; i < frame.ink.length; i++) {
-    const glow = table[frame.ink[i]!]!
-    if (glow !== 0) bg[i] = glow
-  }
-}
-
-/** A light where it strikes (x, y in dots), how far it reaches (dots), and how strong it is this tick (`envelope`). */
-export type Light = { x: number; y: number; reach: number; power: number }
-
-/** How the cells take a light: see `LightRig.shine`. */
-export type Shading = {
-  /** The light's levels: a cell whose light is above n of them takes level n (ascending; [0.16, 0.36, 0.6]). */
-  steps: readonly number[]
-  /** How much farther it reaches across than down (the Dreamer's 1.4: a bolt lights a wide stretch); 1 by default. */
-  stretch?: number
-  /** What a cell makes of the light, a factor (by which way it faces, by what it is); 1, as it falls, by default. */
-  gain?: (i: number, x: number, y: number) => number
-  /** Whether a cell may be relit at all (the moon and the sigils keep their own light); every cell by default. */
-  holds?: (i: number) => boolean
-  /** Called for every cell with its light: a bloom behind it, painted into the frame's backgrounds. */
-  each?: (i: number, light: number) => void
-}
-
-/**
- * Lightning, a lamp, a passing beam: lights that relight a packed frame
- * where they fall, never moving a dot (`relight`). Each frame, `begin`, then
- * `shine` each light that is up (skip one too faint to show), then `apply`.
- * A light falls off from where it strikes as 1 / (1 + 3 d^2), d the distance
- * from it to each cell's middle over its reach, is multiplied by what the
- * cell makes of it (`gain`: by its facing, by its material) and by the
- * light's power, and the cell takes the highest level any light gives it.
- * A light from far off in one direction (the sun, the moon) is a light of
- * infinite reach, whose `gain` faces each cell to that direction. The rest
- * is the scene's: its tables, its blooms, its materials.
- *
- *     private rig = new LightRig()
- *     ... after packing:
- *     this.rig.begin(cols * rows)
- *     const power = envelope(FLASH, t - strike.at, strike.power)
- *     if (power > 0.05) this.rig.shine(cols, rows, { x: strike.x, y: strike.y, reach: 60, power }, { steps: [0.16, 0.36, 0.6], stretch: 1.4, gain: i => FACING[i] })
- *     this.rig.apply(frame, LIT)    // LIT = litTables(PALETTE.length, [[P.cloud, P.cloudLit1, P.cloudLit2, P.cloudLit3], ...])
- */
-export class LightRig {
-  /** Each cell's level this frame, 0 unlit (meaningful once a light has shone). */
-  level = new Uint8Array(0)
-  private lit = false
-
-  /** Starts a frame's light: nothing lit. */
-  begin(cells: number): void {
-    if (this.level.length !== cells) this.level = new Uint8Array(cells)
-    this.lit = false
-  }
-
-  /** Adds a light over a room of `cols` x `rows` cells (see the class). */
-  shine(cols: number, rows: number, light: Light, how: Shading): void {
-    const level = this.level
-    if (!this.lit) level.fill(0)
-    this.lit = true
-    const stretch = how.stretch ?? 1
-    const { gain, holds, each, steps } = how
-    for (let r = 0; r < rows; r++) {
-      const y = r * 4 + 2
-      const dy = (y - light.y) / (light.reach * stretch)
-      for (let c = 0; c < cols; c++) {
-        const i = r * cols + c
-        const x = c * 2 + 1
-        const dx = (x - light.x) / light.reach
-        let f = 1 / (1 + (dx * dx + dy * dy) * 3)
-        if (gain !== undefined) f *= gain(i, x, y)
-        const q = light.power * f
-        let k = 0
-        for (let s = 0; s < steps.length; s++) if (q > steps[s]!) k++
-        if (k > level[i]! && (holds === undefined || holds(i))) level[i] = k
-        if (each !== undefined) each(i, q)
-      }
-    }
-  }
-
-  /** Relights `frame` where any light shone since `begin`, by `lit`, a table a level (`litTables`). */
-  apply(frame: Frame, lit: readonly Uint8Array[]): void {
-    if (this.lit) relight(frame, this.level, lit)
   }
 }

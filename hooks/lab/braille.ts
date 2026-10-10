@@ -3,7 +3,7 @@
 // This is the one bit table, the one dot canvas every kind draws on (the
 // scenes, the grown and the drawn pets), and the highest-ink rule a cell is
 // packed by in the grown and drawn kinds; the scene kit's weighted vote
-// (`pack`, `packFast` in scene/kit.ts) is the other rule, and is the kit's.
+// (`packFast` in scene/kit.ts) is the other rule, and is the kit's.
 // Pure: imports nothing but util.ts, itself pure.
 //
 //            x=0   x=1          Unicode dot numbers

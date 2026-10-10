@@ -49,8 +49,8 @@
 //
 // Every creature is an actor: its pose is a target, and it reaches it a few
 // dots a tick in an ordered-dither order, within what the room may change in
-// a tick less what the world already changed (counted as the kit's governor
-// counts it). The world moves on even ticks, the pet and the pup on odd ones.
+// a tick less what the world already changed (counted by the kit's
+// `DotWatch`). The world moves on even ticks, the pet and the pup on odd ones.
 import { clamp } from '../util'
 import type { Dots as DotsT, Frame, Ink, Mood, SceneDef, SceneInput, SceneInstance } from './kit'
 import { bayer, Dots, DotWatch, drawBubble, hash, ink, noise1, packFast, StillCache } from './kit'
@@ -61,9 +61,6 @@ const P = {
   mound: 19, dirt: 20, call: 21, toad: 22, sleeper: 23, kin: 24, fur: 25, belly: 26, dark: 27, border: 28,
   words: 29,
 } as const
-
-/** The ink of the spectacle's calls, drawn in nothing else (for the tests). */
-export const CALL_INK = P.call
 
 const PALETTE: Ink[] = []
 PALETTE[0] = ink(0, 0, 0)

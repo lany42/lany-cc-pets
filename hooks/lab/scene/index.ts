@@ -192,6 +192,3 @@ const SCENES: readonly (readonly [SceneDef, Parameters<typeof sceneLook>[1]])[] 
 ]
 
 export const SCENE_LOOKS: readonly LabLook[] = SCENES.map(([def, extra]) => sceneLook(def, extra))
-
-/** The SceneDef each of SCENE_LOOKS wraps, by its look's id: for tests and tools that look under the adapter. */
-export const SCENE_DEFS: ReadonlyMap<string, SceneDef> = new Map(SCENES.map(([def]) => [def.id, def]))
