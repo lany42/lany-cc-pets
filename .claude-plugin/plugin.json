@@ -1,7 +1,7 @@
 {
   "name": "lany-cc-pets",
   "displayName": "lany cc pets",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A small animated pet above the prompt that keeps you company while Claude works, in a one-word personality you choose: 34 classic looks, 26 experimental ones (braille, pixel and painted), and a pet window",
   "author": {
     "name": "Lany Atwood"
