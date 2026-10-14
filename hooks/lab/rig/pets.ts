@@ -10,6 +10,6667 @@ export type RigPet = { readonly id: string; readonly rig: RigDoc; readonly drive
 
 export const RIG_PETS: readonly RigPet[] = [
   {
+    "id": "dracaena",
+    "rig": {
+      "schema": 1,
+      "id": "dracaena",
+      "name": "Dracaena",
+      "units": { "width": 90, "height": 120 },
+      "palette": {
+        "hairLight": "#faf5e0",
+        "hair": "#ebdcb2",
+        "hairShade": "#d3bd9c",
+        "hairDeep": "#ab958a",
+        "hairLine": "#8b7464",
+        "skin": "#fcebe3",
+        "skinShade": "#f0cdc8",
+        "skinDeep": "#d39a9f",
+        "blush": "#f3a6b0",
+        "blushDeep": "#e2788e",
+        "eyeWhite": "#fbf9f7",
+        "eyeWhiteShade": "#e3dde3",
+        "irisLight": "#dfeaf0",
+        "iris": "#a9c3d3",
+        "irisShade": "#6f8fa6",
+        "pupil": "#22324a",
+        "shine": "#ffffff",
+        "lash": "#241c26",
+        "mouth": "#b5606a",
+        "mouthIn": "#6e2a36",
+        "tongue": "#e28892",
+        "robeLight": "#4a4856",
+        "robe": "#34323c",
+        "robeShade": "#26242c",
+        "robeDeep": "#19181e",
+        "liningLight": "#4d9468",
+        "lining": "#2f7049",
+        "liningShade": "#1f4f3d",
+        "liningDeep": "#14332c",
+        "sweaterLight": "#b4b3ba",
+        "sweater": "#9a99a1",
+        "sweaterShade": "#7e7c88",
+        "sweaterDeep": "#625f6e",
+        "shirt": "#f6f6f2",
+        "shirtShade": "#d9dae2",
+        "shirtLine": "#a3a5b3",
+        "tie": "#1f6f55",
+        "tieShade": "#164f48",
+        "tieStripe": "#e9eee8",
+        "tieStripeShade": "#b8c4c0",
+        "wandLight": "#a67c5a",
+        "wand": "#6e4a33",
+        "wandDeep": "#3f2a1e",
+        "silver": "#c9cdd8",
+        "silverShade": "#8c90a0",
+        "sparkCore": "#d4ffe2",
+        "sparkGlow": "#45d483",
+        "sparkDeep": "#1e9a55",
+        "steam": "#fdf3f4"
+      },
+      "params": [
+        { "id": "blink", "min": 0, "max": 1, "default": 0, "doc": "both upper lids shut, as a blink" },
+        { "id": "wink", "min": 0, "max": 1, "default": 0, "doc": "her left lid alone" },
+        {
+          "id": "lid",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "doc": "both upper lids lowered, flat: boredom, disdain (at 1 under half shut)"
+        },
+        { "id": "wide", "min": 0, "max": 1, "default": 0, "doc": "lids raised: startled, caught" },
+        {
+          "id": "lower",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "doc": "lower lids raised: smiling eyes, the squint of a glare"
+        },
+        { "id": "happy", "min": 0, "max": 1, "default": 0, "doc": "eyes shut in upturned arcs, a swap at 0.5" },
+        { "id": "squeeze", "min": 0, "max": 1, "default": 0, "doc": "eyes squeezed shut, a swap at 0.5" },
+        {
+          "id": "gazeX",
+          "min": -1,
+          "max": 1,
+          "default": 0,
+          "doc": "iris and pupil across, + to the viewer's right; the shines stay"
+        },
+        { "id": "gazeY", "min": -1, "max": 1, "default": 0, "doc": "iris and pupil down +" },
+        {
+          "id": "pupil",
+          "min": -1,
+          "max": 0.6,
+          "default": 0,
+          "doc": "pupil size: tiny when startled, soft and full when she smiles"
+        },
+        {
+          "id": "browR",
+          "min": -1,
+          "max": 1,
+          "default": 0,
+          "doc": "her right brow (the viewer's left) raised + or lowered -"
+        },
+        { "id": "browL", "min": -1, "max": 1, "default": 0, "doc": "her left brow raised + or lowered -" },
+        { "id": "knit", "min": 0, "max": 1, "default": 0, "doc": "inner ends down and in: the glare" },
+        { "id": "worry", "min": 0, "max": 1, "default": 0, "doc": "inner ends up: flustered" },
+        { "id": "smile", "min": -1, "max": 1.1, "default": 0, "doc": "frown to smile, both corners" },
+        {
+          "id": "smirk",
+          "min": -1,
+          "max": 1,
+          "default": 0,
+          "doc": "one corner up: + her left (the viewer's right), - her right"
+        },
+        {
+          "id": "open",
+          "min": 0,
+          "max": 1.6,
+          "default": 0,
+          "doc": "the mouth open: talk to 0.5, the laugh 1, the yawn 1.6"
+        },
+        { "id": "pout", "min": 0, "max": 1, "default": 0, "doc": "a small pushed-out mouth: the hmph" },
+        { "id": "wave", "min": 0, "max": 1, "default": 0, "doc": "the flustered wavy mouth" },
+        { "id": "cheek", "min": 0, "max": 1, "default": 0, "doc": "cheeks puffed" },
+        { "id": "blush", "min": 0, "max": 1, "default": 0, "doc": "her blush, by alpha; its hatching over 0.55" },
+        { "id": "tear", "min": 0, "max": 1, "default": 0, "doc": "a glint at each eye's outer corner: the yawn" },
+        {
+          "id": "tilt",
+          "min": -0.3,
+          "max": 0.3,
+          "default": 0,
+          "doc": "the head's roll about the neck, radians, clockwise on screen"
+        },
+        {
+          "id": "yaw",
+          "min": -1,
+          "max": 1,
+          "default": 0,
+          "doc": "the head's turn, + to her left (the viewer's right): 0.38 rad at 1 (the turn deformers)"
+        },
+        { "id": "pitch", "min": -1, "max": 1, "default": 0, "doc": "the chin up +, down - (the turn deformers)" },
+        { "id": "nod", "min": -1.5, "max": 1.5, "default": 0, "snap": 2, "doc": "the head's drop, units" },
+        { "id": "chest", "min": -1, "max": 0, "default": 0, "snap": 1, "doc": "breath: the body's rise, one sample" },
+        {
+          "id": "shrug",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "doc": "shoulders up 1.6 units: the sigh, the huff, the laugh"
+        },
+        {
+          "id": "lean",
+          "min": -1,
+          "max": 1,
+          "default": 0,
+          "doc": "the upper body's sway, 1.5 units either way, the head carried"
+        },
+        { "id": "arm", "min": 0, "max": 1, "default": 0, "doc": "her raised right arm shown, a swap at 0.5" },
+        {
+          "id": "drop",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "doc": "the raised arm lowered 90 units, out of the box wherever the hand is"
+        },
+        { "id": "handX", "min": -10, "max": 35, "default": 0, "doc": "the arm moved across, units" },
+        { "id": "handY", "min": -50, "max": 10, "default": 0, "doc": "the arm moved up -, units" },
+        {
+          "id": "reach",
+          "min": -1.2,
+          "max": 1.2,
+          "default": 0,
+          "doc": "the forearm's turn about the wrist's rest place, radians"
+        },
+        { "id": "wrist", "min": -1.2, "max": 1.2, "default": 0, "doc": "the hand's turn at the wrist, radians" },
+        {
+          "id": "grip",
+          "min": 0,
+          "max": 3,
+          "default": 0,
+          "doc": "the hand's shape, a swap at each half: 0 the wand grip, 1 her nails, 2 the back of her hand, 3 a fingertip"
+        },
+        { "id": "wand", "min": 0, "max": 1, "default": 0, "doc": "the wand out of her sleeve, a swap at 0.5" },
+        { "id": "wandFlex", "min": -0.3, "max": 0.3, "default": 0, "doc": "the wand's lag behind her hand, radians" },
+        { "id": "fringe.0", "min": -0.5, "max": 0.5, "default": 0, "doc": "the fringe lock's upper bone, radians" },
+        { "id": "fringe.1", "min": -0.5, "max": 0.5, "default": 0, "doc": "the fringe lock's tip" },
+        {
+          "id": "lockR.0",
+          "min": -0.8,
+          "max": 1.6,
+          "default": 0,
+          "doc": "the long front lock's root bone, + outward; its segments' angles are capped (lockA1-3) so it stays in the box"
+        },
+        { "id": "lockR.1", "min": -0.8, "max": 0.8, "default": 0, "doc": "the long lock's middle bone" },
+        { "id": "lockR.2", "min": -0.8, "max": 0.8, "default": 0, "doc": "the long lock's tip bone" },
+        {
+          "id": "flip",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "doc": "the long lock passed behind her shoulder, a swap at 0.5"
+        },
+        { "id": "lockL.0", "min": -0.6, "max": 0.6, "default": 0, "doc": "the thin lock's upper bone" },
+        { "id": "lockL.1", "min": -0.6, "max": 0.6, "default": 0, "doc": "the thin lock's tip" },
+        {
+          "id": "backR.0",
+          "min": -0.25,
+          "max": 0.25,
+          "default": 0,
+          "doc": "the back curtain's flare on her right, upper"
+        },
+        { "id": "backR.1", "min": -0.25, "max": 0.25, "default": 0, "doc": "its lower bone" },
+        {
+          "id": "backL.0",
+          "min": -0.25,
+          "max": 0.25,
+          "default": 0,
+          "doc": "the back curtain's flare on her left, upper"
+        },
+        { "id": "backL.1", "min": -0.25, "max": 0.25, "default": 0, "doc": "its lower bone" },
+        { "id": "tie.0", "min": -0.25, "max": 0.25, "default": 0, "doc": "the tie's blade, upper" },
+        { "id": "tie.1", "min": -0.25, "max": 0.25, "default": 0, "doc": "its lower bone" },
+        {
+          "id": "robeR.0",
+          "min": -0.08,
+          "max": 0.08,
+          "default": 0,
+          "doc": "the robe's front edge on her right, upper"
+        },
+        { "id": "robeR.1", "min": -0.08, "max": 0.08, "default": 0, "doc": "its lower bone" },
+        { "id": "robeL.0", "min": -0.08, "max": 0.08, "default": 0, "doc": "the robe's front edge on her left, upper" },
+        { "id": "robeL.1", "min": -0.08, "max": 0.08, "default": 0, "doc": "its lower bone" },
+        { "id": "sleeve.0", "min": -1, "max": 1, "default": 0, "doc": "the raised arm's bell sleeve, upper" },
+        { "id": "sleeve.1", "min": -1, "max": 1, "default": 0, "doc": "its lower bone" },
+        { "id": "hoop", "min": -0.6, "max": 0.6, "default": 0, "doc": "the earring's swing, radians" },
+        { "id": "spark.0.x", "min": -70, "max": 90, "default": 0, "doc": "spark 0: across from its home, units" },
+        { "id": "spark.0.y", "min": -60, "max": 90, "default": 0, "doc": "spark 0: down from its home, units" },
+        { "id": "spark.0.size", "min": 0, "max": 2, "default": 1, "doc": "spark 0: its size, 1 at rest" },
+        { "id": "spark.0.on", "min": 0, "max": 1, "default": 0, "doc": "spark 0: lit" },
+        { "id": "spark.1.x", "min": -70, "max": 90, "default": 0, "doc": "spark 1: across from its home, units" },
+        { "id": "spark.1.y", "min": -60, "max": 90, "default": 0, "doc": "spark 1: down from its home, units" },
+        { "id": "spark.1.size", "min": 0, "max": 2, "default": 1, "doc": "spark 1: its size, 1 at rest" },
+        { "id": "spark.1.on", "min": 0, "max": 1, "default": 0, "doc": "spark 1: lit" },
+        { "id": "spark.2.x", "min": -70, "max": 90, "default": 0, "doc": "spark 2: across from its home, units" },
+        { "id": "spark.2.y", "min": -60, "max": 90, "default": 0, "doc": "spark 2: down from its home, units" },
+        { "id": "spark.2.size", "min": 0, "max": 2, "default": 1, "doc": "spark 2: its size, 1 at rest" },
+        { "id": "spark.2.on", "min": 0, "max": 1, "default": 0, "doc": "spark 2: lit" },
+        { "id": "spark.3.x", "min": -70, "max": 90, "default": 0, "doc": "spark 3: across from its home, units" },
+        { "id": "spark.3.y", "min": -60, "max": 90, "default": 0, "doc": "spark 3: down from its home, units" },
+        { "id": "spark.3.size", "min": 0, "max": 2, "default": 1, "doc": "spark 3: its size, 1 at rest" },
+        { "id": "spark.3.on", "min": 0, "max": 1, "default": 0, "doc": "spark 3: lit" },
+        { "id": "spark.4.x", "min": -70, "max": 90, "default": 0, "doc": "spark 4: across from its home, units" },
+        { "id": "spark.4.y", "min": -60, "max": 90, "default": 0, "doc": "spark 4: down from its home, units" },
+        { "id": "spark.4.size", "min": 0, "max": 2, "default": 1, "doc": "spark 4: its size, 1 at rest" },
+        { "id": "spark.4.on", "min": 0, "max": 1, "default": 0, "doc": "spark 4: lit" },
+        { "id": "spark.5.x", "min": -70, "max": 90, "default": 0, "doc": "spark 5: across from its home, units" },
+        { "id": "spark.5.y", "min": -60, "max": 90, "default": 0, "doc": "spark 5: down from its home, units" },
+        { "id": "spark.5.size", "min": 0, "max": 2, "default": 1, "doc": "spark 5: its size, 1 at rest" },
+        { "id": "spark.5.on", "min": 0, "max": 1, "default": 0, "doc": "spark 5: lit" },
+        { "id": "spark.6.x", "min": -70, "max": 90, "default": 0, "doc": "spark 6: across from its home, units" },
+        { "id": "spark.6.y", "min": -60, "max": 90, "default": 0, "doc": "spark 6: down from its home, units" },
+        { "id": "spark.6.size", "min": 0, "max": 2, "default": 1, "doc": "spark 6: its size, 1 at rest" },
+        { "id": "spark.6.on", "min": 0, "max": 1, "default": 0, "doc": "spark 6: lit" },
+        { "id": "spark.7.x", "min": -70, "max": 90, "default": 0, "doc": "spark 7: across from its home, units" },
+        { "id": "spark.7.y", "min": -60, "max": 90, "default": 0, "doc": "spark 7: down from its home, units" },
+        { "id": "spark.7.size", "min": 0, "max": 2, "default": 1, "doc": "spark 7: its size, 1 at rest" },
+        { "id": "spark.7.on", "min": 0, "max": 1, "default": 0, "doc": "spark 7: lit" },
+        { "id": "spark.8.x", "min": -70, "max": 90, "default": 0, "doc": "spark 8: across from its home, units" },
+        { "id": "spark.8.y", "min": -60, "max": 90, "default": 0, "doc": "spark 8: down from its home, units" },
+        { "id": "spark.8.size", "min": 0, "max": 2, "default": 1, "doc": "spark 8: its size, 1 at rest" },
+        { "id": "spark.8.on", "min": 0, "max": 1, "default": 0, "doc": "spark 8: lit" },
+        { "id": "spark.9.x", "min": -70, "max": 90, "default": 0, "doc": "spark 9: across from its home, units" },
+        { "id": "spark.9.y", "min": -60, "max": 90, "default": 0, "doc": "spark 9: down from its home, units" },
+        { "id": "spark.9.size", "min": 0, "max": 2, "default": 1, "doc": "spark 9: its size, 1 at rest" },
+        { "id": "spark.9.on", "min": 0, "max": 1, "default": 0, "doc": "spark 9: lit" },
+        { "id": "spark.10.x", "min": -70, "max": 90, "default": 0, "doc": "spark 10: across from its home, units" },
+        { "id": "spark.10.y", "min": -60, "max": 90, "default": 0, "doc": "spark 10: down from its home, units" },
+        { "id": "spark.10.size", "min": 0, "max": 2, "default": 1, "doc": "spark 10: its size, 1 at rest" },
+        { "id": "spark.10.on", "min": 0, "max": 1, "default": 0, "doc": "spark 10: lit" },
+        { "id": "spark.11.x", "min": -70, "max": 90, "default": 0, "doc": "spark 11: across from its home, units" },
+        { "id": "spark.11.y", "min": -60, "max": 90, "default": 0, "doc": "spark 11: down from its home, units" },
+        { "id": "spark.11.size", "min": 0, "max": 2, "default": 1, "doc": "spark 11: its size, 1 at rest" },
+        { "id": "spark.11.on", "min": 0, "max": 1, "default": 0, "doc": "spark 11: lit" },
+        { "id": "spark.12.x", "min": -70, "max": 90, "default": 0, "doc": "spark 12: across from its home, units" },
+        { "id": "spark.12.y", "min": -60, "max": 90, "default": 0, "doc": "spark 12: down from its home, units" },
+        { "id": "spark.12.size", "min": 0, "max": 2, "default": 1, "doc": "spark 12: its size, 1 at rest" },
+        { "id": "spark.12.on", "min": 0, "max": 1, "default": 0, "doc": "spark 12: lit" },
+        { "id": "spark.13.x", "min": -70, "max": 90, "default": 0, "doc": "spark 13: across from its home, units" },
+        { "id": "spark.13.y", "min": -60, "max": 90, "default": 0, "doc": "spark 13: down from its home, units" },
+        { "id": "spark.13.size", "min": 0, "max": 2, "default": 1, "doc": "spark 13: its size, 1 at rest" },
+        { "id": "spark.13.on", "min": 0, "max": 1, "default": 0, "doc": "spark 13: lit" },
+        { "id": "steam.0.x", "min": -70, "max": 90, "default": 0, "doc": "steam puff 0: across from its home, units" },
+        { "id": "steam.0.y", "min": -60, "max": 90, "default": 0, "doc": "steam puff 0: down from its home, units" },
+        { "id": "steam.0.size", "min": 0, "max": 2, "default": 1, "doc": "steam puff 0: its size, 1 at rest" },
+        { "id": "steam.0.on", "min": 0, "max": 1, "default": 0, "doc": "steam puff 0: lit" },
+        { "id": "steam.1.x", "min": -70, "max": 90, "default": 0, "doc": "steam puff 1: across from its home, units" },
+        { "id": "steam.1.y", "min": -60, "max": 90, "default": 0, "doc": "steam puff 1: down from its home, units" },
+        { "id": "steam.1.size", "min": 0, "max": 2, "default": 1, "doc": "steam puff 1: its size, 1 at rest" },
+        { "id": "steam.1.on", "min": 0, "max": 1, "default": 0, "doc": "steam puff 1: lit" },
+        { "id": "steam.2.x", "min": -70, "max": 90, "default": 0, "doc": "steam puff 2: across from its home, units" },
+        { "id": "steam.2.y", "min": -60, "max": 90, "default": 0, "doc": "steam puff 2: down from its home, units" },
+        { "id": "steam.2.size", "min": 0, "max": 2, "default": 1, "doc": "steam puff 2: its size, 1 at rest" },
+        { "id": "steam.2.on", "min": 0, "max": 1, "default": 0, "doc": "steam puff 2: lit" },
+        { "id": "steam.3.x", "min": -70, "max": 90, "default": 0, "doc": "steam puff 3: across from its home, units" },
+        { "id": "steam.3.y", "min": -60, "max": 90, "default": 0, "doc": "steam puff 3: down from its home, units" },
+        { "id": "steam.3.size", "min": 0, "max": 2, "default": 1, "doc": "steam puff 3: its size, 1 at rest" },
+        { "id": "steam.3.on", "min": 0, "max": 1, "default": 0, "doc": "steam puff 3: lit" }
+      ],
+      "derived": [
+        { "id": "lidR", "op": "max", "terms": [["blink", 1], ["lid", 0.45]], "clamp": [0, 1] },
+        { "id": "lidL", "op": "max", "terms": [["blink", 1], ["lid", 0.45], ["wink", 1]], "clamp": [0, 1] },
+        { "id": "grin", "op": "sum", "terms": [["smile", 1], ["smirk", 1]] },
+        { "id": "fangShows", "op": "min", "terms": [["open", 1], ["grin", 1]] },
+        { "id": "lockA1", "op": "sum", "terms": [["lockR.0", 1]], "clamp": [-0.8, 0.32] },
+        { "id": "lockA2", "op": "sum", "terms": [["lockR.0", 1], ["lockR.1", 1]], "clamp": [-1, 0.22] },
+        {
+          "id": "lockA3",
+          "op": "sum",
+          "terms": [["lockR.0", 1], ["lockR.1", 1], ["lockR.2", 1]],
+          "clamp": [-1.2, 0.12]
+        },
+        { "id": "thinA1", "op": "sum", "terms": [["lockL.0", 1]], "clamp": [-0.3, 0.6] },
+        { "id": "thinA2", "op": "sum", "terms": [["lockL.0", 1], ["lockL.1", 1]], "clamp": [-0.25, 0.7] }
+      ],
+      "spaces": [
+        { "id": "torso", "type": "transform", "parent": "root", "x": { "param": "lean", "scale": 1.5 } },
+        { "id": "body", "type": "transform", "parent": "torso", "y": { "param": "chest" } },
+        { "id": "shoulders", "type": "transform", "parent": "body", "y": { "param": "shrug", "scale": -1.6 } },
+        {
+          "id": "head",
+          "type": "transform",
+          "parent": "torso",
+          "pivot": [45, 52],
+          "rotate": { "param": "tilt" },
+          "y": { "param": "nod" }
+        },
+        { "id": "hoop", "type": "transform", "parent": "head", "pivot": [62, 41.3], "rotate": { "param": "hoop" } },
+        {
+          "id": "arm",
+          "type": "transform",
+          "parent": "torso",
+          "pivot": [25.5, 80],
+          "rotate": { "param": "reach" },
+          "x": { "param": "handX" },
+          "y": {
+            "base": 0,
+            "keyforms": [
+              { "on": ["drop"], "axes": [[0, 1]], "values": [0, 90] },
+              { "on": ["handY"], "axes": [[-50, 10]], "values": [-50, 10] }
+            ]
+          }
+        },
+        { "id": "hand", "type": "transform", "parent": "arm", "pivot": [25.5, 78], "rotate": { "param": "wrist" } },
+        { "id": "wand", "type": "transform", "parent": "hand", "pivot": [25.4, 73], "rotate": { "param": "wandFlex" } },
+        {
+          "id": "spark.0",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.0.size" },
+          "sy": { "param": "spark.0.size" },
+          "x": { "param": "spark.0.x" },
+          "y": { "param": "spark.0.y" }
+        },
+        {
+          "id": "spark.1",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.1.size" },
+          "sy": { "param": "spark.1.size" },
+          "x": { "param": "spark.1.x" },
+          "y": { "param": "spark.1.y" }
+        },
+        {
+          "id": "spark.2",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.2.size" },
+          "sy": { "param": "spark.2.size" },
+          "x": { "param": "spark.2.x" },
+          "y": { "param": "spark.2.y" }
+        },
+        {
+          "id": "spark.3",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.3.size" },
+          "sy": { "param": "spark.3.size" },
+          "x": { "param": "spark.3.x" },
+          "y": { "param": "spark.3.y" }
+        },
+        {
+          "id": "spark.4",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.4.size" },
+          "sy": { "param": "spark.4.size" },
+          "x": { "param": "spark.4.x" },
+          "y": { "param": "spark.4.y" }
+        },
+        {
+          "id": "spark.5",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.5.size" },
+          "sy": { "param": "spark.5.size" },
+          "x": { "param": "spark.5.x" },
+          "y": { "param": "spark.5.y" }
+        },
+        {
+          "id": "spark.6",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.6.size" },
+          "sy": { "param": "spark.6.size" },
+          "x": { "param": "spark.6.x" },
+          "y": { "param": "spark.6.y" }
+        },
+        {
+          "id": "spark.7",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.7.size" },
+          "sy": { "param": "spark.7.size" },
+          "x": { "param": "spark.7.x" },
+          "y": { "param": "spark.7.y" }
+        },
+        {
+          "id": "spark.8",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.8.size" },
+          "sy": { "param": "spark.8.size" },
+          "x": { "param": "spark.8.x" },
+          "y": { "param": "spark.8.y" }
+        },
+        {
+          "id": "spark.9",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.9.size" },
+          "sy": { "param": "spark.9.size" },
+          "x": { "param": "spark.9.x" },
+          "y": { "param": "spark.9.y" }
+        },
+        {
+          "id": "spark.10",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.10.size" },
+          "sy": { "param": "spark.10.size" },
+          "x": { "param": "spark.10.x" },
+          "y": { "param": "spark.10.y" }
+        },
+        {
+          "id": "spark.11",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.11.size" },
+          "sy": { "param": "spark.11.size" },
+          "x": { "param": "spark.11.x" },
+          "y": { "param": "spark.11.y" }
+        },
+        {
+          "id": "spark.12",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.12.size" },
+          "sy": { "param": "spark.12.size" },
+          "x": { "param": "spark.12.x" },
+          "y": { "param": "spark.12.y" }
+        },
+        {
+          "id": "spark.13",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [11.5, 44],
+          "sx": { "param": "spark.13.size" },
+          "sy": { "param": "spark.13.size" },
+          "x": { "param": "spark.13.x" },
+          "y": { "param": "spark.13.y" }
+        },
+        {
+          "id": "steam.0",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [40, 8],
+          "sx": { "param": "steam.0.size" },
+          "sy": { "param": "steam.0.size" },
+          "x": { "param": "steam.0.x" },
+          "y": { "param": "steam.0.y" }
+        },
+        {
+          "id": "steam.1",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [40, 8],
+          "sx": { "param": "steam.1.size" },
+          "sy": { "param": "steam.1.size" },
+          "x": { "param": "steam.1.x" },
+          "y": { "param": "steam.1.y" }
+        },
+        {
+          "id": "steam.2",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [40, 8],
+          "sx": { "param": "steam.2.size" },
+          "sy": { "param": "steam.2.size" },
+          "x": { "param": "steam.2.x" },
+          "y": { "param": "steam.2.y" }
+        },
+        {
+          "id": "steam.3",
+          "type": "transform",
+          "parent": "root",
+          "pivot": [40, 8],
+          "sx": { "param": "steam.3.size" },
+          "sy": { "param": "steam.3.size" },
+          "x": { "param": "steam.3.x" },
+          "y": { "param": "steam.3.y" }
+        }
+      ],
+      "deformers": [
+        {
+          "id": "face",
+          "type": "turn",
+          "centre": [45, 31],
+          "radius": [15.5, 20.5],
+          "yaw": { "param": "yaw", "scale": 0.38 },
+          "pitch": { "param": "pitch", "scale": 0.22 },
+          "doc": "the face and what lies on it"
+        },
+        {
+          "id": "faceFront",
+          "type": "turn",
+          "centre": [45, 31],
+          "radius": [15.5, 20.5],
+          "yaw": { "param": "yaw", "scale": 0.38 },
+          "pitch": { "param": "pitch", "scale": 0.22 },
+          "depth": 1.15,
+          "doc": "the crown's front and the fringe, in front of the face"
+        },
+        {
+          "id": "faceBack",
+          "type": "turn",
+          "centre": [45, 31],
+          "radius": [15.5, 20.5],
+          "yaw": { "param": "yaw", "scale": 0.38 },
+          "pitch": { "param": "pitch", "scale": 0.22 },
+          "depth": -0.7,
+          "doc": "the back hair, behind the head: it moves against a turn"
+        },
+        {
+          "id": "fringeBones",
+          "type": "bones",
+          "joints": [[52, 15], [42, 19.4], [33.5, 24.5], [29.6, 35], [32.2, 46]],
+          "turns": [0, 0, { "param": "fringe.0" }, { "param": "fringe.1" }],
+          "radius": 4,
+          "doc": "the fringe lock swings from her temple"
+        },
+        {
+          "id": "lockRBones",
+          "type": "bones",
+          "joints": [[32, 20], [30, 32], [26, 58], [22.5, 84], [20.5, 112]],
+          "turns": [0, { "param": "lockA1" }, { "param": "lockA2" }, { "param": "lockA3" }],
+          "radius": 7,
+          "doc": "the long front lock, from beside her ear; each segment's own angle, capped so it never leaves the box",
+          "absolute": true
+        },
+        {
+          "id": "lockLBones",
+          "type": "bones",
+          "joints": [[61.5, 36], [62, 42], [65.5, 70], [69, 103]],
+          "turns": [0, { "param": "thinA1" }, { "param": "thinA2" }],
+          "radius": 5,
+          "doc": "the thin lock behind her left ear; each segment's own angle, capped so it never leaves the box",
+          "absolute": true
+        },
+        {
+          "id": "backRBones",
+          "type": "bones",
+          "joints": [[26, 22], [21.5, 40], [14.5, 62], [13, 79]],
+          "turns": [0, { "param": "backR.0" }, { "param": "backR.1" }],
+          "radius": 7,
+          "doc": "the back curtain's flare on her right"
+        },
+        {
+          "id": "backLBones",
+          "type": "bones",
+          "joints": [[64, 22], [68.5, 40], [75.5, 62], [77, 79]],
+          "turns": [0, { "param": "backL.0" }, { "param": "backL.1" }],
+          "radius": 7,
+          "doc": "the back curtain's flare on her left"
+        },
+        {
+          "id": "tieBones",
+          "type": "bones",
+          "joints": [[45, 61], [45, 65], [45, 76], [45, 88.5]],
+          "turns": [0, { "param": "tie.0" }, { "param": "tie.1" }],
+          "doc": "the tie's blade from under the knot"
+        },
+        {
+          "id": "robeRBones",
+          "type": "bones",
+          "joints": [[34, 58], [33, 72], [31.5, 96], [30.5, 122]],
+          "turns": [0, { "param": "robeR.0" }, { "param": "robeR.1" }],
+          "radius": 9,
+          "doc": "the robe's front edge on her right"
+        },
+        {
+          "id": "robeLBones",
+          "type": "bones",
+          "joints": [[56, 58], [57, 72], [58.5, 96], [59.5, 122]],
+          "turns": [0, { "param": "robeL.0" }, { "param": "robeL.1" }],
+          "radius": 9,
+          "doc": "the robe's front edge on her left"
+        },
+        {
+          "id": "sleeveBones",
+          "type": "bones",
+          "joints": [[25, 81], [24.5, 88], [22.5, 104], [19, 126]],
+          "turns": [0, { "param": "sleeve.0" }, { "param": "sleeve.1" }],
+          "radius": 14,
+          "doc": "the bell sleeve hanging from her raised arm"
+        }
+      ],
+      "frames": [
+        { "id": "face", "box": [30, 10.5, 60, 50.2] },
+        { "id": "eyeR", "box": [31.3, 29.4, 42.8, 38.6] },
+        { "id": "eyeL", "box": [47.2, 29.4, 58.7, 38.6] },
+        { "id": "browR", "box": [33.6, 25.2, 41.4, 27.6] },
+        { "id": "browL", "box": [48.6, 25.2, 56.4, 27.6] },
+        { "id": "mouth", "box": [42.5, 43.9, 48.1, 49.2] }
+      ],
+      "layers": [
+        {
+          "id": "hairBack.mass",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 45, 6], ["C", 33, 6, 24, 13, 22, 26], ["C", 20.5, 37, 16, 49, 12.5, 60],
+              ["C", 10.5, 67, 10.5, 74, 13, 79], ["L", 77, 79], ["C", 79.5, 74, 79.5, 67, 77.5, 60],
+              ["C", 74, 49, 69.5, 37, 68, 26], ["C", 66, 13, 57, 6, 45, 6], ["Z"]
+            ]
+          },
+          "paint": "hair"
+        },
+        {
+          "id": "hairBack.shade",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 68, 26], ["C", 69.5, 37, 74, 49, 77.5, 60], ["C", 79.5, 67, 79.5, 74, 77, 79], ["L", 67, 79],
+              ["C", 67.5, 66, 66, 48, 63, 34], ["Z"]
+            ]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairBack.strandR",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 19.6, 44], ["C", 17, 54, 15.4, 64, 15.8, 76]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairBack.strandL",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 71.6, 46], ["C", 74, 56, 75.2, 66, 74.8, 76]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "hairDeep"
+        },
+        {
+          "id": "hairBack.hollow",
+          "space": "head",
+          "deform": "faceBack",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 31, 42], ["C", 33, 51, 36, 57.5, 38.5, 62], ["L", 51.5, 62], ["C", 54, 57.5, 57, 51, 59, 42],
+              ["C", 56, 46.5, 51.5, 49, 45, 49], ["C", 38.5, 49, 34, 46.5, 31, 42], ["Z"]
+            ]
+          },
+          "paint": "hairDeep"
+        },
+        {
+          "id": "hairBack.edgeR1",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 26], ["C", 20.5, 37, 16, 49, 12.5, 60]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairBack.edgeR2",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 12.5, 60], ["C", 10.5, 67, 10.5, 74, 13, 79]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairBack.edgeL1",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 68, 26], ["C", 69.5, 37, 74, 49, 77.5, 60]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairBack.edgeL2",
+          "space": "head",
+          "deform": ["backRBones", "backLBones", "faceBack"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 77.5, 60], ["C", 79.5, 67, 79.5, 74, 77, 79]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockRBack.hair",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 30.5, 27], ["C", 27, 34, 24.4, 44, 23.4, 56], ["C", 22.4, 68, 21, 82, 19, 96],
+              ["C", 18, 104, 18.5, 110, 21, 114], ["C", 22, 108, 24, 104, 26, 101], ["C", 27, 106, 28.6, 109, 31, 111],
+              ["C", 30.5, 102, 31.5, 92, 32.5, 82], ["C", 33.5, 70, 33.8, 58, 33.2, 46],
+              ["C", 33, 38, 32, 31, 30.5, 27], ["Z"]
+            ]
+          },
+          "paint": "hair",
+          "visible": { "ge": ["flip", 0.5] },
+          "basePose": { "flip": 1 }
+        },
+        {
+          "id": "lockRBack.shade",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29, 44], ["C", 28, 58, 27.4, 76, 26, 92], ["C", 25.5, 97, 25.6, 101, 26, 101],
+              ["C", 27.6, 92, 28.8, 76, 30, 60], ["C", 30.4, 54, 30, 48, 29, 44], ["Z"]
+            ]
+          },
+          "paint": "hairShade",
+          "visible": { "ge": ["flip", 0.5] },
+          "basePose": { "flip": 1 }
+        },
+        {
+          "id": "hood.lining",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 22, 64], ["C", 27, 57, 34, 53, 45, 53], ["C", 56, 53, 63, 57, 68, 64], ["L", 61, 65],
+              ["C", 57.5, 60.5, 52, 58.4, 45, 58.4], ["C", 38, 58.4, 32.5, 60.5, 29, 65], ["Z"]
+            ]
+          },
+          "paint": "lining"
+        },
+        {
+          "id": "hood.liningShade",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29, 65], ["C", 32.5, 60.5, 38, 58.4, 45, 58.4], ["C", 52, 58.4, 57.5, 60.5, 61, 65],
+              ["L", 58.6, 65], ["C", 55.6, 61.8, 50.8, 60.2, 45, 60.2], ["C", 39.2, 60.2, 34.4, 61.8, 31.4, 65], ["Z"]
+            ]
+          },
+          "paint": "liningShade"
+        },
+        {
+          "id": "neck.skin",
+          "space": "body",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 40.2, 44], ["L", 40.4, 55.6], ["C", 42.5, 57.7, 47.5, 57.7, 49.6, 55.6], ["L", 49.8, 44], ["Z"]]
+          },
+          "paint": "skin"
+        },
+        {
+          "id": "neck.shade",
+          "space": "body",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 40.3, 46.5], ["C", 42.5, 50.6, 47.5, 50.6, 49.7, 46.5], ["L", 49.7, 51.2],
+              ["C", 47.3, 53.4, 42.7, 53.4, 40.3, 51.2], ["Z"]
+            ]
+          },
+          "paint": "skinShade"
+        },
+        {
+          "id": "shirt.body",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38.6, 55.4], ["C", 41, 57.4, 49, 57.4, 51.4, 55.4], ["L", 54.4, 60.2], ["L", 45, 88],
+              ["L", 35.6, 60.2], ["Z"]
+            ]
+          },
+          "paint": "shirt"
+        },
+        {
+          "id": "shirt.shade",
+          "space": "shoulders",
+          "shape": { "kind": "path", "d": [["M", 45, 61], ["L", 48.8, 65.8], ["L", 46.6, 73], ["Z"]] },
+          "paint": "shirtShade"
+        },
+        {
+          "id": "collarR.point",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38.4, 55], ["C", 39.5, 57.6, 42.4, 60, 45, 61], ["L", 41.2, 66],
+              ["C", 38.8, 63.6, 36.4, 60.4, 35.2, 58.2], ["Z"]
+            ]
+          },
+          "paint": "shirt"
+        },
+        {
+          "id": "collarL.point",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 51.6, 55], ["C", 50.5, 57.6, 47.6, 60, 45, 61], ["L", 48.8, 66],
+              ["C", 51.2, 63.6, 53.6, 60.4, 54.8, 58.2], ["Z"]
+            ]
+          },
+          "paint": "shirt"
+        },
+        {
+          "id": "collarL.shade",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 51.6, 55], ["C", 50.5, 57.6, 47.6, 60, 45, 61], ["L", 46.2, 62.6],
+              ["C", 48.6, 61.4, 51, 59.2, 52.2, 56.4], ["Z"]
+            ]
+          },
+          "paint": "shirtShade"
+        },
+        {
+          "id": "collarR.line1",
+          "space": "shoulders",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 35.2, 58.2], ["C", 36.4, 60.4, 38.8, 63.6, 41.2, 66]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "shirtLine"
+        },
+        {
+          "id": "collarR.line2",
+          "space": "shoulders",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 41.2, 66],
+              ["C", 42.46666666666667, 64.33333333333333, 43.733333333333334, 62.666666666666664, 45, 61]
+            ],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "shirtLine"
+        },
+        {
+          "id": "collarL.line1",
+          "space": "shoulders",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 54.8, 58.2], ["C", 53.6, 60.4, 51.2, 63.6, 48.8, 66]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "shirtLine"
+        },
+        {
+          "id": "collarL.line2",
+          "space": "shoulders",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 48.8, 66],
+              ["C", 47.53333333333333, 64.33333333333333, 46.266666666666666, 62.666666666666664, 45, 61]
+            ],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "shirtLine"
+        },
+        {
+          "id": "tie.blade",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 43.5, 64.6], ["L", 46.5, 64.6], ["L", 48.4, 84], ["L", 45, 88.5], ["L", 41.6, 84], ["Z"]]
+          },
+          "paint": "tie"
+        },
+        {
+          "id": "tie.bladeShade",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 45.6, 64.6], ["L", 46.5, 64.6], ["L", 48.4, 84], ["L", 45, 88.5], ["Z"]]
+          },
+          "paint": "tieShade"
+        },
+        {
+          "id": "tie.stripe1",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 43.13, 68.4], ["L", 46.74, 67], ["L", 46.83, 68], ["L", 43.03, 69.4], ["Z"]]
+          },
+          "paint": "tieStripe"
+        },
+        {
+          "id": "tie.stripe2",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 42.68, 73], ["L", 47.19, 71.6], ["L", 47.28, 72.6], ["L", 42.58, 74], ["Z"]]
+          },
+          "paint": "tieStripe"
+        },
+        {
+          "id": "tie.stripe3",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 42.23, 77.6], ["L", 47.64, 76.2], ["L", 47.73, 77.2], ["L", 42.13, 78.6], ["Z"]]
+          },
+          "paint": "tieStripe"
+        },
+        {
+          "id": "tie.stripe4",
+          "space": "shoulders",
+          "deform": "tieBones",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 41.78, 82.2], ["L", 48.09, 80.8], ["L", 48.18, 81.8], ["L", 41.68, 83.2], ["Z"]]
+          },
+          "paint": "tieStripe"
+        },
+        {
+          "id": "tie.knot",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 42.6, 60.3], ["C", 44, 61.3, 46, 61.3, 47.4, 60.3], ["L", 46.6, 64.8],
+              ["C", 45.6, 65.3, 44.4, 65.3, 43.4, 64.8], ["Z"]
+            ]
+          },
+          "paint": "tie"
+        },
+        {
+          "id": "tie.knotStripe",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 43, 62.6], ["L", 47.1, 61.4], ["L", 46.9, 62.4], ["L", 43.2, 63.6], ["Z"]]
+          },
+          "paint": "tieStripe"
+        },
+        {
+          "id": "sweater.body",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 30, 60], ["C", 33, 60.2, 37, 60.8, 39.6, 61.2], ["L", 45, 88], ["L", 50.4, 61.2],
+              ["C", 53, 60.8, 57, 60.2, 60, 60], ["L", 72, 126], ["L", 18, 126], ["Z"]
+            ]
+          },
+          "paint": "sweater"
+        },
+        {
+          "id": "sweater.shade",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 51.2, 66], ["L", 56.6, 60.3], ["L", 60, 60], ["L", 72, 126], ["L", 52, 126],
+              ["C", 52.6, 101, 53, 83, 51.2, 66], ["Z"]
+            ]
+          },
+          "paint": "sweaterShade"
+        },
+        {
+          "id": "sweater.trim",
+          "space": "shoulders",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38, 61], ["L", 45, 91], ["L", 52, 61], ["L", 50.4, 61.2], ["L", 45, 88], ["L", 39.6, 61.2], ["Z"]
+            ]
+          },
+          "paint": "sweaterLight"
+        },
+        {
+          "id": "sweater.trimShade",
+          "space": "shoulders",
+          "shape": { "kind": "path", "d": [["M", 45, 91], ["L", 52, 61], ["L", 50.4, 61.2], ["L", 45, 88], ["Z"]] },
+          "paint": "sweater"
+        },
+        {
+          "id": "sweater.rib",
+          "space": "shoulders",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 45, 91], ["C", 45, 102.66666666666667, 45, 114.33333333333333, 45, 126]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "sweaterShade"
+        },
+        {
+          "id": "robeR.panel",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 33.4, 58.4], ["C", 26, 59.4, 18, 61.5, 12, 65], ["C", 7, 68, 4.6, 74, 3.6, 82], ["L", 1.17, 126],
+              ["L", 30.1, 126], ["C", 30.9, 100, 32.4, 78, 35.2, 60.4], ["Z"]
+            ]
+          },
+          "paint": "robe"
+        },
+        {
+          "id": "robeR.fold1",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 10.5, 78], ["C", 10.2, 90, 9.8, 104, 9.5, 126]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "robeDeep"
+        },
+        {
+          "id": "robeR.fold2",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 19, 72], ["C", 18.7, 86, 18.5, 100, 18.6, 126]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "robeDeep"
+        },
+        {
+          "id": "robeR.facing",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 35.2, 60.4], ["C", 32.4, 78, 30.9, 100, 30.1, 126], ["L", 24.7, 126],
+              ["C", 25.6, 99, 27.4, 78, 30.2, 59.4], ["Z"]
+            ]
+          },
+          "paint": "lining"
+        },
+        {
+          "id": "robeR.facingLight",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 30.2, 59.4], ["C", 27.4, 78, 25.6, 99, 24.7, 126], ["L", 26.1, 126],
+              ["C", 27, 99, 28.8, 78, 31.6, 59.6], ["Z"]
+            ]
+          },
+          "paint": "liningLight"
+        },
+        {
+          "id": "robeR.rim1",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 1.65, 126], ["C", 2.3, 111.33333333333333, 2.95, 96.66666666666667, 3.6, 82]],
+            "n": 8,
+            "width": [1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1],
+            "floor": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeR.rim2",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 3.6, 82], ["C", 4.6, 73.6, 7.4, 67.6, 12.2, 64.6]],
+            "n": 8,
+            "width": [1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1],
+            "floor": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeR.rim3",
+          "space": "shoulders",
+          "deform": "robeRBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 12.2, 64.6], ["C", 18, 61.2, 25.6, 59.4, 32.8, 58.4]],
+            "n": 8,
+            "width": [1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1],
+            "floor": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeL.panel",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 56.6, 58.4], ["C", 64, 59.4, 72, 61.5, 78, 65], ["C", 83, 68, 85.4, 74, 86.4, 82], ["L", 88.8, 126],
+              ["L", 59.9, 126], ["C", 59.1, 100, 57.6, 78, 54.8, 60.4], ["Z"]
+            ]
+          },
+          "paint": "robe"
+        },
+        {
+          "id": "robeL.shade",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 66, 61], ["C", 73, 63, 79, 66, 82.5, 70.5], ["C", 85, 74.5, 86, 78, 86.4, 82], ["L", 88.8, 126],
+              ["L", 70, 126], ["C", 70.5, 100, 70, 80, 66, 61], ["Z"]
+            ]
+          },
+          "paint": "robeShade"
+        },
+        {
+          "id": "robeL.fold1",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 79.5, 78], ["C", 79.8, 90, 80.2, 104, 80.5, 126]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "robeDeep"
+        },
+        {
+          "id": "robeL.fold2",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 71, 72], ["C", 71.3, 86, 71.5, 100, 71.4, 126]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "robeDeep"
+        },
+        {
+          "id": "robeL.facing",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 54.8, 60.4], ["C", 57.6, 78, 59.1, 100, 59.9, 126], ["L", 65.3, 126],
+              ["C", 64.4, 99, 62.6, 78, 59.8, 59.4], ["Z"]
+            ]
+          },
+          "paint": "lining"
+        },
+        {
+          "id": "robeL.facingShade",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 59.8, 59.4], ["C", 62.6, 78, 64.4, 99, 65.3, 126], ["L", 63.9, 126],
+              ["C", 63, 99, 61.2, 78, 58.4, 59.6], ["Z"]
+            ]
+          },
+          "paint": "liningShade"
+        },
+        {
+          "id": "robeL.rim1",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 57.2, 58.4], ["C", 64.4, 59.4, 72, 61.2, 77.8, 64.6]],
+            "n": 8,
+            "width": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeL.rim2",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 77.8, 64.6], ["C", 80.6, 66.4, 82.6, 68.8, 84, 71.6]],
+            "n": 8,
+            "width": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeL.rim3",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 84, 71.6], ["C", 85.4, 75, 86.2, 78.6, 86.4, 82]],
+            "n": 8,
+            "width": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "robeL.rim4",
+          "space": "shoulders",
+          "deform": "robeLBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 86.4, 82], ["C", 87.2, 96.66666666666667, 88, 111.33333333333333, 88.8, 126]],
+            "n": 8,
+            "width": [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "robeLight"
+        },
+        {
+          "id": "lockL.hair",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 60.6, 39], ["C", 62.5, 46, 64.5, 56, 66.5, 68], ["C", 68, 78, 69.5, 88, 70, 96],
+              ["C", 70.3, 100, 69.5, 103, 68, 105], ["C", 67, 98, 65.8, 92, 64.3, 86],
+              ["C", 63, 78, 61.6, 66, 60.2, 56], ["C", 59.6, 50, 59.6, 44, 60.6, 39], ["Z"]
+            ]
+          },
+          "paint": "hair"
+        },
+        {
+          "id": "lockL.shade",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 62.4, 48], ["C", 64, 58, 65.6, 70, 67, 80], ["C", 68, 87, 68.8, 94, 68.6, 100],
+              ["C", 67.6, 93, 66.4, 86, 65.4, 79], ["C", 64.2, 70, 63, 59, 62.4, 48], ["Z"]
+            ]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "lockL.edge1",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 60.6, 39], ["C", 62.5, 46, 64.5, 56, 66.5, 68]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockL.edge2",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 66.5, 68], ["C", 68, 78, 69.5, 88, 70, 96]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockL.edge3",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 70, 96], ["C", 70.3, 100, 69.5, 103, 68, 105]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockL.edge4",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 68, 105], ["C", 67, 98, 65.8, 92, 64.3, 86]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockL.edge5",
+          "space": "head",
+          "deform": ["lockLBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 64.3, 86], ["C", 63, 78, 61.6, 66, 60.2, 56]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "lockR.hair",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 30.5, 27], ["C", 27, 34, 24.4, 44, 23.4, 56], ["C", 22.4, 68, 21, 82, 19, 96],
+              ["C", 18, 104, 18.5, 110, 21, 114], ["C", 22, 108, 24, 104, 26, 101], ["C", 27, 106, 28.6, 109, 31, 111],
+              ["C", 30.5, 102, 31.5, 92, 32.5, 82], ["C", 33.5, 70, 33.8, 58, 33.2, 46],
+              ["C", 33, 38, 32, 31, 30.5, 27], ["Z"]
+            ]
+          },
+          "paint": "hair",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.shade",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29, 44], ["C", 28, 58, 27.4, 76, 26, 92], ["C", 25.5, 97, 25.6, 101, 26, 101],
+              ["C", 27.6, 92, 28.8, 76, 30, 60], ["C", 30.4, 54, 30, 48, 29, 44], ["Z"]
+            ]
+          },
+          "paint": "hairShade",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.shade2",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 32.6, 70], ["C", 32, 82, 31.4, 94, 31, 111], ["C", 30.2, 104, 30, 96, 30.6, 86],
+              ["C", 31, 80, 31.8, 74, 32.6, 70], ["Z"]
+            ]
+          },
+          "paint": "hairShade",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.light",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 25.2, 50], ["C", 24.7, 56, 24.3, 62, 24, 67], ["L", 24.7, 67], ["C", 25.1, 62, 25.5, 56, 25.9, 50],
+              ["Z"]
+            ]
+          },
+          "paint": "hairLight",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge1",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 30.5, 27], ["C", 27, 34, 24.4, 44, 23.4, 56]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge2",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23.4, 56], ["C", 22.4, 68, 21, 82, 19, 96]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge3",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 19, 96], ["C", 18, 104, 18.5, 110, 21, 114]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge4",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 21, 114], ["C", 22, 108, 24, 104, 26, 101]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge5",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 26, 101], ["C", 27, 106, 28.6, 109, 31, 111]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge6",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 31, 111], ["C", 30.5, 102, 31.5, 92, 32.5, 82]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "lockR.edge7",
+          "space": "head",
+          "deform": ["lockRBones", "face"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 32.5, 82], ["C", 33.5, 70, 33.8, 58, 33.2, 46]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine",
+          "visible": { "lt": ["flip", 0.5] }
+        },
+        {
+          "id": "face.skin",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 30, 24], ["C", 30, 31, 30.6, 37, 32.5, 41.5], ["C", 35, 46.5, 40, 50, 45, 50.2],
+              ["C", 50, 50, 55, 46.5, 57.5, 41.5], ["C", 59.4, 37, 60, 31, 60, 24], ["C", 60, 15, 53, 10.5, 45, 10.5],
+              ["C", 37, 10.5, 30, 15, 30, 24], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "keyforms": [
+            {
+              "on": ["cheek"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0],
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0], [0, 0], [-0.023333333333, 0.030226700252], [-0.063333333333, 0.037783375315],
+                  [-0.08, 0.052896725441], [0, 0], [0, 0], [0, 0], [0.08, 0.052896725441],
+                  [0.063333333333, 0.037783375315], [0.023333333333, 0.030226700252], [0, 0], [0, 0], [0, 0], [0, 0],
+                  [0, 0], [0, 0], [0, 0], [0, 0]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "face.shade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 59.9, 31.4], ["C", 59.6, 36, 58.8, 39.6, 57.5, 41.5], ["C", 55, 46.5, 50, 50, 45, 50.2],
+              ["C", 49.4, 48.4, 54, 44.6, 56, 40], ["C", 57.2, 37.2, 58.4, 34.4, 59.9, 31.4], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "keyforms": [
+            {
+              "on": ["cheek"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0], [0.013333333333, 0.025188916877], [0.04, 0.025188916877], [0.063333333333, 0.037783375315],
+                  [0.08, 0.052896725441], [0, 0], [0, 0], [0.006666666667, 0.005037783375],
+                  [0.046666666667, 0.045340050378], [0.033333333333, 0.040302267003], [0.02, 0.030226700252],
+                  [0.006666666667, 0.005037783375], [0, 0]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "face.jawR",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 32.5, 41.5], ["C", 35, 46.5, 40, 50, 45, 50.2]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "keyforms": [
+            {
+              "on": ["cheek"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[-0.063333333333, 0.037783375315], [-0.08, 0.052896725441], [0, 0], [0, 0]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "face.jawL",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 45, 50.2], ["C", 50, 50, 55, 46.5, 57.5, 41.5]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "keyforms": [
+            {
+              "on": ["cheek"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0.08, 0.052896725441], [0.063333333333, 0.037783375315]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.white",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 33.2, 32.7], ["C", 34.6, 31.3, 40.2, 30.9, 42, 32.7], ["C", 41.6, 35.2, 39.4, 36.4, 37.4, 36.4],
+              ["C", 35.4, 36.4, 33.9, 35, 33.2, 32.7], ["Z"]
+            ]
+          },
+          "paint": "eyeWhite",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.032608695652], [0, -0.108695652174], [0, -0.108695652174], [0, -0.032608695652], [0, 0],
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, -0.032608695652]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.whiteShade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 33.2, 32.7], ["C", 34.6, 31.3, 40.2, 30.9, 42, 32.7], ["C", 40, 32.2, 35.4, 32.3, 33.2, 33.3], ["Z"]
+            ]
+          },
+          "paint": "eyeWhiteShade",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.032608695652], [0, -0.108695652174], [0, -0.108695652174], [0, -0.032608695652],
+                  [0, -0.065217391304], [0, -0.065217391304], [0, -0.032608695652]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.iris",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [37.8, 33.75], "rx": 2.4, "ry": 2.6 },
+          "paint": "iris",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[-0.113043478261, 0]], [[0, 0]], [[0.113043478261, 0]]]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[0, -0.135869565217]], [[0, 0]], [[0, 0.097826086957]]]
+            },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "rx", "values": [0, 0, 0.1] },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "ry", "values": [0, 0, 0.1] }
+          ]
+        },
+        {
+          "id": "eyeR.irisShade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 35.4, 33.5], ["C", 35.6, 32, 36.6, 31.15, 37.8, 31.15], ["C", 39, 31.15, 40, 32, 40.2, 33.5],
+              ["C", 39.5, 32.9, 38.7, 32.6, 37.8, 32.6], ["C", 36.9, 32.6, 36.1, 32.9, 35.4, 33.5], ["Z"]
+            ]
+          },
+          "paint": "irisShade",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0]
+                ]
+              ]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.irisLight",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 35.8, 34.8], ["C", 36.4, 35.9, 37.1, 36.3, 37.8, 36.3], ["C", 38.5, 36.3, 39.2, 35.9, 39.8, 34.8],
+              ["C", 39.2, 35.3, 38.5, 35.5, 37.8, 35.5], ["C", 37.1, 35.5, 36.4, 35.3, 35.8, 34.8], ["Z"]
+            ]
+          },
+          "paint": "irisLight",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0]
+                ]
+              ]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.pupil",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [37.85, 33.9], "rx": 1, "ry": 1.45, "floor": { "rx": 0.8, "ry": 0.8 } },
+          "paint": "pupil",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[-0.113043478261, 0]], [[0, 0]], [[0.113043478261, 0]]]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[0, -0.135869565217]], [[0, 0]], [[0, 0.097826086957]]]
+            },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "rx", "values": [-0.5, 0, 0.3] },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "ry", "values": [-0.7, 0, 0.35] }
+          ]
+        },
+        {
+          "id": "eyeR.shine",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "ellipse",
+            "at": [38.9, 32.9],
+            "rx": 0.62,
+            "ry": 0.62,
+            "n": 12,
+            "floor": { "rx": 0.9, "ry": 0.9 }
+          },
+          "paint": "shine",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] }
+        },
+        {
+          "id": "eyeR.shine2",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [36.8, 35.1], "rx": 0.3, "ry": 0.3, "n": 8 },
+          "paint": "shine",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] }
+        },
+        {
+          "id": "eyeR.lid",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 32.4, 33], ["C", 34.2, 31.1, 40.4, 30.6, 42.6, 32.8], ["L", 42.8, 29.4], ["L", 32.2, 29.4], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.114130434783], [0, -0.114130434783], [0, -0.04347826087], [0, 0], [0, 0]]
+              ]
+            },
+            {
+              "on": ["lidR"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0.017391304348, 0.771739130435], [0, 0.826086956522], [0, 0], [0, 0], [0, 0]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.lowLid",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 42, 32.7], ["C", 41.6, 35.2, 39.4, 36.4, 37.4, 36.4], ["C", 35.4, 36.4, 33.9, 35, 33.2, 32.7],
+              ["L", 32.4, 38.6], ["L", 42.8, 38.6], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["lower"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0], [-0.017391304348, -0.108695652174], [0, -0.141304347826], [0, -0.141304347826],
+                  [0, -0.141304347826], [0.008695652174, -0.086956521739], [0, 0], [0, 0], [0, 0]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.lash",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 42.2, 32.9], ["C", 40.4, 30.9, 35.2, 30.9, 33.1, 32.9]],
+            "n": 8,
+            "width": [0.7, 0.825, 0.95, 1.075, 1.2, 1.2375, 1.275, 1.3125, 1.35],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.108695652174], [0, -0.108695652174], [0, -0.04347826087]]
+              ]
+            },
+            {
+              "on": ["lidR"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0.021739130435], [0, 0.728260869565], [0, 0.728260869565], [0, 0.04347826087]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.wing",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 33.6, 32.6], ["C", 32.8, 32.2, 32, 31.9, 31.3, 31.6]],
+            "n": 8,
+            "width": [1.2, 1.10625, 1.0125, 0.91875, 0.825, 0.73125, 0.6375, 0.54375, 0.44999999999999996],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.065217391304], [0, -0.076086956522], [0, -0.086956521739]]
+              ]
+            },
+            {
+              "on": ["lidR"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0.086956521739], [0, 0.141304347826], [0, 0.163043478261], [0, 0.163043478261]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.lower",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 34.3, 35.3], ["C", 35.3, 36.5, 36.9, 36.9, 38.4, 36.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["lower"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.108695652174], [0, -0.130434782609], [0, -0.141304347826], [0, -0.141304347826]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeR.arc",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 33.8, 34.4], ["C", 35.4, 32.2, 40.2, 32.2, 41.6, 34.4]],
+            "n": 8,
+            "width": [0.6, 0.7, 0.8, 0.9, 1, 0.9, 0.8, 0.7, 0.6],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "ge": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "basePose": { "happy": 1 }
+        },
+        {
+          "id": "eyeR.squeeze1",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 33.4, 32.2], ["C", 35.199999999999996, 32.733333333333334, 37, 33.266666666666666, 38.8, 33.8]],
+            "n": 8,
+            "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "ge": ["squeeze", 0.5] },
+          "basePose": { "squeeze": 1 }
+        },
+        {
+          "id": "eyeR.squeeze2",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 38.8, 33.8], ["C", 37.06666666666666, 34.4, 35.333333333333336, 35, 33.6, 35.6]],
+            "n": 8,
+            "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "ge": ["squeeze", 0.5] },
+          "basePose": { "squeeze": 1 }
+        },
+        {
+          "id": "eyeR.tear",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [32.4, 34.8], "rx": 0.55, "ry": 0.8, "n": 12 },
+          "paint": "shine",
+          "alpha": 0.9,
+          "visible": { "gt": ["tear", 0.05] },
+          "basePose": { "tear": 1 },
+          "keyforms": [{ "on": ["tear"], "axes": [[0.06, 1]], "prop": "alpha", "values": [-0.85, 0] }]
+        },
+        {
+          "id": "eyeL.white",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 56.8, 32.7], ["C", 55.4, 31.3, 49.8, 30.9, 48, 32.7], ["C", 48.4, 35.2, 50.6, 36.4, 52.6, 36.4],
+              ["C", 54.6, 36.4, 56.1, 35, 56.8, 32.7], ["Z"]
+            ]
+          },
+          "paint": "eyeWhite",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.032608695652], [0, -0.108695652174], [0, -0.108695652174], [0, -0.032608695652], [0, 0],
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, -0.032608695652]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.whiteShade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 56.8, 32.7], ["C", 55.4, 31.3, 49.8, 30.9, 48, 32.7], ["C", 50, 32.2, 54.6, 32.3, 56.8, 33.3], ["Z"]
+            ]
+          },
+          "paint": "eyeWhiteShade",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.032608695652], [0, -0.108695652174], [0, -0.108695652174], [0, -0.032608695652],
+                  [0, -0.065217391304], [0, -0.065217391304], [0, -0.032608695652]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.iris",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [52.2, 33.75], "rx": 2.4, "ry": 2.6 },
+          "paint": "iris",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[-0.113043478261, 0]], [[0, 0]], [[0.113043478261, 0]]]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[0, -0.135869565217]], [[0, 0]], [[0, 0.097826086957]]]
+            },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "rx", "values": [0, 0, 0.1] },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "ry", "values": [0, 0, 0.1] }
+          ]
+        },
+        {
+          "id": "eyeL.irisShade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 54.6, 33.5], ["C", 54.4, 32, 53.4, 31.15, 52.2, 31.15], ["C", 51, 31.15, 50, 32, 49.8, 33.5],
+              ["C", 50.5, 32.9, 51.3, 32.6, 52.2, 32.6], ["C", 53.1, 32.6, 53.9, 32.9, 54.6, 33.5], ["Z"]
+            ]
+          },
+          "paint": "irisShade",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0]
+                ]
+              ]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.irisLight",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 54.2, 34.8], ["C", 53.6, 35.9, 52.9, 36.3, 52.2, 36.3], ["C", 51.5, 36.3, 50.8, 35.9, 50.2, 34.8],
+              ["C", 50.8, 35.3, 51.5, 35.5, 52.2, 35.5], ["C", 52.9, 35.5, 53.6, 35.3, 54.2, 34.8], ["Z"]
+            ]
+          },
+          "paint": "irisLight",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0], [-0.113043478261, 0],
+                  [-0.113043478261, 0]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0], [0.113043478261, 0],
+                  [0.113043478261, 0]
+                ]
+              ]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217], [0, -0.135869565217],
+                  [0, -0.135869565217]
+                ],
+                [
+                  [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]
+                ],
+                [
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957], [0, 0.097826086957],
+                  [0, 0.097826086957]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.pupil",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [52.15, 33.9], "rx": 1, "ry": 1.45, "floor": { "rx": 0.8, "ry": 0.8 } },
+          "paint": "pupil",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["gazeX"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[-0.113043478261, 0]], [[0, 0]], [[0.113043478261, 0]]]
+            },
+            {
+              "on": ["gazeY"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [[[0, -0.135869565217]], [[0, 0]], [[0, 0.097826086957]]]
+            },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "rx", "values": [-0.5, 0, 0.3] },
+            { "on": ["pupil"], "axes": [[-1, 0, 0.6]], "prop": "ry", "values": [-0.7, 0, 0.35] }
+          ]
+        },
+        {
+          "id": "eyeL.shine",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "ellipse",
+            "at": [53.3, 32.9],
+            "rx": 0.62,
+            "ry": 0.62,
+            "n": 12,
+            "floor": { "rx": 0.9, "ry": 0.9 }
+          },
+          "paint": "shine",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] }
+        },
+        {
+          "id": "eyeL.shine2",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [51.2, 35.1], "rx": 0.3, "ry": 0.3, "n": 8 },
+          "paint": "shine",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] }
+        },
+        {
+          "id": "eyeL.lid",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 57.6, 33], ["C", 55.8, 31.1, 49.6, 30.6, 47.4, 32.8], ["L", 47.2, 29.4], ["L", 57.8, 29.4], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.114130434783], [0, -0.114130434783], [0, -0.04347826087], [0, 0], [0, 0]]
+              ]
+            },
+            {
+              "on": ["lidL"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [-0.017391304348, 0.771739130435], [0, 0.826086956522], [0, 0], [0, 0], [0, 0]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.lowLid",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 48, 32.7], ["C", 48.4, 35.2, 50.6, 36.4, 52.6, 36.4], ["C", 54.6, 36.4, 56.1, 35, 56.8, 32.7],
+              ["L", 57.6, 38.6], ["L", 47.2, 38.6], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["lower"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0], [0.017391304348, -0.108695652174], [0, -0.141304347826], [0, -0.141304347826],
+                  [0, -0.141304347826], [-0.008695652174, -0.086956521739], [0, 0], [0, 0], [0, 0]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.lash",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 47.8, 32.9], ["C", 49.6, 30.9, 54.8, 30.9, 56.9, 32.9]],
+            "n": 8,
+            "width": [0.7, 0.825, 0.95, 1.075, 1.2, 1.2375, 1.275, 1.3125, 1.35],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.108695652174], [0, -0.108695652174], [0, -0.04347826087]]
+              ]
+            },
+            {
+              "on": ["lidL"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0.021739130435], [0, 0.728260869565], [0, 0.728260869565], [0, 0.04347826087]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.wing",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 56.4, 32.6], ["C", 57.2, 32.2, 58, 31.9, 58.7, 31.6]],
+            "n": 8,
+            "width": [1.2, 1.10625, 1.0125, 0.91875, 0.825, 0.73125, 0.6375, 0.54375, 0.44999999999999996],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["wide"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.04347826087], [0, -0.065217391304], [0, -0.076086956522], [0, -0.086956521739]]
+              ]
+            },
+            {
+              "on": ["lidL"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0.086956521739], [0, 0.141304347826], [0, 0.163043478261], [0, 0.163043478261]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.lower",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 55.7, 35.3], ["C", 54.7, 36.5, 53.1, 36.9, 51.6, 36.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "lt": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "keyforms": [
+            {
+              "on": ["lower"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.108695652174], [0, -0.130434782609], [0, -0.141304347826], [0, -0.141304347826]]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eyeL.arc",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 56.2, 34.4], ["C", 54.6, 32.2, 49.8, 32.2, 48.4, 34.4]],
+            "n": 8,
+            "width": [0.6, 0.7, 0.8, 0.9, 1, 0.9, 0.8, 0.7, 0.6],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "all": [{ "ge": ["happy", 0.5] }, { "lt": ["squeeze", 0.5] }] },
+          "basePose": { "happy": 1 }
+        },
+        {
+          "id": "eyeL.squeeze1",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 56.6, 32.2], ["C", 54.800000000000004, 32.733333333333334, 53, 33.266666666666666, 51.2, 33.8]],
+            "n": 8,
+            "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "ge": ["squeeze", 0.5] },
+          "basePose": { "squeeze": 1 }
+        },
+        {
+          "id": "eyeL.squeeze2",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 51.2, 33.8], ["C", 52.93333333333334, 34.4, 54.666666666666664, 35, 56.4, 35.6]],
+            "n": 8,
+            "width": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+            "floor": [1, 1, 1, 1, 1, 1, 1, 1, 1]
+          },
+          "paint": "lash",
+          "visible": { "ge": ["squeeze", 0.5] },
+          "basePose": { "squeeze": 1 }
+        },
+        {
+          "id": "eyeL.tear",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [57.6, 34.8], "rx": 0.55, "ry": 0.8, "n": 12 },
+          "paint": "shine",
+          "alpha": 0.9,
+          "visible": { "gt": ["tear", 0.05] },
+          "basePose": { "tear": 1 },
+          "keyforms": [{ "on": ["tear"], "axes": [[0.06, 1]], "prop": "alpha", "values": [-0.85, 0] }]
+        },
+        {
+          "id": "blushR.patch",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [34.6, 38.8], "rx": 2.8, "ry": 1.15 },
+          "paint": "blush",
+          "alpha": 0.75,
+          "visible": { "gt": ["blush", 0.02] },
+          "basePose": { "blush": 1 },
+          "keyforms": [{ "on": ["blush"], "axes": [[0.03, 1]], "prop": "alpha", "values": [-0.73, 0] }]
+        },
+        {
+          "id": "blushL.patch",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "ellipse", "at": [55.4, 38.8], "rx": 2.8, "ry": 1.15 },
+          "paint": "blush",
+          "alpha": 0.75,
+          "visible": { "gt": ["blush", 0.02] },
+          "basePose": { "blush": 1 },
+          "keyforms": [{ "on": ["blush"], "axes": [[0.03, 1]], "prop": "alpha", "values": [-0.73, 0] }]
+        },
+        {
+          "id": "blushR.hatch1",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 33.1, 39.6],
+              ["C", 33.36666666666667, 39.13333333333333, 33.63333333333333, 38.66666666666667, 33.9, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "blushR.hatch2",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 34.5, 39.6],
+              ["C", 34.766666666666666, 39.13333333333333, 35.03333333333333, 38.66666666666667, 35.3, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "blushR.hatch3",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 35.9, 39.6],
+              ["C", 36.166666666666664, 39.13333333333333, 36.43333333333334, 38.66666666666667, 36.7, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "blushL.hatch1",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 53.9, 39.6],
+              ["C", 54.166666666666664, 39.13333333333333, 54.43333333333334, 38.66666666666667, 54.7, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "blushL.hatch2",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 55.3, 39.6],
+              ["C", 55.56666666666666, 39.13333333333333, 55.833333333333336, 38.66666666666667, 56.1, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "blushL.hatch3",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 56.7, 39.6],
+              ["C", 56.96666666666667, 39.13333333333333, 57.233333333333334, 38.66666666666667, 57.5, 38.2]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "blushDeep",
+          "visible": { "gt": ["blush", 0.55] },
+          "basePose": { "blush": 1 }
+        },
+        {
+          "id": "browR.line",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 33.6, 27.6], ["C", 35.6, 25.8, 38.8, 25.2, 41.4, 26.2]],
+            "n": 8,
+            "width": [0.5, 0.5875, 0.675, 0.7625, 0.85, 0.7875, 0.725, 0.6625, 0.6],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "hairLine",
+          "keyforms": [
+            {
+              "on": ["browR"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0.025641025641, 0.333333333333], [0.025641025641, 0.583333333333], [0, 0.708333333333],
+                  [-0.025641025641, 0.583333333333]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.666666666667], [0, -0.791666666667], [0, -0.75], [0, -0.666666666667]]
+              ]
+            },
+            {
+              "on": ["knit"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [-0.025641025641, -0.541666666667], [0.025641025641, -0.208333333333], [0.012820512821, 0.5],
+                  [-0.051282051282, 0.958333333333]
+                ]
+              ]
+            },
+            {
+              "on": ["worry"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.025641025641, 0.25], [0.025641025641, 0.75], [0, 0.333333333333],
+                  [-0.051282051282, -0.583333333333]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "browL.line",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 48.6, 26.2], ["C", 51.2, 25.2, 54.4, 25.8, 56.4, 27.6]],
+            "n": 8,
+            "width": [0.6, 0.6625, 0.725, 0.7875, 0.85, 0.7625, 0.675, 0.5875, 0.5],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "hairLine",
+          "keyforms": [
+            {
+              "on": ["browL"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0.025641025641, 0.583333333333], [0, 0.708333333333], [-0.025641025641, 0.583333333333],
+                  [-0.025641025641, 0.333333333333]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, -0.666666666667], [0, -0.75], [0, -0.791666666667], [0, -0.666666666667]]
+              ]
+            },
+            {
+              "on": ["knit"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.051282051282, 0.958333333333], [-0.012820512821, 0.5], [-0.025641025641, -0.208333333333],
+                  [0.025641025641, -0.541666666667]
+                ]
+              ]
+            },
+            {
+              "on": ["worry"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.051282051282, -0.583333333333], [0, 0.333333333333], [-0.025641025641, 0.75],
+                  [-0.025641025641, 0.25]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nose.mark",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 45.9, 39.3],
+              ["C", 45.666666666666664, 39.666666666666664, 45.43333333333334, 40.03333333333333, 45.2, 40.4]
+            ],
+            "n": 4,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep"
+        },
+        {
+          "id": "mouth.inside",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 42.5, 45], ["C", 43.9, 45.4, 46.3, 45.4, 47.9, 44.6], ["C", 47.8, 47.6, 46.2, 49.2, 45.1, 49.2],
+              ["C", 43.8, 49.2, 42.6, 47.8, 42.5, 45], ["Z"]
+            ]
+          },
+          "paint": "mouthIn",
+          "visible": { "gt": ["open", 0.05] },
+          "basePose": { "open": 1 },
+          "keyforms": [
+            {
+              "on": ["smile"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0.053571428571, 0.150943396226], [0, -0.056603773585], [0, -0.056603773585],
+                  [-0.071428571429, 0.207547169811], [-0.071428571429, 0.075471698113], [0, 0.018867924528],
+                  [0, 0.018867924528], [0.017857142857, 0.018867924528], [0.053571428571, 0.037735849057],
+                  [0.053571428571, 0.150943396226]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [-0.053571428571, -0.132075471698], [-0.017857142857, 0.056603773585],
+                  [0.017857142857, 0.056603773585], [0.053571428571, -0.075471698113],
+                  [0.017857142857, -0.037735849057], [0, -0.056603773585], [0, -0.056603773585],
+                  [0.017857142857, -0.056603773585], [-0.053571428571, -0.075471698113],
+                  [-0.053571428571, -0.132075471698]
+                ]
+              ]
+            },
+            {
+              "on": ["smirk"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.107142857143, -0.207547169811], [-0.053571428571, -0.018867924528], [-0.017857142857, 0],
+                  [-0.035714285714, 0.056603773585], [-0.035714285714, 0.037735849057], [-0.017857142857, 0],
+                  [-0.017857142857, 0], [-0.035714285714, 0], [-0.089285714286, -0.075471698113],
+                  [-0.107142857143, -0.207547169811]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.017857142857, 0.018867924528], [0, 0.018867924528], [0.035714285714, -0.037735849057],
+                  [0.125, -0.301886792453], [0.071428571429, -0.169811320755], [0.017857142857, -0.056603773585],
+                  [0, -0.056603773585], [0, -0.056603773585], [0.017857142857, 0], [0.017857142857, 0.018867924528]
+                ]
+              ]
+            },
+            {
+              "on": ["open"],
+              "axes": [[0.1, 1, 1.6]],
+              "nodes": [
+                [
+                  [0.017857142857, 0], [0, -0.009433962264], [0, -0.009433962264], [0, -0.037735849057],
+                  [-0.035714285714, -0.452830188679], [0, -0.660377358491], [0, -0.660377358491],
+                  [0.017857142857, -0.660377358491], [0.035714285714, -0.452830188679], [0.017857142857, 0]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.035714285714, -0.150943396226], [-0.035714285714, -0.415094339623], [0, -0.415094339623],
+                  [-0.107142857143, -0.075471698113], [0.071428571429, -0.11320754717],
+                  [0.107142857143, 0.452830188679], [-0.017857142857, 0.452830188679],
+                  [-0.107142857143, 0.452830188679], [-0.142857142857, -0.150943396226],
+                  [0.035714285714, -0.150943396226]
+                ]
+              ]
+            },
+            {
+              "on": ["pout"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.196428571429, 0.037735849057], [0.071428571429, -0.132075471698],
+                  [-0.071428571429, -0.132075471698], [-0.232142857143, 0.11320754717],
+                  [-0.214285714286, -0.188679245283], [-0.071428571429, -0.339622641509], [0, -0.339622641509],
+                  [0.107142857143, -0.339622641509], [0.178571428571, -0.22641509434], [0.196428571429, 0.037735849057]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mouth.tongue",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 43.5, 48.1], ["C", 44.2, 47.2, 46, 47.1, 46.9, 47.8], ["C", 46.4, 48.8, 45.7, 49.1, 45.1, 49.1],
+              ["C", 44.4, 49.1, 43.8, 48.8, 43.5, 48.1], ["Z"]
+            ]
+          },
+          "paint": "tongue",
+          "visible": { "gt": ["open", 0.4] },
+          "basePose": { "open": 1 },
+          "keyforms": [
+            {
+              "on": ["smile"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.056603773585], [0, -0.056603773585], [0, -0.056603773585], [0, -0.056603773585],
+                  [0, -0.056603773585], [0, -0.056603773585], [0, -0.056603773585], [0, -0.056603773585],
+                  [0, -0.056603773585], [0, -0.056603773585]
+                ]
+              ]
+            },
+            {
+              "on": ["open"],
+              "axes": [[1, 1.6]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [-0.017857142857, 0.396226415094], [-0.035714285714, 0.377358490566], [0, 0.396226415094],
+                  [-0.053571428571, 0.415094339623], [-0.035714285714, 0.433962264151],
+                  [-0.017857142857, 0.452830188679], [-0.017857142857, 0.452830188679], [0, 0.452830188679],
+                  [-0.017857142857, 0.433962264151], [-0.017857142857, 0.396226415094]
+                ]
+              ]
+            },
+            {
+              "on": ["pout"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.107142857143, -0.245283018868], [0.053571428571, -0.150943396226],
+                  [-0.071428571429, -0.132075471698], [-0.160714285714, -0.207547169811],
+                  [-0.107142857143, -0.320754716981], [-0.053571428571, -0.339622641509], [0, -0.339622641509],
+                  [0.053571428571, -0.339622641509], [0.089285714286, -0.320754716981],
+                  [0.107142857143, -0.245283018868]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mouth.fang",
+          "space": "head",
+          "deform": "face",
+          "shape": { "kind": "path", "d": [["M", 47, 44.95], ["L", 48, 44.5], ["L", 47.65, 46.1], ["Z"]] },
+          "paint": "shine",
+          "visible": { "gt": ["fangShows", 0.3] },
+          "basePose": { "open": 1, "smirk": 1 }
+        },
+        {
+          "id": "mouth.lineR",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 42.6, 45], ["C", 43.4, 45.25, 44.3, 45.32, 45.1, 45.28]],
+            "n": 8,
+            "width": [0.35, 0.375, 0.4, 0.425, 0.45, 0.47500000000000003, 0.5, 0.525, 0.55],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "mouth",
+          "keyforms": [
+            {
+              "on": ["smile"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0.035714285714, 0.169811320755], [0.035714285714, -0.009433962264],
+                  [0.017857142857, -0.060377358491], [0, -0.052830188679]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [-0.071428571429, -0.169811320755], [-0.035714285714, 0.009433962264],
+                  [-0.017857142857, 0.081132075472], [0, 0.088679245283]
+                ]
+              ]
+            },
+            {
+              "on": ["smirk"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [-0.125, -0.245283018868], [-0.107142857143, -0.066037735849], [-0.053571428571, 0],
+                  [0, 0.007547169811]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.107142857143, 0.094339622642], [0.089285714286, 0.056603773585], [0.035714285714, 0.033962264151],
+                  [0, 0.022641509434]
+                ]
+              ]
+            },
+            {
+              "on": ["open"],
+              "axes": [[0, 0.1, 1, 1.6]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[-0.008928571429, 0], [-0.008928571429, 0], [0, 0.001886792453], [0, 0.003773584906]],
+                [[-0.017857142857, 0], [-0.035714285714, 0], [-0.017857142857, 0.011320754717], [0, 0.018867924528]],
+                [
+                  [0.017857142857, -0.150943396226], [-0.017857142857, -0.311320754717],
+                  [-0.017857142857, -0.371698113208], [-0.017857142857, -0.364150943396]
+                ]
+              ]
+            },
+            {
+              "on": ["pout"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.178571428571, 0.094339622642], [0.107142857143, -0.066037735849],
+                  [0.053571428571, -0.088679245283], [0, -0.015094339623]
+                ]
+              ]
+            },
+            {
+              "on": ["wave"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [-0.053571428571, 0.094339622642], [-0.053571428571, -0.254716981132], [0, 0.298113207547],
+                  [0, 0.003773584906]
+                ]
+              ]
+            },
+            {
+              "on": ["smile", "open"],
+              "axes": [[0, 1], [0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0.017857142857, 0.037735849057], [0.053571428571, -0.037735849056],
+                  [0.017857142857, -0.058490566038], [0, -0.066037735849]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mouth.lineL",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 45.1, 45.28], ["C", 46.2, 45.2, 47.4, 45, 48.1, 43.9]],
+            "n": 8,
+            "width": [0.55, 0.525, 0.5, 0.47500000000000003, 0.45, 0.425, 0.4, 0.375, 0.35],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "mouth",
+          "keyforms": [
+            {
+              "on": ["smile"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, -0.052830188679], [-0.053571428571, -0.037735849057], [-0.107142857143, 0.037735849057],
+                  [-0.089285714286, 0.358490566038]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0.088679245283], [-0.035714285714, 0.103773584906], [-0.035714285714, 0.056603773585],
+                  [0.017857142857, 0.018867924528]
+                ]
+              ]
+            },
+            {
+              "on": ["smirk"],
+              "axes": [[-1, 0, 1]],
+              "nodes": [
+                [
+                  [0, 0.007547169811], [-0.035714285714, 0.015094339623], [-0.071428571429, 0.028301886792],
+                  [-0.071428571429, 0.216981132075]
+                ],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0.022641509434], [0.071428571429, 0.018867924528], [0.142857142857, -0.11320754717],
+                  [0.214285714286, -0.396226415094]
+                ]
+              ]
+            },
+            {
+              "on": ["open"],
+              "axes": [[0, 0.1, 1, 1.6]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0.003773584906], [-0.008928571429, 0.009433962264], [-0.017857142857, 0],
+                  [-0.017857142857, 0.037735849057]
+                ],
+                [
+                  [0, 0.018867924528], [-0.017857142857, 0.030188679245], [-0.053571428571, 0],
+                  [-0.035714285714, 0.132075471698]
+                ],
+                [
+                  [-0.017857142857, -0.364150943396], [-0.071428571429, -0.349056603774], [-0.125, -0.264150943396],
+                  [-0.142857142857, 0.056603773585]
+                ]
+              ]
+            },
+            {
+              "on": ["pout"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.015094339623], [-0.107142857143, -0.066037735849], [-0.214285714286, -0.018867924528],
+                  [-0.267857142857, 0.301886792453]
+                ]
+              ]
+            },
+            {
+              "on": ["wave"],
+              "axes": [[0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, 0.003773584906], [-0.053571428571, -0.245283018868], [-0.053571428571, 0.358490566038],
+                  [-0.035714285714, 0.264150943396]
+                ]
+              ]
+            },
+            {
+              "on": ["smile", "open"],
+              "axes": [[0, 1], [0, 1]],
+              "nodes": [
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [[0, 0], [0, 0], [0, 0], [0, 0]],
+                [
+                  [0, -0.066037735849], [0.017857142857, -0.077358490566], [0.035714285714, -0.037735849057],
+                  [0.035714285714, -0.094339622641]
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hairTop.mass",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 27.4, 33], ["C", 26.6, 24, 29.4, 15, 36, 10.4], ["C", 42, 6.4, 52, 6, 58.5, 9.5],
+              ["C", 64.5, 13, 66.6, 20, 65.6, 28], ["C", 65.2, 31, 64.2, 33.2, 63, 34.8],
+              ["C", 62.6, 30, 61.5, 25.5, 59.5, 21.5], ["C", 58, 18.5, 56, 15.5, 54.5, 13.6],
+              ["C", 52.5, 16.5, 47, 18.5, 41, 20.5], ["C", 36.5, 22, 32.5, 25, 30.6, 30],
+              ["C", 30, 31.6, 29, 33.6, 27.4, 33], ["Z"]
+            ]
+          },
+          "paint": "hair"
+        },
+        {
+          "id": "hairTop.shade",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 54.5, 13.6], ["C", 56, 15.5, 58, 18.5, 59.5, 21.5], ["C", 61.5, 25.5, 62.6, 30, 63, 34.8],
+              ["C", 64.2, 33.2, 65.2, 31, 65.6, 28], ["C", 66.4, 21.6, 65, 15.6, 60.8, 11.6],
+              ["C", 59.4, 12.8, 57, 13.4, 54.5, 13.6], ["Z"]
+            ]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairTop.sheen",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 32.6, 15], ["C", 37.6, 10.8, 45.6, 9.6, 52.4, 10.8], ["L", 52, 12.4],
+              ["C", 45.8, 11.4, 38.8, 12.4, 33.8, 16.2], ["Z"]
+            ]
+          },
+          "paint": "hairLight"
+        },
+        {
+          "id": "hairTop.strand1",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 52, 14.6], ["C", 46, 17, 38.4, 19, 33.4, 24]],
+            "n": 8,
+            "width": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairTop.strand2",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 48.6, 11.6], ["C", 42, 12.8, 35, 16.6, 31.2, 22.4]],
+            "n": 8,
+            "width": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairTop.strand3",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 60.4, 16], ["C", 62.4, 20, 63.6, 25, 64, 30]],
+            "n": 8,
+            "width": [0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "hairTop.part",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 54.5, 13.6], ["C", 54.4, 11.8, 54, 10.4, 53.2, 9.2]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairDeep"
+        },
+        {
+          "id": "hairTop.edge1",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 27.4, 33], ["C", 26.6, 24, 29.4, 15, 36, 10.4]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairTop.edge2",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 36, 10.4], ["C", 42, 6.4, 52, 6, 58.5, 9.5]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairTop.edge3",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 58.5, 9.5], ["C", 64.5, 13, 66.6, 20, 65.6, 28]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairTop.edge4",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 65.6, 28], ["C", 65.2, 31, 64.2, 33.2, 63, 34.8]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairTop.edge5",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 63, 34.8], ["C", 62.6, 30, 61.5, 25.5, 59.5, 21.5]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "hairTop.edge6",
+          "space": "head",
+          "deform": "faceFront",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 59.5, 21.5], ["C", 58, 18.5, 56, 15.5, 54.5, 13.6]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "ear.skin",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 59.4, 31], ["C", 62, 29.6, 64.4, 31.4, 63.9, 34.6], ["C", 63.5, 37.6, 61.8, 40.2, 59.6, 40.6], ["Z"]
+            ]
+          },
+          "paint": "skin"
+        },
+        {
+          "id": "ear.shade",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 60.2, 32.6], ["C", 61.8, 32, 62.8, 33.2, 62.6, 34.8], ["C", 62.4, 36.4, 61.4, 37.8, 60.4, 38], ["Z"]
+            ]
+          },
+          "paint": "skinShade"
+        },
+        {
+          "id": "ear.line1",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 59.4, 31], ["C", 62, 29.6, 64.4, 31.4, 63.9, 34.6]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep"
+        },
+        {
+          "id": "ear.line2",
+          "space": "head",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 63.9, 34.6], ["C", 63.5, 37.6, 61.8, 40.2, 59.6, 40.6]],
+            "n": 8,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep"
+        },
+        {
+          "id": "hoop.ring",
+          "space": "hoop",
+          "deform": "face",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 62, 41.25], ["C", 62.97, 41.25, 63.75, 42.21, 63.75, 43.4],
+              ["C", 63.75, 44.59, 62.97, 45.55, 62, 45.55], ["C", 61.03, 45.55, 60.25, 44.59, 60.25, 43.4],
+              ["C", 60.25, 42.21, 61.03, 41.25, 62, 41.25], ["Z"], ["M", 62, 41.95],
+              ["C", 61.39, 41.95, 60.9, 42.6, 60.9, 43.4], ["C", 60.9, 44.2, 61.39, 44.85, 62, 44.85],
+              ["C", 62.61, 44.85, 63.1, 44.2, 63.1, 43.4], ["C", 63.1, 42.6, 62.61, 41.95, 62, 41.95], ["Z"]
+            ]
+          },
+          "paint": "silverShade"
+        },
+        {
+          "id": "hoop.shine",
+          "space": "hoop",
+          "deform": "face",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 60.55, 42.6], ["C", 60.8, 41.8, 61.4, 41.3, 62, 41.3]],
+            "n": 4,
+            "width": [0.35, 0.35, 0.35, 0.35, 0.35],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "silver"
+        },
+        {
+          "id": "fringe.lock",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 51, 15.2], ["C", 45, 17.2, 38.6, 18.8, 34.2, 21.6], ["C", 30.8, 24, 29, 28.6, 28.8, 33.6],
+              ["C", 28.6, 38.6, 29.8, 42.8, 32.2, 46], ["C", 31.2, 42, 30.8, 37.6, 31.1, 33.6],
+              ["C", 31.4, 29.6, 33.4, 26, 36.6, 23.6], ["C", 40.8, 20.6, 46.8, 18.2, 51, 15.2], ["Z"]
+            ]
+          },
+          "paint": "hair"
+        },
+        {
+          "id": "fringe.shade",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 31.1, 33.6], ["C", 30.8, 37.6, 31.2, 42, 32.2, 46], ["C", 30.6, 43.8, 29.9, 40.6, 30, 37.4],
+              ["C", 30.1, 35.6, 30.5, 34.2, 31.1, 33.6], ["Z"]
+            ]
+          },
+          "paint": "hairShade"
+        },
+        {
+          "id": "fringe.edge1",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 51, 15.2], ["C", 45, 17.2, 38.6, 18.8, 34.2, 21.6]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "fringe.edge2",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 34.2, 21.6], ["C", 30.8, 24, 29, 28.6, 28.8, 33.6]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "fringe.edge3",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 28.8, 33.6], ["C", 28.6, 38.6, 29.8, 42.8, 32.2, 46]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "fringe.edge4",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 32.2, 46], ["C", 31.2, 42, 30.8, 37.6, 31.1, 33.6]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "fringe.edge5",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 31.1, 33.6], ["C", 31.4, 29.6, 33.4, 26, 36.6, 23.6]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "fringe.edge6",
+          "space": "head",
+          "deform": ["fringeBones", "faceFront"],
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 36.6, 23.6], ["C", 40.8, 20.6, 46.8, 18.2, 51, 15.2]],
+            "n": 8,
+            "width": [0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "hairLine"
+        },
+        {
+          "id": "arm.sleeve",
+          "space": "arm",
+          "deform": "sleeveBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 15.6, 84], ["C", 18, 80.4, 28.4, 78.8, 33.6, 81.6], ["C", 35.8, 104, 37.4, 140, 38.2, 170],
+              ["L", 9.8, 170], ["C", 10.6, 140, 12.6, 104, 15.6, 84], ["Z"]
+            ]
+          },
+          "paint": "robe",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.rim",
+          "space": "arm",
+          "deform": "sleeveBones",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 15.6, 84], ["C", 12.6, 104, 10.6, 140, 9.8, 170]],
+            "n": 8,
+            "width": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+            "floor": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8]
+          },
+          "paint": "robeLight",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.opening",
+          "space": "arm",
+          "deform": "sleeveBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 15.6, 84], ["C", 18, 80.4, 28.4, 78.8, 33.6, 81.6], ["C", 30.2, 85.4, 20.4, 86.4, 15.6, 84], ["Z"]
+            ]
+          },
+          "paint": "liningShade",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.lining",
+          "space": "arm",
+          "deform": "sleeveBones",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 15.6, 84], ["C", 20.4, 86.4, 30.2, 85.4, 33.6, 81.6], ["L", 34, 83.6],
+              ["C", 30.4, 87.6, 20.2, 88.4, 15.2, 86.2], ["Z"]
+            ]
+          },
+          "paint": "lining",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.cuff",
+          "space": "arm",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 21, 80.6], ["C", 22.4, 79, 27.8, 78.4, 29.8, 79.6], ["L", 30.2, 82.6],
+              ["C", 27.6, 83.6, 23, 83.6, 21, 82.8], ["Z"]
+            ]
+          },
+          "paint": "sweater",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.cuffRib",
+          "space": "arm",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 81.6], ["C", 24, 82.2, 27.4, 82.2, 29.4, 81.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "sweaterShade",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "arm.shirtCuff",
+          "space": "arm",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 21.6, 79.2], ["C", 23, 78, 27.4, 77.4, 29, 78.4], ["L", 29.4, 80.2],
+              ["C", 27.4, 81, 23.2, 81, 21.8, 80.4], ["Z"]
+            ]
+          },
+          "paint": "shirt",
+          "visible": { "ge": ["arm", 0.5] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "wand.shaft",
+          "space": "wand",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 24.59, 73.39], ["L", 26.21, 72.61], ["L", 11.82, 43.85], ["L", 11.18, 44.15], ["Z"]]
+          },
+          "paint": "wand",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["wand", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1, "wand": 1 },
+          "anchors": [{ "id": "tip", "at": [11.5, 44] }]
+        },
+        {
+          "id": "wand.light",
+          "space": "wand",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 24.59, 73.39], ["L", 25.4, 73], ["L", 11.5, 44], ["L", 11.18, 44.15], ["Z"]]
+          },
+          "paint": "wandLight",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["wand", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1, "wand": 1 }
+        },
+        {
+          "id": "wand.grip",
+          "space": "wand",
+          "shape": {
+            "kind": "path",
+            "d": [["M", 26.82, 73.42], ["L", 28.98, 77.94], ["L", 27, 78.88], ["L", 24.84, 74.38], ["Z"]]
+          },
+          "paint": "wandDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["wand", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1, "wand": 1 }
+        },
+        {
+          "id": "hand.fist",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 22, 77.6], ["C", 21, 74.6, 21.4, 71.4, 23.4, 70.2], ["C", 25.6, 68.8, 28.4, 69.2, 29.8, 71],
+              ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8], ["C", 27, 78.8, 24, 78.8, 22, 77.6], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistShade",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29.8, 71], ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8], ["C", 28, 78.3, 26.6, 78.5, 25.4, 78.5],
+              ["C", 27.2, 76.4, 28.6, 73.4, 29.8, 71], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistEdge1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 77.6], ["C", 21, 74.6, 21.4, 71.4, 23.4, 70.2]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistEdge2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23.4, 70.2], ["C", 25.6, 68.8, 28.4, 69.2, 29.8, 71]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistEdge3",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 29.8, 71], ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistLine1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23.4, 72.6], ["C", 25, 72, 27.4, 72, 29.4, 72.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.fistLine2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23, 75], ["C", 24.6, 74.4, 27, 74.4, 29, 75.2]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.thumb",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 22, 72.8], ["C", 21, 71.2, 22, 69.4, 24, 69.4], ["C", 25.6, 69.4, 26.6, 70.6, 26.2, 71.8],
+              ["C", 25.2, 72.8, 23.2, 73.4, 22, 72.8], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.thumbEdge1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 72.8], ["C", 21, 71.2, 22, 69.4, 24, 69.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.thumbEdge2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 24, 69.4], ["C", 25.6, 69.4, 26.6, 70.6, 26.2, 71.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.thumbLine",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22.2, 72.6], ["C", 23.6, 73.2, 25.2, 72.8, 26.2, 71.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "lt": ["grip", 0.5] }] },
+          "basePose": { "arm": 1 }
+        },
+        {
+          "id": "hand.curl",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 21.6, 78], ["C", 20.6, 74.4, 21, 70.4, 22.8, 68.4], ["C", 24.6, 66.4, 28, 66.2, 29.8, 68],
+              ["C", 31.4, 69.6, 31.2, 73.6, 30, 77.4], ["C", 27.6, 78.6, 24, 78.8, 21.6, 78], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlShade",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29.8, 68], ["C", 31.4, 69.6, 31.2, 73.6, 30, 77.4], ["C", 28.8, 78, 27.4, 78.3, 26.2, 78.4],
+              ["C", 28.2, 75.4, 29.4, 71.6, 29.8, 68], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlEdge1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 21.6, 78], ["C", 20.6, 74.4, 21, 70.4, 22.8, 68.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlEdge2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22.8, 68.4], ["C", 24.6, 66.4, 28, 66.2, 29.8, 68]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlEdge3",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 29.8, 68], ["C", 31.4, 69.6, 31.2, 73.6, 30, 77.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlLine1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 24.2, 67.2],
+              ["C", 24.266666666666666, 68.33333333333333, 24.333333333333332, 69.46666666666667, 24.4, 70.6]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlLine2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 26.4, 66.6], ["C", 26.433333333333334, 67.8, 26.466666666666665, 69, 26.5, 70.2]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.curlLine3",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 28.5, 67], ["C", 28.466666666666665, 68.2, 28.433333333333334, 69.39999999999999, 28.4, 70.6]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 0.5] }, { "lt": ["grip", 1.5] }] },
+          "basePose": { "arm": 1, "grip": 1 }
+        },
+        {
+          "id": "hand.flat",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 22, 78], ["C", 21.4, 74.6, 22, 71, 24, 68.6], ["C", 25.4, 66.8, 27, 64.6, 28.4, 62.6],
+              ["C", 29.2, 61.6, 30.6, 61.8, 30.6, 63], ["C", 30.4, 64.8, 29.4, 66.6, 29.2, 68],
+              ["C", 30.6, 67.4, 32, 67.6, 31.8, 69.2], ["C", 31.4, 72.6, 30.8, 75.6, 29.4, 77.8],
+              ["C", 27, 78.8, 24, 78.8, 22, 78], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatShade",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 31.8, 69.2], ["C", 31.4, 72.6, 30.8, 75.6, 29.4, 77.8], ["C", 28.4, 78.3, 27.2, 78.6, 26, 78.6],
+              ["C", 28.2, 75.8, 30, 72.4, 31.8, 69.2], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 78], ["C", 21.4, 74.6, 22, 71, 24, 68.6]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 24, 68.6], ["C", 25.4, 66.8, 27, 64.6, 28.4, 62.6]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge3",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 28.4, 62.6], ["C", 29.2, 61.6, 30.6, 61.8, 30.6, 63]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge4",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 30.6, 63], ["C", 30.4, 64.8, 29.4, 66.6, 29.2, 68]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge5",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 29.2, 68], ["C", 30.6, 67.4, 32, 67.6, 31.8, 69.2]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatEdge6",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 31.8, 69.2], ["C", 31.4, 72.6, 30.8, 75.6, 29.4, 77.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatLine1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 26.6, 66.4], ["C", 27.6, 65.4, 28.6, 64.4, 29.6, 63.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.flatLine2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 27.8, 68.6],
+              ["C", 28.733333333333334, 67.66666666666666, 29.666666666666668, 66.73333333333333, 30.6, 65.8]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 1.5] }, { "lt": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 2 }
+        },
+        {
+          "id": "hand.point",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 22, 77.6], ["C", 21, 74.6, 21.4, 71.8, 23.2, 70.6], ["L", 23.6, 64],
+              ["C", 23.7, 62.6, 25.6, 62.6, 25.6, 64], ["L", 25.8, 69.6], ["C", 27.2, 69.2, 29, 69.6, 29.8, 71],
+              ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8], ["C", 27, 78.8, 24, 78.8, 22, 77.6], ["Z"]
+            ]
+          },
+          "paint": "skin",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointShade",
+          "space": "hand",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 29.8, 71], ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8], ["C", 28, 78.3, 26.6, 78.5, 25.4, 78.5],
+              ["C", 27.2, 76.4, 28.6, 73.4, 29.8, 71], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge1",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 22, 77.6], ["C", 21, 74.6, 21.4, 71.8, 23.2, 70.6]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge2",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23.2, 70.6], ["C", 23.333333333333332, 68.39999999999999, 23.46666666666667, 66.2, 23.6, 64]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge3",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 23.6, 64], ["C", 23.7, 62.6, 25.6, 62.6, 25.6, 64]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge4",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [
+              ["M", 25.6, 64],
+              ["C", 25.666666666666668, 65.86666666666666, 25.733333333333334, 67.73333333333333, 25.8, 69.6]
+            ],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge5",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 25.8, 69.6], ["C", 27.2, 69.2, 29, 69.6, 29.8, 71]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointEdge6",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 29.8, 71], ["C", 30.8, 72.6, 30.4, 75.6, 29.2, 77.8]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "hand.pointLine",
+          "space": "hand",
+          "shape": {
+            "kind": "stroke",
+            "d": [["M", 25.8, 70.4], ["C", 27, 71, 28.6, 71.2, 29.8, 71.4]],
+            "n": 8,
+            "width": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3],
+            "floor": [0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+          },
+          "paint": "skinDeep",
+          "visible": { "all": [{ "ge": ["arm", 0.5] }, { "ge": ["grip", 2.5] }] },
+          "basePose": { "arm": 1, "grip": 3 }
+        },
+        {
+          "id": "spark.0.rim",
+          "space": "spark.0",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.0.on", 0.5] },
+          "basePose": { "spark.0.on": 1 }
+        },
+        {
+          "id": "spark.0.glow",
+          "space": "spark.0",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.0.on", 0.5] },
+          "basePose": { "spark.0.on": 1 }
+        },
+        {
+          "id": "spark.0.core",
+          "space": "spark.0",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.0.on", 0.5] },
+          "basePose": { "spark.0.on": 1 }
+        },
+        {
+          "id": "spark.1.rim",
+          "space": "spark.1",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.1.on", 0.5] },
+          "basePose": { "spark.1.on": 1 }
+        },
+        {
+          "id": "spark.1.glow",
+          "space": "spark.1",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.1.on", 0.5] },
+          "basePose": { "spark.1.on": 1 }
+        },
+        {
+          "id": "spark.1.core",
+          "space": "spark.1",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.1.on", 0.5] },
+          "basePose": { "spark.1.on": 1 }
+        },
+        {
+          "id": "spark.2.rim",
+          "space": "spark.2",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.2.on", 0.5] },
+          "basePose": { "spark.2.on": 1 }
+        },
+        {
+          "id": "spark.2.glow",
+          "space": "spark.2",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.2.on", 0.5] },
+          "basePose": { "spark.2.on": 1 }
+        },
+        {
+          "id": "spark.2.core",
+          "space": "spark.2",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.2.on", 0.5] },
+          "basePose": { "spark.2.on": 1 }
+        },
+        {
+          "id": "spark.3.rim",
+          "space": "spark.3",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.3.on", 0.5] },
+          "basePose": { "spark.3.on": 1 }
+        },
+        {
+          "id": "spark.3.glow",
+          "space": "spark.3",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.3.on", 0.5] },
+          "basePose": { "spark.3.on": 1 }
+        },
+        {
+          "id": "spark.3.core",
+          "space": "spark.3",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.3.on", 0.5] },
+          "basePose": { "spark.3.on": 1 }
+        },
+        {
+          "id": "spark.4.rim",
+          "space": "spark.4",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.4.on", 0.5] },
+          "basePose": { "spark.4.on": 1 }
+        },
+        {
+          "id": "spark.4.glow",
+          "space": "spark.4",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.4.on", 0.5] },
+          "basePose": { "spark.4.on": 1 }
+        },
+        {
+          "id": "spark.4.core",
+          "space": "spark.4",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.4.on", 0.5] },
+          "basePose": { "spark.4.on": 1 }
+        },
+        {
+          "id": "spark.5.rim",
+          "space": "spark.5",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.5.on", 0.5] },
+          "basePose": { "spark.5.on": 1 }
+        },
+        {
+          "id": "spark.5.glow",
+          "space": "spark.5",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.5.on", 0.5] },
+          "basePose": { "spark.5.on": 1 }
+        },
+        {
+          "id": "spark.5.core",
+          "space": "spark.5",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.5.on", 0.5] },
+          "basePose": { "spark.5.on": 1 }
+        },
+        {
+          "id": "spark.6.rim",
+          "space": "spark.6",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.6.on", 0.5] },
+          "basePose": { "spark.6.on": 1 }
+        },
+        {
+          "id": "spark.6.glow",
+          "space": "spark.6",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.6.on", 0.5] },
+          "basePose": { "spark.6.on": 1 }
+        },
+        {
+          "id": "spark.6.core",
+          "space": "spark.6",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.6.on", 0.5] },
+          "basePose": { "spark.6.on": 1 }
+        },
+        {
+          "id": "spark.7.rim",
+          "space": "spark.7",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.7.on", 0.5] },
+          "basePose": { "spark.7.on": 1 }
+        },
+        {
+          "id": "spark.7.glow",
+          "space": "spark.7",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.7.on", 0.5] },
+          "basePose": { "spark.7.on": 1 }
+        },
+        {
+          "id": "spark.7.core",
+          "space": "spark.7",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.7.on", 0.5] },
+          "basePose": { "spark.7.on": 1 }
+        },
+        {
+          "id": "spark.8.rim",
+          "space": "spark.8",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.8.on", 0.5] },
+          "basePose": { "spark.8.on": 1 }
+        },
+        {
+          "id": "spark.8.glow",
+          "space": "spark.8",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.8.on", 0.5] },
+          "basePose": { "spark.8.on": 1 }
+        },
+        {
+          "id": "spark.8.core",
+          "space": "spark.8",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.8.on", 0.5] },
+          "basePose": { "spark.8.on": 1 }
+        },
+        {
+          "id": "spark.9.rim",
+          "space": "spark.9",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.9.on", 0.5] },
+          "basePose": { "spark.9.on": 1 }
+        },
+        {
+          "id": "spark.9.glow",
+          "space": "spark.9",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.9.on", 0.5] },
+          "basePose": { "spark.9.on": 1 }
+        },
+        {
+          "id": "spark.9.core",
+          "space": "spark.9",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.9.on", 0.5] },
+          "basePose": { "spark.9.on": 1 }
+        },
+        {
+          "id": "spark.10.rim",
+          "space": "spark.10",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.10.on", 0.5] },
+          "basePose": { "spark.10.on": 1 }
+        },
+        {
+          "id": "spark.10.glow",
+          "space": "spark.10",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.10.on", 0.5] },
+          "basePose": { "spark.10.on": 1 }
+        },
+        {
+          "id": "spark.10.core",
+          "space": "spark.10",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.10.on", 0.5] },
+          "basePose": { "spark.10.on": 1 }
+        },
+        {
+          "id": "spark.11.rim",
+          "space": "spark.11",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.11.on", 0.5] },
+          "basePose": { "spark.11.on": 1 }
+        },
+        {
+          "id": "spark.11.glow",
+          "space": "spark.11",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.11.on", 0.5] },
+          "basePose": { "spark.11.on": 1 }
+        },
+        {
+          "id": "spark.11.core",
+          "space": "spark.11",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.11.on", 0.5] },
+          "basePose": { "spark.11.on": 1 }
+        },
+        {
+          "id": "spark.12.rim",
+          "space": "spark.12",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.12.on", 0.5] },
+          "basePose": { "spark.12.on": 1 }
+        },
+        {
+          "id": "spark.12.glow",
+          "space": "spark.12",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.12.on", 0.5] },
+          "basePose": { "spark.12.on": 1 }
+        },
+        {
+          "id": "spark.12.core",
+          "space": "spark.12",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.12.on", 0.5] },
+          "basePose": { "spark.12.on": 1 }
+        },
+        {
+          "id": "spark.13.rim",
+          "space": "spark.13",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.4], ["C", 11.8, 43.2, 12.3, 43.7, 14.1, 44], ["C", 12.3, 44.3, 11.8, 44.8, 11.5, 46.6],
+              ["C", 11.2, 44.8, 10.7, 44.3, 8.9, 44], ["C", 10.7, 43.7, 11.2, 43.2, 11.5, 41.4], ["Z"]
+            ]
+          },
+          "paint": "sparkDeep",
+          "visible": { "gt": ["spark.13.on", 0.5] },
+          "basePose": { "spark.13.on": 1 }
+        },
+        {
+          "id": "spark.13.glow",
+          "space": "spark.13",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 11.5, 41.9], ["C", 11.7, 43.5, 12, 43.8, 13.6, 44], ["C", 12, 44.2, 11.7, 44.5, 11.5, 46.1],
+              ["C", 11.3, 44.5, 11, 44.2, 9.4, 44], ["C", 11, 43.8, 11.3, 43.5, 11.5, 41.9], ["Z"]
+            ]
+          },
+          "paint": "sparkGlow",
+          "visible": { "gt": ["spark.13.on", 0.5] },
+          "basePose": { "spark.13.on": 1 }
+        },
+        {
+          "id": "spark.13.core",
+          "space": "spark.13",
+          "shape": { "kind": "ellipse", "at": [11.5, 44], "rx": 0.7, "ry": 0.7, "n": 8 },
+          "paint": "sparkCore",
+          "visible": { "gt": ["spark.13.on", 0.5] },
+          "basePose": { "spark.13.on": 1 }
+        },
+        {
+          "id": "steam.0.rim",
+          "space": "steam.0",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 37.6, 8.72], ["C", 36.9, 6.8, 38.6, 5.6, 39.5, 6.56], ["C", 40, 4.88, 42.2, 5.12, 41.9, 7.04],
+              ["C", 43.4, 7.52, 43.1, 9.68, 41.7, 9.44], ["C", 40.7, 10.2, 38.6, 10.2, 37.6, 8.72], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "gt": ["steam.0.on", 0.5] },
+          "basePose": { "steam.0.on": 1 }
+        },
+        {
+          "id": "steam.0.puff",
+          "space": "steam.0",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38, 8.6], ["C", 37.4, 7, 38.8, 6, 39.6, 6.8], ["C", 40, 5.4, 41.8, 5.6, 41.6, 7.2],
+              ["C", 42.8, 7.6, 42.6, 9.4, 41.4, 9.2], ["C", 40.6, 9.8, 38.8, 9.8, 38, 8.6], ["Z"]
+            ]
+          },
+          "paint": "steam",
+          "visible": { "gt": ["steam.0.on", 0.5] },
+          "basePose": { "steam.0.on": 1 }
+        },
+        {
+          "id": "steam.1.rim",
+          "space": "steam.1",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 37.6, 8.72], ["C", 36.9, 6.8, 38.6, 5.6, 39.5, 6.56], ["C", 40, 4.88, 42.2, 5.12, 41.9, 7.04],
+              ["C", 43.4, 7.52, 43.1, 9.68, 41.7, 9.44], ["C", 40.7, 10.2, 38.6, 10.2, 37.6, 8.72], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "gt": ["steam.1.on", 0.5] },
+          "basePose": { "steam.1.on": 1 }
+        },
+        {
+          "id": "steam.1.puff",
+          "space": "steam.1",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38, 8.6], ["C", 37.4, 7, 38.8, 6, 39.6, 6.8], ["C", 40, 5.4, 41.8, 5.6, 41.6, 7.2],
+              ["C", 42.8, 7.6, 42.6, 9.4, 41.4, 9.2], ["C", 40.6, 9.8, 38.8, 9.8, 38, 8.6], ["Z"]
+            ]
+          },
+          "paint": "steam",
+          "visible": { "gt": ["steam.1.on", 0.5] },
+          "basePose": { "steam.1.on": 1 }
+        },
+        {
+          "id": "steam.2.rim",
+          "space": "steam.2",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 37.6, 8.72], ["C", 36.9, 6.8, 38.6, 5.6, 39.5, 6.56], ["C", 40, 4.88, 42.2, 5.12, 41.9, 7.04],
+              ["C", 43.4, 7.52, 43.1, 9.68, 41.7, 9.44], ["C", 40.7, 10.2, 38.6, 10.2, 37.6, 8.72], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "gt": ["steam.2.on", 0.5] },
+          "basePose": { "steam.2.on": 1 }
+        },
+        {
+          "id": "steam.2.puff",
+          "space": "steam.2",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38, 8.6], ["C", 37.4, 7, 38.8, 6, 39.6, 6.8], ["C", 40, 5.4, 41.8, 5.6, 41.6, 7.2],
+              ["C", 42.8, 7.6, 42.6, 9.4, 41.4, 9.2], ["C", 40.6, 9.8, 38.8, 9.8, 38, 8.6], ["Z"]
+            ]
+          },
+          "paint": "steam",
+          "visible": { "gt": ["steam.2.on", 0.5] },
+          "basePose": { "steam.2.on": 1 }
+        },
+        {
+          "id": "steam.3.rim",
+          "space": "steam.3",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 37.6, 8.72], ["C", 36.9, 6.8, 38.6, 5.6, 39.5, 6.56], ["C", 40, 4.88, 42.2, 5.12, 41.9, 7.04],
+              ["C", 43.4, 7.52, 43.1, 9.68, 41.7, 9.44], ["C", 40.7, 10.2, 38.6, 10.2, 37.6, 8.72], ["Z"]
+            ]
+          },
+          "paint": "skinShade",
+          "visible": { "gt": ["steam.3.on", 0.5] },
+          "basePose": { "steam.3.on": 1 }
+        },
+        {
+          "id": "steam.3.puff",
+          "space": "steam.3",
+          "shape": {
+            "kind": "path",
+            "d": [
+              ["M", 38, 8.6], ["C", 37.4, 7, 38.8, 6, 39.6, 6.8], ["C", 40, 5.4, 41.8, 5.6, 41.6, 7.2],
+              ["C", 42.8, 7.6, 42.6, 9.4, 41.4, 9.2], ["C", 40.6, 9.8, 38.8, 9.8, 38, 8.6], ["Z"]
+            ]
+          },
+          "paint": "steam",
+          "visible": { "gt": ["steam.3.on", 0.5] },
+          "basePose": { "steam.3.on": 1 }
+        }
+      ]
+    },
+    "drivers": {
+      "schema": 1,
+      "rig": "dracaena",
+      "signals": [
+        { "id": "flick", "default": 0, "doc": "her hand under the long lock, lifting it" },
+        { "id": "puff", "default": 0, "doc": "her breath up at the fringe" },
+        { "id": "brush", "default": 0, "doc": "her fingertip pushing the fringe back" },
+        { "id": "tug", "default": 0, "doc": "her fingers at the tie's knot" }
+      ],
+      "lanes": [
+        { "id": "mood", "hold": true },
+        { "id": "warmth", "hold": true },
+        { "id": "glance", "hold": true },
+        { "id": "talk", "hold": true },
+        { "id": "breath", "hold": true },
+        { "id": "acts" },
+        { "id": "blinks" }
+      ],
+      "clips": [
+        {
+          "id": "idle",
+          "length": 0,
+          "tracks": [
+            { "param": "lid", "blend": "set", "ease": "linear", "keys": [[0, 0.4]] },
+            { "param": "smirk", "blend": "set", "ease": "linear", "keys": [[0, 0.3]] },
+            { "param": "pout", "blend": "set", "ease": "linear", "keys": [[0, 0.35]] },
+            { "param": "pitch", "blend": "set", "ease": "linear", "keys": [[0, 0.2]] },
+            { "param": "tilt", "blend": "set", "ease": "linear", "keys": [[0, 0.05]] },
+            { "param": "browL", "blend": "set", "ease": "linear", "keys": [[0, 0.3]] }
+          ],
+          "doc": "rest: composed, lids lowered, chin up, a small mouth with her left corner tucked"
+        },
+        {
+          "id": "busy",
+          "length": 0,
+          "tracks": [
+            { "param": "lid", "blend": "set", "ease": "linear", "keys": [[0, 0.35]] },
+            { "param": "knit", "blend": "set", "ease": "linear", "keys": [[0, 0.25]] },
+            { "param": "smile", "blend": "set", "ease": "linear", "keys": [[0, -0.1]] },
+            { "param": "pitch", "blend": "set", "ease": "linear", "keys": [[0, -0.2]] },
+            { "param": "browL", "blend": "set", "ease": "linear", "keys": [[0, 0.05]] }
+          ],
+          "doc": "focus: she studies something below and to her left"
+        },
+        {
+          "id": "ponder",
+          "length": 0,
+          "tracks": [
+            { "param": "browR", "blend": "set", "ease": "linear", "keys": [[0, 0.75]] },
+            { "param": "browL", "blend": "set", "ease": "linear", "keys": [[0, -0.1]] },
+            { "param": "pout", "blend": "set", "ease": "linear", "keys": [[0, 0.35]] },
+            { "param": "smirk", "blend": "set", "ease": "linear", "keys": [[0, 0.1]] },
+            { "param": "lid", "blend": "set", "ease": "linear", "keys": [[0, 0.2]] },
+            { "param": "pitch", "blend": "set", "ease": "linear", "keys": [[0, 0.1]] }
+          ],
+          "doc": "one brow up, lips pursed"
+        },
+        {
+          "id": "talk",
+          "length": 0,
+          "tracks": [
+            { "param": "pitch", "blend": "set", "ease": "linear", "keys": [[0, 0.15]] },
+            { "param": "lid", "blend": "set", "ease": "linear", "keys": [[0, 0.3]] },
+            { "param": "smirk", "blend": "set", "ease": "linear", "keys": [[0, 0.3]] },
+            { "param": "browL", "blend": "set", "ease": "linear", "keys": [[0, 0.2]] }
+          ],
+          "doc": "lecture: chin up, lids lowered"
+        },
+        {
+          "id": "warmth",
+          "length": 0,
+          "args": [{ "id": "warmth", "min": 0, "max": 1, "default": 0 }],
+          "tracks": [
+            {
+              "param": "blush",
+              "blend": "add",
+              "ease": "linear",
+              "keys": [[0, { "arg": "warmth", "scale": 0.3, "add": 0 }]]
+            }
+          ],
+          "doc": "her warmth shows as a faint blush"
+        },
+        {
+          "id": "glance",
+          "length": 0,
+          "args": [
+            { "id": "x", "min": -1, "max": 1, "default": 0 },
+            { "id": "y", "min": -1, "max": 1, "default": 0 },
+            { "id": "turn", "min": -0.25, "max": 0.25, "default": 0 },
+            { "id": "chin", "min": -0.1, "max": 0.1, "default": 0 }
+          ],
+          "tracks": [
+            { "param": "gazeX", "blend": "set", "ease": "linear", "keys": [[0, { "arg": "x" }]] },
+            { "param": "gazeY", "blend": "set", "ease": "linear", "keys": [[0, { "arg": "y" }]] },
+            { "param": "yaw", "blend": "add", "ease": "linear", "keys": [[0, { "arg": "turn" }]] },
+            { "param": "pitch", "blend": "add", "ease": "linear", "keys": [[0, { "arg": "chin" }]] }
+          ],
+          "doc": "where her eyes rest, and a little of her head with them"
+        },
+        {
+          "id": "breath.idle",
+          "length": 5.6,
+          "loop": true,
+          "tracks": [{ "param": "chest", "blend": "add", "ease": "inOutSine", "keys": [[0, 0], [2.8, -1], [5.6, 0]] }],
+          "doc": "one slow, composed breath"
+        },
+        {
+          "id": "breath.busy",
+          "length": 3.3,
+          "loop": true,
+          "tracks": [{ "param": "chest", "blend": "add", "ease": "inOutSine", "keys": [[0, 0], [1.65, -1], [3.3, 0]] }],
+          "doc": "a quicker breath at work"
+        },
+        {
+          "id": "talk.syllables",
+          "length": 2.5,
+          "loop": true,
+          "tracks": [
+            {
+              "param": "open",
+              "blend": "max",
+              "ease": "hold",
+              "keys": [
+                [0, 0.35, "hold"], [0.12, 0.122, "hold"], [0.227, 0.15, "hold"], [0.347, 0.052, "hold"],
+                [0.455, 0.45, "hold"], [0.575, 0.158, "hold"], [0.682, 0.25, "hold"], [0.802, 0.087, "hold"],
+                [0.909, 0.3, "hold"], [1.029, 0.105, "hold"], [1.136, 0.4, "hold"], [1.256, 0.14, "hold"],
+                [1.364, 0.2, "hold"], [1.484, 0.07, "hold"], [1.591, 0.5, "hold"], [1.711, 0.175, "hold"],
+                [1.818, 0.15, "hold"], [1.938, 0.052, "hold"], [2.045, 0.3, "hold"], [2.165, 0.105, "hold"],
+                [2.273, 0.2, "hold"], [2.393, 0.07, "hold"], [2.5, 0]
+              ]
+            }
+          ],
+          "doc": "crisp syllables, 4.4 a second"
+        },
+        {
+          "id": "blink",
+          "length": 0.4,
+          "tracks": [
+            { "param": "blink", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.12, 1], [0.19, 1], [0.4, 0]] }
+          ],
+          "doc": "a slow, deliberate blink: 0.12 s closing, 0.07 held, 0.21 opening"
+        },
+        {
+          "id": "smirk",
+          "length": 2.6,
+          "tracks": [
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.28, 1], [0.4, 1], [1.9, 1], [2.6, 0]]
+            },
+            { "param": "smile", "blend": "min", "ease": "smooth", "keys": [[0, 1.1], [0.28, 0], [1.9, 0], [2.6, 1.1]] },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.25, 0], [1.9, 0], [2.6, 1]] },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.32, 0.84], [0.44, 0.8], [1.9, 0.8], [2.6, 0]]
+            },
+            {
+              "param": "browR",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[0, 1], [0.32, -0.25], [1.9, -0.25], [2.6, 1]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.525], [0.42, 0.5], [1.9, 0.5], [2.6, 0]]
+            },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.0525], [0.42, 0.05], [1.9, 0.05], [2.6, 0]]
+            },
+            {
+              "param": "gazeX",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.1575], [0.42, 0.15], [1.9, 0.15], [2.6, 0]]
+            }
+          ],
+          "doc": "a smug smirk, one brow up"
+        },
+        {
+          "id": "roll",
+          "length": 3,
+          "tracks": [
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.35, 1], [2.3, 1], [2.9, 0]],
+              "to": -0.95
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.35, 1], [1, 1], [1.5, 0]],
+              "to": 0.8
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[1, 0], [1.5, 1], [2.3, 1], [2.9, 0]],
+              "to": -0.8
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.35, 0.4725], [0.47, 0.45], [2.4, 0.45], [3, 0]]
+            },
+            {
+              "param": "smile",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[0, 1.1], [0.5, -0.15], [2.4, -0.15], [3, 1.1]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.5, 0], [2.4, 0], [3, 1]] },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.5, 0.315], [0.62, 0.3], [2.4, 0.3], [3, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, 0.3675], [0.52, 0.35], [2.4, 0.35], [3, 0]]
+            },
+            { "param": "shrug", "blend": "add", "ease": "smooth", "keys": [[0.9, 0], [1.4, 0.5], [2, 0.5], [2.6, 0]] }
+          ],
+          "doc": "a bored eye roll and a sigh"
+        },
+        {
+          "id": "scoff",
+          "length": 2,
+          "tracks": [
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.25, 0.651], [0.37, 0.62], [1.4, 0.62], [2, 0]]
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.25, 1], [1.4, 1], [2, 0]],
+              "to": -0.9
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.25, 0.6825], [0.37, 0.65], [1.4, 0.65], [2, 0]]
+            },
+            {
+              "param": "smile",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[0, 1.1], [0.25, -0.4], [1.4, -0.4], [2, 1.1]]
+            },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.2, 0], [1.5, 0], [2, 1]] },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.5775], [0.42, 0.55], [1.4, 0.55], [2, 0]]
+            },
+            { "param": "yaw", "blend": "add", "ease": "smooth", "keys": [[0, 0], [0.3, 0.25], [1.4, 0.25], [2, 0]] },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.105], [0.42, 0.1], [1.4, 0.1], [2, 0]]
+            }
+          ],
+          "doc": "disdain: half lids sliding aside, one corner down, the head turned a little"
+        },
+        {
+          "id": "sniff",
+          "length": 2.2,
+          "tracks": [
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.45], [1.5, 0.45], [2.2, 0]]
+            },
+            { "param": "yaw", "blend": "add", "ease": "smooth", "keys": [[0, 0], [0.3, -0.2], [1.5, -0.2], [2.2, 0]] },
+            {
+              "param": "blink",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.25, 0], [0.37, 1], [1.4, 1], [1.65, 0]]
+            },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.5775], [0.42, 0.55], [1.5, 0.55], [2.1, 0]]
+            },
+            {
+              "param": "browR",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.315], [0.42, 0.3], [1.5, 0.3], [2.1, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.4725], [0.42, 0.45], [1.5, 0.45], [2.1, 0]]
+            }
+          ],
+          "doc": "chin up, eyes shut a beat: hmph, to no one"
+        },
+        {
+          "id": "appraise",
+          "length": 3.2,
+          "tracks": [
+            { "param": "tilt", "blend": "add", "ease": "smooth", "keys": [[0, 0], [0.5, 0.12], [2.6, 0.12], [3.2, 0]] },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, 0.4725], [0.52, 0.45], [2.7, 0.45], [3.2, 0]]
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.3, 0], [0.8, 1], [1.4, 1], [1.9, 0]],
+              "to": 0.7
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, 0.525], [0.52, 0.5], [2.7, 0.5], [3.2, 0]]
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[1.4, 0], [1.75, 0.5775], [1.87, 0.55], [2.7, 0.55], [3.2, 0]]
+            }
+          ],
+          "doc": "a tilted once-over of the person, down and up"
+        },
+        {
+          "id": "sigh",
+          "length": 2.8,
+          "tracks": [
+            {
+              "param": "shrug",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.9, 0.9], [1.3, 0.9], [2.2, 0], [2.8, 0]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.9, 0.4], [1.3, 0.6], [2.2, 0.4], [2.8, 0]]
+            },
+            { "param": "blink", "blend": "max", "ease": "smooth", "keys": [[1.2, 0], [1.35, 1], [1.75, 1], [1.95, 0]] },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.9, 0.1], [1.3, 0.1], [2.2, -0.12], [2.8, 0]]
+            },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.6, 0.42], [0.72, 0.4], [2.2, 0.4], [2.8, 0]]
+            }
+          ],
+          "doc": "a long bored sigh: her shoulders rise and fall, her hair settles"
+        },
+        {
+          "id": "blow",
+          "length": 1.6,
+          "tracks": [
+            {
+              "param": "puff",
+              "blend": "set",
+              "ease": "linear",
+              "keys": [[0, 0], [0.35, 0], [0.45, 1], [0.75, 1], [0.85, 0]]
+            },
+            { "param": "pout", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.25, 0.8], [0.8, 0.8], [1.1, 0]] },
+            {
+              "param": "cheek",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.2, 0], [0.35, 0.4], [0.5, 0.2], [0.8, 0.2], [1, 0]]
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, 1], [1.2, 1], [1.5, 0]],
+              "to": -0.75
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, 1], [1.2, 1], [1.5, 0]],
+              "to": -0.45
+            },
+            {
+              "param": "fringe.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.45, 0], [0.6, 0.3], [0.8, -0.14], [1, 0.07], [1.2, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "fringe.1",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.66, -0.28], [0.86, 0.18], [1.06, -0.05], [1.26, 0]],
+              "tags": ["hair"]
+            }
+          ],
+          "doc": "she blows the fringe off her eye; it flutters back"
+        },
+        {
+          "id": "nails",
+          "length": 3.4,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [3.4, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 1], [3.4, 1]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.45, 0, "inOutSine"], [2.9, 0], [3.35, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 12], [3.4, 12]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -6], [3.4, -6]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, -0.15], [3.4, -0.15]] },
+            { "param": "wrist", "blend": "set", "ease": "smooth", "keys": [[0, -0.25], [1.6, -0.05], [2.2, -0.25]] },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.7, 1], [2.4, 1], [2.8, 0]],
+              "to": -0.35
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.7, 1], [2.4, 1], [2.8, 0]],
+              "to": 0.65
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.6, 0.4725], [0.72, 0.45], [2.6, 0.45], [3.2, 0]]
+            },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.6, 0.4725], [0.72, 0.45], [2.6, 0.45], [3.2, 0]]
+            }
+          ],
+          "doc": "her hand up, a bored look at her nails"
+        },
+        {
+          "id": "tuck",
+          "length": 2.8,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.8, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 3], [2.8, 3]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.45, 0, "inOutSine"], [2.3, 0], [2.75, 1]]
+            },
+            {
+              "param": "handX",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0, 6.6], [0.85, 6.6], [1.2, 7.8], [1.55, 6.6]]
+            },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -31], [2.8, -31]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, -0.05], [2.8, -0.05]] },
+            { "param": "wrist", "blend": "set", "ease": "smooth", "keys": [[0, -0.2], [1, -0.45], [1.5, -0.2]] },
+            {
+              "param": "brush",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.55, 0], [0.85, 1], [1.5, 1], [1.75, 0]]
+            },
+            {
+              "param": "fringe.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.55, 0], [0.85, 0.45], [1.5, 0.45], [1.8, -0.08], [2.1, 0.03], [2.4, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.3, 0], [0.6, 1], [1.8, 1], [2.2, 0]],
+              "to": -0.5
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, 0.315], [0.52, 0.3], [2, 0.3], [2.6, 0]]
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[1.6, 0], [1.9, 0.4725], [2.02, 0.45], [2.4, 0.45], [2.8, 0]]
+            }
+          ],
+          "doc": "she tucks the fringe back with a fingertip; it slips back"
+        },
+        {
+          "id": "knot",
+          "length": 2.4,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.4, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.4, 1]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.4, 0, "inOutSine"], [1.9, 0], [2.35, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 19.5], [2.4, 19.5]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -4.5], [2.4, -4.5]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0.3], [2.4, 0.3]] },
+            {
+              "param": "wrist",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [0.8, 0.15], [1, -0.1], [1.2, 0.1], [1.4, 0]]
+            },
+            {
+              "param": "tug",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.7, 0], [0.8, 1], [1, 0], [1.1, 0.8], [1.25, 0]]
+            },
+            {
+              "param": "tie.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.7, 0], [0.85, 0.12], [1.05, -0.08], [1.25, 0.05], [1.5, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, -0.25], [1.6, -0.25], [2.2, 0]]
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.2, 0], [0.5, 1], [1.6, 1], [2, 0]],
+              "to": 0.8
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.4, 0.315], [0.52, 0.3], [1.8, 0.3], [2.3, 0]]
+            }
+          ],
+          "doc": "she straightens her tie; it sways"
+        },
+        {
+          "id": "twirl",
+          "length": 2.8,
+          "args": [{ "id": "roll", "min": 0, "max": 1, "default": 0 }],
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.8, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 0], [2.8, 0]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.45, 0, "inOutSine"], [2.3, 0], [2.75, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 2], [2.8, 2]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -6], [2.8, -6]] },
+            { "param": "reach", "blend": "set", "ease": "smooth", "keys": [[0.6, 0], [1.2, 0.15], [1.8, 0]] },
+            {
+              "param": "wrist",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [0.9, 0.7], [1.2, -0.5], [1.5, 0.6], [1.8, 0]]
+            },
+            { "param": "wand", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.8, 1]] },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.7875], [0.92, 0.75], [2.3, 0.75], [2.8, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.525], [0.92, 0.5], [2.3, 0.5], [2.8, 0]]
+            },
+            { "param": "wink", "blend": "max", "ease": "smooth", "keys": [[1.9, 0], [2, 1], [2.3, 1], [2.45, 0]] }
+          ],
+          "doc": "a twirl of her wand, a few sparks, a wink"
+        },
+        {
+          "id": "stifle",
+          "length": 2.6,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.6, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 2], [2.6, 2]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.35, 0, "inOutSine"], [1.9, 0], [2.5500000000000003, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 9], [2.6, 9]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -28], [2.6, -28]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0.25], [2.6, 0.25]] },
+            { "param": "wrist", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.6, 1]] },
+            { "param": "open", "blend": "max", "ease": "smooth", "keys": [[0.3, 0], [0.6, 0.6], [1.3, 0.6], [1.6, 0]] },
+            { "param": "happy", "blend": "max", "ease": "linear", "keys": [[0.35, 0], [0.45, 1], [1.4, 1], [1.5, 0]] },
+            { "param": "tear", "blend": "max", "ease": "smooth", "keys": [[0.8, 0], [1.2, 0.6], [2.2, 0.6], [2.6, 0]] },
+            {
+              "param": "knit",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[1.5, 0], [1.8, 0.35], [2.3, 0.35], [2.6, 0]]
+            },
+            {
+              "param": "blush",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[1.1, 0], [1.4, 0.2625], [1.52, 0.25], [2.2, 0.25], [2.6, 0]]
+            }
+          ],
+          "doc": "a small yawn hidden behind her hand, annoyed at herself"
+        },
+        {
+          "id": "flick",
+          "length": 2,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 2], [2, 2]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.3, 0, "inOutSine"], [1.3, 0], [1.95, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "smooth", "keys": [[0, -1], [0.55, -1], [0.8, -9]] },
+            { "param": "handY", "blend": "set", "ease": "smooth", "keys": [[0, -2], [0.55, -2], [0.8, -18]] },
+            { "param": "reach", "blend": "set", "ease": "smooth", "keys": [[0, 0], [0.55, 0], [0.8, -0.5]] },
+            { "param": "wrist", "blend": "set", "ease": "linear", "keys": [[0, 0], [2, 0]] },
+            {
+              "param": "flick",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.45, 0], [0.7, 0.55], [0.82, 0.55], [0.95, 0]]
+            },
+            {
+              "param": "lockR.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.45, 0], [0.75, 0.6], [1, -0.1], [1.25, 0.05], [1.5, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "lockR.1",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.8, -0.3], [1.05, 0.15], [1.3, -0.05], [1.55, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "tilt",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.5, -0.06], [0.8, 0.04], [1.4, 0]]
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [0.85, 0.63], [0.97, 0.6], [1.6, 0.6], [2, 0]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.5, 0.4725], [0.62, 0.45], [1.6, 0.45], [2, 0]]
+            }
+          ],
+          "doc": "she flicks the long lock off her shoulder"
+        },
+        {
+          "id": "glare",
+          "length": 2.6,
+          "tracks": [
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 1], [1.6, 1], [1.9, 0]],
+              "to": -0.7
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 1], [1.6, 1], [1.9, 0]],
+              "to": 0.8
+            },
+            {
+              "param": "knit",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.8925], [0.42, 0.85], [1.6, 0.85], [2, 0]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.5775], [0.42, 0.55], [1.6, 0.55], [2, 0]]
+            },
+            {
+              "param": "smile",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[0, 1.1], [0.3, -0.4], [1.6, -0.4], [2, 1.1]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.3, 0], [1.6, 0], [2, 1]] },
+            { "param": "browR", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.3, -0.4], [1.6, -0.4], [2, 1]] },
+            { "param": "browL", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.3, -0.4], [1.6, -0.4], [2, 1]] },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, -0.15], [1.6, -0.15], [2, 0.25], [2.6, 0]]
+            }
+          ],
+          "doc": "a glare at a speck on her sleeve, then her chin up"
+        },
+        {
+          "id": "scan",
+          "length": 1.6,
+          "tracks": [
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, 1], [0.5, 1], [0.7, 0]],
+              "to": -0.7
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.7, 1], [1, 1], [1.2, 0]],
+              "to": 0.2
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[1, 0], [1.2, 1], [1.4, 1], [1.6, 0]],
+              "to": -0.5
+            }
+          ],
+          "doc": "her eyes along a line"
+        },
+        {
+          "id": "huff",
+          "length": 1.4,
+          "tracks": [
+            { "param": "shrug", "blend": "add", "ease": "smooth", "keys": [[0, 0], [0.3, 0.6], [0.6, 0.6], [1, 0]] },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.525], [0.42, 0.5], [0.9, 0.5], [1.3, 0]]
+            },
+            { "param": "blink", "blend": "max", "ease": "smooth", "keys": [[0.5, 0], [0.6, 1], [0.8, 1], [0.95, 0]] },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.3, 0.4725], [0.42, 0.45], [0.9, 0.45], [1.3, 0]]
+            }
+          ],
+          "doc": "an impatient huff"
+        },
+        {
+          "id": "check",
+          "length": 1.8,
+          "args": [{ "id": "warmth", "min": 0, "max": 1, "default": 0 }],
+          "tracks": [
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 1], [1, 1], [1.25, 0]],
+              "to": 0
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 1], [1, 1], [1.25, 0]],
+              "to": 0
+            },
+            { "param": "lid", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.15, 0.1], [1, 0.1], [1.25, 1]] },
+            {
+              "param": "smile",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.2, 0],
+                [0.6, { "arg": "warmth", "scale": 0.3, "add": 0 }],
+                [1, { "arg": "warmth", "scale": 0.3, "add": 0 }],
+                [1.4, 0]
+              ]
+            },
+            {
+              "param": "blush",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.2, 0],
+                [0.6, { "arg": "warmth", "scale": 0.3, "add": 0 }],
+                [1, { "arg": "warmth", "scale": 0.3, "add": 0 }],
+                [1.4, 0]
+              ]
+            }
+          ],
+          "doc": "a quick look up at the person"
+        },
+        {
+          "id": "muse",
+          "length": 2.6,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [2.6, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 3], [2.6, 3]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.4, 0, "inOutSine"], [2.1, 0], [2.5500000000000003, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 17.6], [2.6, 17.6]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -21.5], [2.6, -21.5]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0.15], [2.6, 0.15]] },
+            {
+              "param": "wrist",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.8, 0], [0.95, 0.08], [1.1, 0], [1.25, 0.08], [1.4, 0]]
+            }
+          ],
+          "doc": "a fingertip at her lip"
+        },
+        {
+          "id": "verdict",
+          "length": 2.8,
+          "args": [
+            { "id": "warmth", "min": 0, "max": 1, "default": 0 },
+            { "id": "cool", "min": 0, "max": 1, "default": 0 }
+          ],
+          "tracks": [
+            { "param": "nod", "blend": "add", "ease": "smooth", "keys": [[0, 0], [0.2, 1], [0.5, 0]] },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, -0.2], [0.5, 0.05], [0.8, 0]]
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0, 0],
+                [0.3, { "arg": "warmth", "scale": -0.5, "add": 0.9 }],
+                [1.8, { "arg": "warmth", "scale": -0.5, "add": 0.9 }],
+                [2.6, 0]
+              ]
+            },
+            {
+              "param": "smile",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.4, 0],
+                [1.6, { "arg": "warmth", "scale": 0.8, "add": 0.1 }],
+                [2.2, { "arg": "warmth", "scale": 0.8, "add": 0.1 }],
+                [2.8, 0]
+              ]
+            },
+            {
+              "param": "blush",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.6, 0],
+                [1.6, { "arg": "warmth", "scale": 0.7, "add": 0 }],
+                [2.4, { "arg": "warmth", "scale": 0.7, "add": 0 }],
+                [2.8, 0]
+              ]
+            },
+            {
+              "param": "yaw",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[1.2, 0], [1.6, { "arg": "warmth" }], [2.3, { "arg": "warmth" }], [2.8, 0]],
+              "to": 0.45
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[1.2, 0], [1.6, { "arg": "warmth" }], [2.3, { "arg": "warmth" }], [2.8, 0]],
+              "to": 0.9
+            },
+            {
+              "param": "worry",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [1.2, 0],
+                [1.6, { "arg": "warmth", "scale": 0.6, "add": 0 }],
+                [2.3, { "arg": "warmth", "scale": 0.6, "add": 0 }],
+                [2.8, 0]
+              ]
+            },
+            {
+              "param": "wave",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [1.3, 0],
+                [1.7, { "arg": "warmth", "scale": 0.5, "add": 0 }],
+                [2.3, { "arg": "warmth", "scale": 0.5, "add": 0 }],
+                [2.7, 0]
+              ]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0, 0],
+                [0.3, { "arg": "warmth", "scale": -0.35, "add": 0.5 }],
+                [2, { "arg": "warmth", "scale": -0.35, "add": 0.5 }],
+                [2.8, 0]
+              ]
+            },
+            {
+              "param": "blink",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.3, 0], [0.4, 1], [0.8, 1], [0.95, 0]],
+              "if": { "arg": "cool" }
+            }
+          ],
+          "doc": "her verdict on a finished turn: a scoff when cool, a nod and a smile she can't stop when warm, a blush and a look away when warmest"
+        },
+        {
+          "id": "startle",
+          "length": 1,
+          "tracks": [
+            { "param": "wide", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.08, 1], [0.7, 1], [1, 0]] },
+            { "param": "lid", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.08, 0], [0.8, 0], [1, 1]] },
+            {
+              "param": "pupil",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[0, 0.6], [0.08, -0.8], [0.8, -0.8], [1, 0.6]]
+            },
+            {
+              "param": "browR",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.08, 0.8], [0.2, 0.8], [0.7, 0.8], [1, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.08, 0.8], [0.2, 0.8], [0.7, 0.8], [1, 0]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.08, 0], [0.8, 0], [1, 1]] },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.08, 0], [0.8, 0], [1, 1]] },
+            { "param": "open", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.1, 0.45], [0.6, 0.45], [0.9, 0]] },
+            { "param": "pout", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.1, 0.4], [0.7, 0.4], [1, 0]] },
+            { "param": "blush", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.9, 0.9], [1, 0.9]] },
+            {
+              "param": "shrug",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.1, 1], [0.3, 0.6], [0.8, 0]],
+              "to": 0.5
+            }
+          ],
+          "doc": "caught off guard"
+        },
+        {
+          "id": "hmph",
+          "length": 2.6,
+          "tracks": [
+            {
+              "param": "yaw",
+              "blend": "mix",
+              "ease": "outCubic",
+              "keys": [[0, 0], [0.18, 1, "smooth"], [1.9, 1], [2.6, 0]],
+              "to": -0.75
+            },
+            {
+              "param": "pitch",
+              "blend": "mix",
+              "ease": "outCubic",
+              "keys": [[0, 0], [0.18, 1, "smooth"], [1.9, 1], [2.6, 0]],
+              "to": 0.9
+            },
+            { "param": "blink", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.12, 1], [1.9, 1], [2.15, 0]] },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 0.84], [0.27, 0.8], [1.9, 0.8], [2.5, 0]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.15, 0], [1.9, 0], [2.6, 1]] },
+            { "param": "blush", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.3, 0.6], [1.9, 0.5], [2.6, 0]] },
+            {
+              "param": "browR",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, 0.42], [0.32, 0.4], [1.9, 0.4], [2.5, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.2, 0.42], [0.32, 0.4], [1.9, 0.4], [2.5, 0]]
+            },
+            {
+              "param": "lockR.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.1, 0], [0.35, 0.32], [0.65, -0.14], [0.95, 0.06], [1.25, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "lockL.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.1, 0], [0.33, -0.28], [0.62, 0.12], [0.9, -0.04], [1.2, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "fringe.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.1, 0], [0.3, -0.25], [0.55, 0.1], [0.8, 0]],
+              "tags": ["hair"]
+            },
+            {
+              "param": "hoop",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.1, 0], [0.3, 0.4], [0.5, -0.25], [0.7, 0.12], [0.95, 0]],
+              "tags": ["hair"]
+            }
+          ],
+          "doc": "chin up, eyes shut, face away: hmph, her hair swinging"
+        },
+        {
+          "id": "fluster",
+          "length": 2.4,
+          "tracks": [
+            { "param": "squeeze", "blend": "max", "ease": "linear", "keys": [[0, 0], [0.1, 1], [1.8, 1], [1.9, 0]] },
+            { "param": "blush", "blend": "max", "ease": "smooth", "keys": [[0, 0], [0.2, 1], [2, 1], [2.4, 0]] },
+            {
+              "param": "wave",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 1], [0.27, 1], [1.9, 1], [2.3, 0]]
+            },
+            {
+              "param": "worry",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 1], [0.27, 1], [1.9, 1], [2.3, 0]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.1, 0], [2, 0], [2.4, 1]] },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0, 1], [0.1, 0], [2, 0], [2.4, 1]] },
+            {
+              "param": "yaw",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 0.12], [0.3, -0.12], [0.45, 0.1], [0.6, -0.08], [0.8, 0]]
+            },
+            {
+              "param": "shrug",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.15, 1], [1.6, 1], [2.2, 0]],
+              "to": 0.6
+            }
+          ],
+          "doc": "squeezed shut, steaming: too much warmth"
+        },
+        {
+          "id": "sparkle",
+          "length": 7.5,
+          "args": [{ "id": "roll", "min": 0, "max": 1, "default": 0 }],
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [7.5, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 0], [7.5, 0]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.5, 0, "inOutSine"], [5.7, 0], [7.45, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "smooth", "keys": [[0, 0], [0.8, 2]] },
+            {
+              "param": "handY",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0, -4], [0.8, -10], [5.4, -10], [5.7, -6]]
+            },
+            {
+              "param": "reach",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [
+                [0.8, 0], [1.2, 0.35], [1.6, -0.2], [2, 0.35], [2.4, -0.2], [2.8, 0.2], [3, 0], [3.15, 0.25],
+                [3.4, 0.1], [5, 0.1], [5.15, 0.3], [5.3, -0.2], [5.45, 0]
+              ]
+            },
+            {
+              "param": "wrist",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.8, 0], [1.2, 0.6], [1.6, -0.35], [2, 0.6], [2.4, -0.35], [2.8, 0.4], [3.1, 0]]
+            },
+            { "param": "wand", "blend": "set", "ease": "linear", "keys": [[0, 1], [7.5, 1]] },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.945], [0.92, 0.9], [3.2, 0.9], [3.6, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.63], [0.92, 0.6], [3.2, 0.6], [3.6, 0]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [0.9, 0.42], [1.02, 0.4], [3.2, 0.4], [3.6, 0]]
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.7, 0], [4, 1], [5.3, 1], [5.6, 0]],
+              "to": -0.85
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.7, 0], [4, 1], [5.3, 1], [5.6, 0]],
+              "to": -0.1
+            },
+            { "param": "wide", "blend": "max", "ease": "smooth", "keys": [[3.9, 0], [4.05, 0.6], [4.6, 0.5], [5, 0]] },
+            { "param": "lid", "blend": "min", "ease": "smooth", "keys": [[3.85, 1], [4, 0], [5.4, 0], [5.6, 1]] },
+            { "param": "blush", "blend": "max", "ease": "smooth", "keys": [[4, 0], [4.8, 1], [6.8, 1], [7.5, 0]] },
+            {
+              "param": "worry",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[4.2, 0], [4.5, 0.63], [4.62, 0.6], [5.2, 0.6], [5.6, 0]]
+            },
+            {
+              "param": "wave",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[4.3, 0], [4.6, 0.735], [4.72, 0.7], [5.2, 0.7], [5.5, 0]]
+            },
+            {
+              "param": "yaw",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[5.4, 0], [5.6, 1], [6.9, 1], [7.5, 0]],
+              "to": -0.6
+            },
+            {
+              "param": "pitch",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[5.4, 0], [5.6, 1], [6.9, 1], [7.5, 0]],
+              "to": 0.8
+            },
+            { "param": "blink", "blend": "max", "ease": "smooth", "keys": [[5.45, 0], [5.55, 1], [6.9, 1], [7.1, 0]] },
+            {
+              "param": "pout",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[5.5, 0], [5.7, 0.735], [5.82, 0.7], [6.9, 0.7], [7.4, 0]]
+            },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[5.3, 1], [5.5, 0], [6.9, 0], [7.5, 1]] }
+          ],
+          "doc": "her wand out, a flourish trailing sparks that gather into a heart; she sees it, blushes, waves it away: hmph"
+        },
+        {
+          "id": "flip",
+          "length": 4.5,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [4.5, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 2], [4.5, 2]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.4, 0, "inOutSine"], [1.4, 0], [2.5, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "smooth", "keys": [[0, -2], [0.75, -2], [1.15, -10]] },
+            { "param": "handY", "blend": "set", "ease": "smooth", "keys": [[0, -6], [0.75, -6], [1.15, -28]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0], [4.5, 0]] },
+            { "param": "wrist", "blend": "set", "ease": "linear", "keys": [[0, 0], [4.5, 0]] },
+            {
+              "param": "flick",
+              "blend": "set",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [1.05, 1], [1.2, 1], [1.35, 0], [3.05, 0], [3.2, 0.45], [3.3, 0.45], [3.4, 0]]
+            },
+            {
+              "param": "flip",
+              "blend": "set",
+              "ease": "hold",
+              "keys": [[0, 0, "hold"], [1.18, 1, "hold"], [3.25, 0, "hold"], [4.5, 0]]
+            },
+            {
+              "param": "lockR.0",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [
+                [0.6, 0], [1.1, 1.15], [1.35, 1], [1.7, 0], [2, -0.1], [2.3, 0], [3.05, 0], [3.25, 0.6], [3.55, -0.1],
+                [3.85, 0.04], [4.1, 0]
+              ],
+              "tags": ["hair"]
+            },
+            {
+              "param": "tilt",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[3, 0], [3.15, -0.12], [3.35, 0.06], [3.7, 0]]
+            },
+            {
+              "param": "smirk",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.945], [0.92, 0.9], [2.9, 0.9], [3.2, 0]]
+            },
+            {
+              "param": "lid",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [0.8, 0.525], [0.92, 0.5], [2.9, 0.5], [3.2, 0]]
+            },
+            {
+              "param": "pitch",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[1, 0], [1.3, 1], [2.8, 1], [3.2, 0]],
+              "to": 0.6
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.3, 0], [3.55, 1], [4.2, 1], [4.5, 0]],
+              "to": -0.75
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.3, 0], [3.55, 1], [4.2, 1], [4.5, 0]],
+              "to": 0.6
+            },
+            {
+              "param": "knit",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.3, 0], [3.55, 0.735], [3.67, 0.7], [4.2, 0.7], [4.5, 0]]
+            },
+            {
+              "param": "smile",
+              "blend": "min",
+              "ease": "smooth",
+              "keys": [[3.3, 1.1], [3.55, -0.3], [4.2, -0.3], [4.5, 1.1]]
+            }
+          ],
+          "doc": "the grand hair flip: her hand flings the long lock out and back over her shoulder; it slides back, and she glares at it"
+        },
+        {
+          "id": "ohoho",
+          "length": 5.5,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [5.5, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 2], [5.5, 2]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.4, 0, "inOutSine"], [4.5, 0], [5.45, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 9], [5.5, 9]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -24], [5.5, -24]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0.2], [5.5, 0.2]] },
+            { "param": "wrist", "blend": "set", "ease": "linear", "keys": [[0, 0.2], [5.5, 0.2]] },
+            {
+              "param": "pitch",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.3, 0], [0.7, 1], [3.6, 1], [4, 0]],
+              "to": 0.8
+            },
+            { "param": "happy", "blend": "max", "ease": "linear", "keys": [[0.4, 0], [0.5, 1], [3.5, 1], [3.6, 0]] },
+            {
+              "param": "open",
+              "blend": "max",
+              "ease": "hold",
+              "keys": [
+                [0.5, 0, "hold"], [0.6, 0.7, "hold"], [0.85, 0.35, "hold"], [1.05, 0.9, "hold"], [1.3, 0.35, "hold"],
+                [1.5, 0.85, "hold"], [1.75, 0.35, "hold"], [1.95, 0.8, "hold"], [2.2, 0.35, "hold"],
+                [2.4, 0.75, "hold"], [2.65, 0.35, "hold"], [2.9, 0.35], [3.4, 0]
+              ]
+            },
+            {
+              "param": "smile",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.8, 1.05], [0.92, 1], [3.3, 1], [3.7, 0]]
+            },
+            {
+              "param": "browR",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.8, 0.525], [0.92, 0.5], [3.3, 0.5], [3.7, 0]]
+            },
+            {
+              "param": "browL",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [0.8, 0.525], [0.92, 0.5], [3.3, 0.5], [3.7, 0]]
+            },
+            {
+              "param": "shrug",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.6, 0], [0.75, 1], [0.95, 0.25], [1.15, 1], [1.35, 0.25], [1.55, 1], [1.75, 0.25], [2.2, 0]],
+              "to": 0.4
+            },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0.4, 1], [0.6, 0], [3.3, 0], [3.7, 1]] },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.5, 0], [3.7, 1], [4.6, 1], [5, 0]],
+              "to": 0
+            },
+            {
+              "param": "gazeY",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[3.5, 0], [3.7, 1], [4.6, 1], [5, 0]],
+              "to": 0
+            },
+            {
+              "param": "wide",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.65, 0], [3.8, 0.5], [4.2, 0.4], [4.6, 0]]
+            },
+            { "param": "blush", "blend": "max", "ease": "smooth", "keys": [[3.7, 0], [4.3, 0.95], [5, 0.9], [5.5, 0]] },
+            {
+              "param": "yaw",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[4.2, 0], [4.45, 1], [5.1, 1], [5.5, 0]],
+              "to": -0.5
+            },
+            {
+              "param": "worry",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.9, 0], [4.2, 0.525], [4.32, 0.5], [5, 0.5], [5.5, 0]]
+            },
+            {
+              "param": "wave",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[4, 0], [4.3, 0.63], [4.42, 0.6], [5, 0.6], [5.4, 0]]
+            }
+          ],
+          "doc": "the back of her hand at her mouth, head back: ohohoho; then she sees the person looking, and blushes"
+        },
+        {
+          "id": "yawn",
+          "length": 6.5,
+          "tracks": [
+            { "param": "arm", "blend": "set", "ease": "linear", "keys": [[0, 1], [6.5, 1]] },
+            { "param": "grip", "blend": "set", "ease": "linear", "keys": [[0, 2], [6.5, 2]] },
+            {
+              "param": "drop",
+              "blend": "set",
+              "ease": "outCubic",
+              "keys": [[0, 1], [0.45, 0, "inOutSine"], [2.6, 0], [3.5, 1]]
+            },
+            { "param": "handX", "blend": "set", "ease": "linear", "keys": [[0, 9], [6.5, 9]] },
+            { "param": "handY", "blend": "set", "ease": "linear", "keys": [[0, -28], [6.5, -28]] },
+            { "param": "reach", "blend": "set", "ease": "linear", "keys": [[0, 0.25], [6.5, 0.25]] },
+            { "param": "wrist", "blend": "set", "ease": "linear", "keys": [[0, 1], [6.5, 1]] },
+            { "param": "open", "blend": "max", "ease": "smooth", "keys": [[0.5, 0], [1.1, 1.6], [2.2, 1.6], [2.6, 0]] },
+            { "param": "happy", "blend": "max", "ease": "linear", "keys": [[0.6, 0], [0.7, 1], [2.4, 1], [2.5, 0]] },
+            { "param": "tear", "blend": "max", "ease": "smooth", "keys": [[1.2, 0], [1.8, 1], [4.6, 1], [5.4, 0]] },
+            { "param": "shrug", "blend": "add", "ease": "smooth", "keys": [[0.4, 0], [1.1, 0.6], [2, 0.6], [2.6, 0]] },
+            {
+              "param": "pitch",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0.4, 0], [1.1, 0.35], [2, 0.35], [2.6, 0]]
+            },
+            {
+              "param": "blush",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[2.3, 0], [2.7, 0.45], [3.4, 0.45], [4.2, 0.3], [6.5, 0]]
+            },
+            { "param": "knit", "blend": "max", "ease": "smooth", "keys": [[2.4, 0], [2.6, 0.3], [3.1, 0]] },
+            {
+              "param": "smile",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.1, 0], [4.3, 0.9], [5.6, 0.9], [6.5, 0]]
+            },
+            {
+              "param": "lower",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.6, 0], [4.3, 0.525], [4.42, 0.5], [5.6, 0.5], [6.4, 0]]
+            },
+            {
+              "param": "pupil",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [[3.6, 0], [4.3, 0.42], [4.42, 0.4], [5.6, 0.4], [6.4, 0]]
+            },
+            { "param": "lid", "blend": "min", "ease": "smooth", "keys": [[3.2, 1], [4, 0.1], [5.6, 0.1], [6.5, 1]] },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[3, 1], [3.6, 0], [5.8, 0], [6.5, 1]] },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[3, 1], [3.6, 0], [5.8, 0], [6.5, 1]] },
+            {
+              "param": "tilt",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[3.6, 0], [4.2, 0.084], [4.32, 0.08], [5.6, 0.08], [6.4, 0]]
+            }
+          ],
+          "doc": "left alone: a blushing yawn behind her hand, and then, thinking no one sees, a real smile"
+        },
+        {
+          "id": "peek",
+          "length": 4.5,
+          "args": [{ "id": "warmth", "min": 0, "max": 1, "default": 0 }],
+          "tracks": [
+            {
+              "param": "yaw",
+              "blend": "add",
+              "ease": "smooth",
+              "keys": [[0, 0], [0.5, -0.45], [3.6, -0.45], [4.5, 0]]
+            },
+            {
+              "param": "gazeX",
+              "blend": "mix",
+              "ease": "smooth",
+              "keys": [[0.5, 0], [1, 1], [3, 1], [3.6, 0]],
+              "to": 0.9
+            },
+            { "param": "lid", "blend": "min", "ease": "smooth", "keys": [[0.4, 1], [0.9, 0.1], [3.2, 0.1], [3.8, 1]] },
+            { "param": "smirk", "blend": "min", "ease": "smooth", "keys": [[0.5, 1], [1, 0], [3.4, 0], [4, 1]] },
+            { "param": "pout", "blend": "min", "ease": "smooth", "keys": [[0.5, 1], [1, 0], [3.4, 0], [4, 1]] },
+            {
+              "param": "smile",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.8, 0],
+                [2.4, { "arg": "warmth", "scale": 0.45, "add": 0.25 }],
+                [3.3, { "arg": "warmth", "scale": 0.45, "add": 0.25 }],
+                [4.5, 0]
+              ]
+            },
+            {
+              "param": "blush",
+              "blend": "max",
+              "ease": "smooth",
+              "keys": [
+                [0.9, 0],
+                [2.4, { "arg": "warmth", "scale": 0.35, "add": 0.15 }],
+                [3.4, { "arg": "warmth", "scale": 0.35, "add": 0.15 }],
+                [4.5, 0]
+              ]
+            }
+          ],
+          "doc": "the caught glance: her head away, her eyes slide over to the person, her mouth softens"
+        }
+      ],
+      "drivers": [
+        {
+          "id": "ease",
+          "type": "lag",
+          "times": {
+            "smirk": 0.18,
+            "smile": 0.5,
+            "blush": 0.8,
+            "browR": 0.22,
+            "browL": 0.22,
+            "knit": 0.22,
+            "worry": 0.22,
+            "lid": 0.3,
+            "lower": 0.3,
+            "pout": 0.25,
+            "yaw": 0.35,
+            "pitch": 0.35,
+            "tilt": 0.4,
+            "gazeX": 0.07,
+            "gazeY": 0.07
+          },
+          "quantum": {
+            "smirk": 20,
+            "smile": 20,
+            "blush": 20,
+            "browR": 20,
+            "browL": 20,
+            "knit": 20,
+            "worry": 20,
+            "lid": 20,
+            "lower": 20,
+            "pout": 20,
+            "yaw": 20,
+            "pitch": 20,
+            "tilt": 20,
+            "gazeX": 20,
+            "gazeY": 20
+          }
+        },
+        {
+          "id": "fringeRoot",
+          "type": "pendulum",
+          "period": 0.31,
+          "damping": 0.27,
+          "follow": [["tilt", -0.4], ["brush", 0.45]],
+          "kick": [["tilt", 0.3], ["yaw", -0.35], ["pitch", 0.2], ["puff", -0.6]],
+          "out": { "param": "fringe.0", "blend": "add" }
+        },
+        {
+          "id": "fringeTip",
+          "type": "pendulum",
+          "period": 0.37,
+          "damping": 0.25,
+          "kick": [["fringe.0", -0.6]],
+          "out": { "param": "fringe.1", "blend": "add" }
+        },
+        {
+          "id": "lockRoot",
+          "type": "pendulum",
+          "period": 0.74,
+          "damping": 0.29,
+          "follow": [["tilt", -0.7], ["flick", 0.5]],
+          "kick": [["tilt", 0.35], ["yaw", -0.25], ["lean", 0.08], ["shrug", 0.15], ["nod", 0.04]],
+          "out": { "param": "lockR.0", "blend": "add" }
+        },
+        {
+          "id": "lockMiddle",
+          "type": "pendulum",
+          "period": 0.78,
+          "damping": 0.27,
+          "follow": [["lockR.0", -0.2]],
+          "kick": [["lockR.0", -0.5]],
+          "out": { "param": "lockR.1", "blend": "add" }
+        },
+        {
+          "id": "lockTip",
+          "type": "pendulum",
+          "period": 0.8,
+          "damping": 0.26,
+          "kick": [["lockR.1", -0.5]],
+          "out": { "param": "lockR.2", "blend": "add" }
+        },
+        {
+          "id": "thinRoot",
+          "type": "pendulum",
+          "period": 0.39,
+          "damping": 0.27,
+          "follow": [["tilt", -0.6]],
+          "kick": [["tilt", 0.3], ["yaw", -0.3], ["lean", 0.05]],
+          "out": { "param": "lockL.0", "blend": "add" }
+        },
+        {
+          "id": "thinTip",
+          "type": "pendulum",
+          "period": 0.45,
+          "damping": 0.26,
+          "kick": [["lockL.0", -0.5]],
+          "out": { "param": "lockL.1", "blend": "add" }
+        },
+        {
+          "id": "backRightUpper",
+          "type": "pendulum",
+          "period": 0.76,
+          "damping": 0.3,
+          "follow": [["tilt", -0.3]],
+          "kick": [["tilt", 0.25], ["yaw", 0.2], ["shrug", 0.1]],
+          "out": { "param": "backR.0", "blend": "add" }
+        },
+        {
+          "id": "backRightLower",
+          "type": "pendulum",
+          "period": 0.8,
+          "damping": 0.28,
+          "kick": [["backR.0", -0.5]],
+          "out": { "param": "backR.1", "blend": "add" }
+        },
+        {
+          "id": "backLeftUpper",
+          "type": "pendulum",
+          "period": 0.78,
+          "damping": 0.31,
+          "follow": [["tilt", -0.3]],
+          "kick": [["tilt", 0.25], ["yaw", 0.2], ["shrug", -0.1]],
+          "out": { "param": "backL.0", "blend": "add" }
+        },
+        {
+          "id": "backLeftLower",
+          "type": "pendulum",
+          "period": 0.79,
+          "damping": 0.27,
+          "kick": [["backL.0", -0.5]],
+          "out": { "param": "backL.1", "blend": "add" }
+        },
+        {
+          "id": "tieUpper",
+          "type": "pendulum",
+          "period": 0.3,
+          "damping": 0.5,
+          "kick": [["lean", -0.06], ["shrug", 0.1], ["tug", 0.3]],
+          "out": { "param": "tie.0", "blend": "add" }
+        },
+        {
+          "id": "tieLower",
+          "type": "pendulum",
+          "period": 0.31,
+          "damping": 0.55,
+          "kick": [["tie.0", -0.5]],
+          "out": { "param": "tie.1", "blend": "add" }
+        },
+        {
+          "id": "robeRightUpper",
+          "type": "pendulum",
+          "period": 0.7,
+          "damping": 0.38,
+          "kick": [["lean", 0.04], ["shrug", 0.06]],
+          "out": { "param": "robeR.0", "blend": "add" }
+        },
+        {
+          "id": "robeRightLower",
+          "type": "pendulum",
+          "period": 0.72,
+          "damping": 0.36,
+          "kick": [["robeR.0", -0.5]],
+          "out": { "param": "robeR.1", "blend": "add" }
+        },
+        {
+          "id": "robeLeftUpper",
+          "type": "pendulum",
+          "period": 0.69,
+          "damping": 0.37,
+          "kick": [["lean", 0.04], ["shrug", -0.06]],
+          "out": { "param": "robeL.0", "blend": "add" }
+        },
+        {
+          "id": "robeLeftLower",
+          "type": "pendulum",
+          "period": 0.71,
+          "damping": 0.35,
+          "kick": [["robeL.0", -0.5]],
+          "out": { "param": "robeL.1", "blend": "add" }
+        },
+        {
+          "id": "sleeveUpper",
+          "type": "pendulum",
+          "period": 0.64,
+          "damping": 0.36,
+          "follow": [["reach", -0.9]],
+          "kick": [["reach", 0.3], ["drop", -0.3], ["handY", 0.004]],
+          "out": { "param": "sleeve.0", "blend": "add" }
+        },
+        {
+          "id": "sleeveLower",
+          "type": "pendulum",
+          "period": 0.66,
+          "damping": 0.34,
+          "kick": [["sleeve.0", -0.5]],
+          "out": { "param": "sleeve.1", "blend": "add" }
+        },
+        {
+          "id": "wandLag",
+          "type": "pendulum",
+          "period": 0.3,
+          "damping": 0.65,
+          "kick": [["reach", -0.15], ["wrist", -0.15]],
+          "out": { "param": "wandFlex", "blend": "add" }
+        },
+        {
+          "id": "hoopSwing",
+          "type": "pendulum",
+          "period": 0.32,
+          "damping": 0.25,
+          "follow": [["tilt", -1]],
+          "kick": [["tilt", 0.4], ["yaw", 0.25], ["pitch", 0.2], ["nod", 0.03]],
+          "out": { "param": "hoop", "blend": "add" }
+        },
+        {
+          "id": "wandSparks",
+          "type": "sparks",
+          "watch": [
+            {
+              "lane": "acts",
+              "clips": ["twirl"],
+              "emit": [[0.95, 2], [1.25, 2], [1.55, 1]],
+              "seed": { "arg": "roll", "scale": 997 }
+            },
+            {
+              "lane": "acts",
+              "clips": ["sparkle"],
+              "emit": [[0.9, 1], [1.1, 1], [1.3, 1], [1.5, 1], [1.7, 1], [1.9, 1], [2.1, 1], [2.3, 1], [2.5, 1]],
+              "seed": { "arg": "roll", "scale": 991 },
+              "gather": {
+                "at": [15, 27],
+                "points": [
+                  [0, -2.1], [0.84, -3.888], [4.365, -4.83], [6.72, -1.68], [4.365, 2.31], [0.84, 5.568], [0, 7.14],
+                  [-0.84, 5.568], [-4.365, 2.31], [-6.72, -1.68], [-4.365, -4.83], [-0.84, -3.888]
+                ],
+                "leave": 3.15,
+                "time": 0.8,
+                "hold": 1.3,
+                "burst": [7, 12]
+              }
+            }
+          ],
+          "from": "wand.shaft#tip",
+          "home": [11.5, 44],
+          "speed": [3, 7],
+          "angle": [-1.5708, 0.7],
+          "gravity": 6,
+          "drag": 1.4,
+          "life": [0.55, 0.85],
+          "size": [0.75, 1.15],
+          "grow": 0.12,
+          "fade": 0.45,
+          "twinkle": [7, 0.3],
+          "out": { "each": "spark", "count": 14 }
+        },
+        {
+          "id": "steam",
+          "type": "sparks",
+          "watch": [
+            { "lane": "acts", "clips": ["fluster"], "emit": [[0.2, 2], [0.6, 2]] },
+            { "lane": "acts", "clips": ["sparkle"], "emit": [[4.6, 2]] },
+            { "lane": "acts", "clips": ["ohoho"], "emit": [[4.4, 2]] }
+          ],
+          "from": [40, 8],
+          "home": [40, 8],
+          "speed": [3, 5],
+          "angle": [-1.5708, 0.6],
+          "gravity": -4,
+          "drag": 1.2,
+          "life": [0.9, 1.3],
+          "size": [0.8, 1.15],
+          "grow": 0.35,
+          "fade": 0.5,
+          "out": { "each": "steam", "count": 4 }
+        }
+      ],
+      "pipelines": {
+        "keyed": [
+          { "lanes": ["mood", "warmth", "glance"] },
+          { "driver": "ease" },
+          { "lanes": ["talk", "breath", "acts", "blinks"] },
+          { "driver": "wandSparks" },
+          { "driver": "steam" }
+        ],
+        "physics": [
+          { "lanes": ["mood", "warmth", "glance"] },
+          { "driver": "ease" },
+          { "lanes": ["talk", "breath", "acts", "blinks"], "mute": ["hair"] },
+          { "driver": "fringeRoot" },
+          { "driver": "fringeTip" },
+          { "driver": "lockRoot" },
+          { "driver": "lockMiddle" },
+          { "driver": "lockTip" },
+          { "driver": "thinRoot" },
+          { "driver": "thinTip" },
+          { "driver": "backRightUpper" },
+          { "driver": "backRightLower" },
+          { "driver": "backLeftUpper" },
+          { "driver": "backLeftLower" },
+          { "driver": "tieUpper" },
+          { "driver": "tieLower" },
+          { "driver": "robeRightUpper" },
+          { "driver": "robeRightLower" },
+          { "driver": "robeLeftUpper" },
+          { "driver": "robeLeftLower" },
+          { "driver": "sleeveUpper" },
+          { "driver": "sleeveLower" },
+          { "driver": "wandLag" },
+          { "driver": "hoopSwing" },
+          { "driver": "wandSparks" },
+          { "driver": "steam" }
+        ]
+      }
+    }
+  },
+  {
     "id": "momiji",
     "rig": {
       "schema": 1,

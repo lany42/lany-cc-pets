@@ -69,8 +69,10 @@ export const FLAVOR: Readonly<Record<string, string>> = {
   'sakura-pixel': 'A cherry petal falls about five centimetres a second, they say; in her band each one drops a whole pixel at a time.',
   'chameleon': 'A panther chameleon changes color by spreading apart tiny crystals in its skin, so they reflect longer, warmer light.',
   'pomelo-pixel': 'A real axolotl has no eyelids and never blinks, but Pomelo blinks anyway, slowly, a whole pixel at a time.',
+  'dracaena-pixel': 'Her name is Greek for a she-dragon, and the dragon trees named for it bleed red resin; she, of course, never blushes.',
   // ...then rig
   'momiji': 'Here Momiji is two files of plain numbers, and her bangs ride a little pendulum that swings every third of a second.',
   'sakura': 'Each petal blowing past her here is a falling leaf in a simulated breeze, worked out 128 times a second as it flies.',
   'pomelo': 'A pink axolotl like this one is leucistic, not albino: its skin lost its color, but its eyes stayed dark.',
+  'dracaena': 'Humans show more white beside the iris than any other primate, so a stolen glance is easy to spot; she must be quick.',
 }

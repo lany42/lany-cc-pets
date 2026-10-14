@@ -21,6 +21,7 @@ import { TICK_MS } from '../../sprite'
 import { runsOf, sameCells, TERMINAL } from '../cells'
 import type { LabCells, LabLook, LabRun, Live } from '../look'
 import { CHAMELEON } from './chameleon-pet'
+import { DRACAENA_PIXEL } from './dracaena-pixel-pet'
 import { HAMSTER } from './hamster-pet'
 import { MOMIJI_PIXEL } from './momiji-pixel-pet'
 import { lettersOver, Pixels } from './pixels'
@@ -109,4 +110,4 @@ export function pixelLook<P>(pet: PixelPet<P>): LabLook {
 }
 
 /** Every pixel pet as a lab look, in the order the gallery lists them (after the drawn looks, before the rig looks): the one place a new one is registered. */
-export const PIXEL_LOOKS: readonly LabLook[] = [pixelLook(HAMSTER), pixelLook(TREE_FROG), pixelLook(MOMIJI_PIXEL), pixelLook(SAKURA_PIXEL), pixelLook(CHAMELEON), pixelLook(POMELO_PIXEL)]
+export const PIXEL_LOOKS: readonly LabLook[] = [pixelLook(HAMSTER), pixelLook(TREE_FROG), pixelLook(MOMIJI_PIXEL), pixelLook(SAKURA_PIXEL), pixelLook(CHAMELEON), pixelLook(POMELO_PIXEL), pixelLook(DRACAENA_PIXEL)]
