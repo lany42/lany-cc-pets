@@ -29,38 +29,53 @@ export function traitProblem(word: string): string | undefined {
 
 const MODEL = 'sonnet'
 
+/** Who the pet is, then a section for each kind of call: a remark on the session keeps to the session, a chat message gets a reply. */
 export const systemPrompt = (trait: string, persona: string) =>
-  `You are ${persona}, the pet of the person at this terminal, keeping them company while Claude, their AI coding assistant, works for them. ` +
-  `Your personality, in one word: ${trait}. ` +
-  `Talk to your person, as "you", about how it is going for them: their progress, their wait, their wins and setbacks, their mood. ` +
-  `They see every step Claude takes, so unless they ask, never narrate its commands, files or tools, nor repeat what it told them: leave the details to Claude. ` +
-  `Shown a moment of their session, say one short sentence to them (at most 12 words), fully in character. ` +
-  `Mostly remark rather than ask: they are busy and seldom answer. ` +
-  `When your person talks to you directly, answer them in at most two short sentences, still in character. ` +
-  `Plain text only: no quotes, no emoji, no markdown, no preamble.`
+  [
+    `You are ${persona}, the pet of the person at this terminal, keeping them company while Claude, their AI coding assistant, works.`,
+    `Personality: ${trait}`,
+    '',
+    '# Always',
+    '- Stay in character; talk to your person as "you".',
+    "- They see Claude's every step: unless asked, don't narrate its commands, files or tools, or repeat what it said.",
+    '- Plain text only: no quotes, emoji, markdown or preamble.',
+    '',
+    '# Shown a moment of their session',
+    "One short sentence (12 words max) on how it's going for them: progress, wait, wins, setbacks, mood. Mostly remark rather than ask: they're busy.",
+    '',
+    '# When they message you',
+    'Engage with them directly instead of commenting: reply to what they said, in at most two short sentences.',
+  ].join('\n')
 
 export const greetingPrompt = (trait: string) =>
   `Your person just gave you your personality: ${trait}. Say hello to them in one sentence.`
 
 export const arrivalPrompt = () => `Your person just picked you as their pet. Say hello to them in one sentence.`
 
-/** Over the remembered lines a prompt starts with, with chat memory on: the one line that frames them. */
+/** Over the remembered lines a timed prompt starts with, with chat memory on: the one line that frames them. */
 export const MEMORY_HEADING = 'Your chat with your person so far, oldest first:'
 
-/** The remembered lines (`chatMemory`) under their heading, to go first in a prompt; with none, nothing, so the prompt is as it was. */
+/** The remembered lines (`chatMemory`) under their heading, to go first in a timed prompt; with none, nothing, so the prompt is as it was. */
 const memoryBlock = (memory: readonly string[]): string[] => (memory.length > 0 ? [MEMORY_HEADING, ...memory] : [])
 
+/** The sections of a chat message's prompt, in order: the session as background, the chat so far, then the message. */
+export const SESSION_HEADING = '# Background: their session with Claude'
+export const CHAT_HEADING = '# Your chat so far'
+export const MESSAGE_HEADING = '# Their message to you'
+
 /**
- * What the side model reads for `/pet btw` and the pane's chat: the person's
- * words, with the session's latest stretch beside them, and with chat memory
- * on, `memory`: the chat so far (see `chatMemory`).
+ * What the side model reads for `/pet btw` and the pane's chat: the session's
+ * latest stretch first, as background, then with chat memory on, `memory`:
+ * the chat so far (see `chatMemory`), and last the person's words, so the
+ * message, not the session, is what the pet answers. A section with nothing
+ * in it is left out.
  */
 export function btwPrompt(message: string, lines: readonly string[], memory: readonly string[] = []): string {
   return [
-    ...memoryBlock(memory),
-    `Your person says to you directly: ${message}`,
-    ...(lines.length > 0 ? ['For context, the latest stretch of their session:', ...lines.map(line => `- ${line}`)] : []),
-    'Your answer:',
+    ...(lines.length > 0 ? [SESSION_HEADING, ...lines.map(line => `- ${line}`), ''] : []),
+    ...(memory.length > 0 ? [CHAT_HEADING, ...memory, ''] : []),
+    MESSAGE_HEADING,
+    message,
   ].join('\n')
 }
 
