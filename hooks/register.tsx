@@ -4,7 +4,7 @@
 import { atom, read, update } from 'claude-code'
 import type { BoxProps, ElementConstructor, Elements, EngineInterface, PaneCloseOrigin, Register, RenderNode, RenderSurface, TextProps, Timer } from 'claude-code'
 
-import type { ChatLine, PaneView, SeenMark } from '../types'
+import type { ChatLine, DebugCall, DebugRequest, PaneView, SeenMark } from '../types'
 
 import { aboveWidth, BAND_BUTTON, bandColumnsOf, bandInput, BUBBLE_MAX, birthInput, drawsWindowOnly, GUTTER_COLUMNS, labMoodAt, petFits, poseOf, sceneInBand, showsWindow, stepRoom, windowBubbleFor, wordsAt } from './band'
 import type { Pose } from './band'
@@ -12,6 +12,8 @@ import { EMOTE_WIDTH, isDrowsy, judgeRun } from './body'
 import type { EmoteKind } from './body'
 import { ANSWER_CHARS, arrivalPrompt, btwPrompt, chatMemory, DEFAULT_TRAIT, greetingPrompt, LINE_CHARS, MEMORY_LINES, petLine, petRequest, quietWhy, SAID_KEPT, slicePrompt, speechTicks, traitProblem } from './comment'
 import type { PetLine } from './comment'
+import { closed, debugRows, NO_CALLS, opened, spliced } from './debug'
+import type { DebugRow, Spliced } from './debug'
 import { FLAVOR } from './flavor'
 import { bubbleFor, fitPet, newestThatFit, wrapRows } from './layout'
 import { digest, dueNow, lastAsk, OBSERVE_MS, sliceSince } from './observe'
@@ -42,6 +44,8 @@ const isAsleep = atom({ plugin: 'lany-cc-pets', key: 'isAsleep' } as const, fals
 const isQuiet = atom({ plugin: 'lany-cc-pets', key: 'isQuiet' } as const, false)
 const isRemembering = atom({ plugin: 'lany-cc-pets', key: 'isRemembering' } as const, false)
 const isExperimental = atom({ plugin: 'lany-cc-pets', key: 'isExperimental' } as const, false)
+const isDebugging = atom({ plugin: 'lany-cc-pets', key: 'isDebugging' } as const, false)
+const debugCalls = atom({ plugin: 'lany-cc-pets', key: 'debugCalls' } as const, NO_CALLS)
 const classicId = atom({ plugin: 'lany-cc-pets', key: 'classicId' } as const, null)
 const isWindowOpen = atom({ plugin: 'lany-cc-pets', key: 'isWindowOpen' } as const, false)
 const isPaneOpen = atom({ plugin: 'lany-cc-pets', key: 'isPaneOpen' } as const, false)
@@ -211,8 +215,11 @@ const session = {
  */
 type Worn = { look: LabLook; seed: string; live: Live; seen: Seen; turns: number; spectacle: boolean; top?: number; rest?: readonly (readonly LabRun[])[]; restCells?: LabCells; input?: LabInput; frame?: number; self?: Live; twin?: Live }
 
-/** What came of a line: shown, and what it said; too late to show; or never written. */
-type Spoken = { kind: 'landed'; text: string } | { kind: 'stale' } | { kind: 'failed' }
+/**
+ * What came of a line: shown, and what it said; too late to show; or never
+ * written. With Show prompts ticked, `call` is the id its dump is kept under.
+ */
+type Spoken = { kind: 'landed'; text: string; call?: number } | { kind: 'stale' } | { kind: 'failed'; call?: number }
 
 /** Whether anything can show the pet now: the band, or its pane while the band hides it. */
 function isShowable(): boolean {
@@ -227,10 +234,12 @@ async function ponder($: EngineInterface): Promise<void> {
 
 /**
  * Asks the side model for a line on `prompt`, in the voice `voice`, and shows
- * it unless `isStale` says it came too late.
+ * it unless `isStale` says it came too late. `kind` names the call in its
+ * dump, kept while Show prompts is ticked.
  */
 async function speak(
   $: EngineInterface,
+  kind: DebugCall['kind'],
   prompt: string,
   voice: number,
   isStale: () => Promise<boolean>,
@@ -243,25 +252,43 @@ async function speak(
     // A lab look speaks as itself wherever it is drawn: its fallback only stands in for its looks.
     // The look the pet shows speaks: its stand-in, where that is what was drawn.
     const { persona } = aboutOf(shownLook(lookFor(await read($, spriteId), await read($, isExperimental), undefined, await read($, classicId))))
-    const line: PetLine = await $.model
-      .complete(petRequest(trait, persona, prompt))
-      .then(reply => petLine(reply, max), (error: unknown) => ({ error: String(error) }))
+    const request = petRequest(trait, persona, prompt)
+    const call = await openCall($, kind, request)
+    const reply = await $.model.complete(request).catch((error: unknown) => ({ thrown: String(error) }))
+    const line: PetLine = 'thrown' in reply ? { error: reply.thrown } : petLine(reply, max)
+    const tagged = call === undefined ? {} : { call }
     // A call a newer one has superseded says nothing either way, not even that it failed.
-    if (await isStale()) return { kind: 'stale' }
+    if (await isStale()) {
+      await closeCall($, call, { reply, outcome: 'stale' })
+      return { kind: 'stale' }
+    }
     if ('error' in line) {
       session.lastError = line.error
-      return { kind: 'failed' }
+      await closeCall($, call, { reply, outcome: 'failed' })
+      return { kind: 'failed', ...tagged }
     }
     session.lastError = undefined
+    await closeCall($, call, { reply, outcome: 'landed', shown: line.text })
 
     const now = await read($, tick)
     await update($, speech, () => ({ text: line.text, tick: now, ttl: speechTicks(line.text, Math.random()) }))
     session.said = [...session.said, line.text].slice(-SAID_KEPT)
-    return { kind: 'landed', text: line.text }
+    return { kind: 'landed', text: line.text, ...tagged }
   } finally {
     session.pending.splice(session.pending.indexOf(voice), 1)
     await ponder($)
   }
+}
+
+/** With Show prompts ticked, keeps `request` as it goes out, and says the id it is kept under; off, keeps nothing. */
+async function openCall($: EngineInterface, kind: DebugCall['kind'], request: DebugRequest): Promise<number | undefined> {
+  if (!(await read($, isDebugging))) return undefined
+  return (await update($, debugCalls, kept => opened(kept, kind, request))).next - 1
+}
+
+/** Finishes the call `openCall` kept as `end` says, if it kept one. */
+async function closeCall($: EngineInterface, call: number | undefined, end: Pick<DebugCall, 'reply' | 'outcome' | 'shown'>): Promise<void> {
+  if (call !== undefined) await update($, debugCalls, kept => closed(kept, call, end))
 }
 
 /** One look at the session: when a line is due, react to the transcript since the last one. */
@@ -302,10 +329,10 @@ async function observe($: EngineInterface): Promise<void> {
       workedMs: mark.startedAt > 0 ? Math.max(0, (due === 'turn-end' ? mark.endedAt : now) - mark.startedAt) : 0,
       said: session.said,
     }
-    const spoken = await speak($, slicePrompt(lines, due, moment, await remembered($, moment.said)), voice, isStale)
+    const spoken = await speak($, 'timed', slicePrompt(lines, due, moment, await remembered($, moment.said)), voice, isStale)
     if (spoken.kind === 'landed') {
       await markSpoken($, now, { key, count })
-      await logAside($, spoken.text)
+      await logAside($, spoken.text, spoken.call)
     }
     if (spoken.kind === 'failed' && session.voice === voice) await markSpoken($, now)
   } finally {
@@ -346,9 +373,9 @@ function ask($: EngineInterface, asked: Asked): number {
   return voice
 }
 
-/** Speaks a line the person asked for in `voice`, which a newer one supersedes; resolves what came of it. */
-async function sayIn($: EngineInterface, voice: number, prompt: string, max?: number): Promise<Spoken> {
-  const spoken = await speak($, prompt, voice, async () => session.voice !== voice, max)
+/** Speaks a line the person asked for (`kind`) in `voice`, which a newer one supersedes; resolves what came of it. */
+async function sayIn($: EngineInterface, kind: DebugCall['kind'], voice: number, prompt: string, max?: number): Promise<Spoken> {
+  const spoken = await speak($, kind, prompt, voice, async () => session.voice !== voice, max)
   if (spoken.kind === 'landed') await markSpoken($, await $.clock.now())
   return spoken
 }
@@ -368,9 +395,10 @@ async function remembered($: EngineInterface, said: readonly string[] = [], mess
  * log, which keeps every line it says, pane open or not. While your latest
  * message still waits for its answer, the line goes in above that message,
  * so the answer lands right under it and "..." stays under it meanwhile.
+ * `call` is its dump's id, while Show prompts keeps one.
  */
-async function logAside($: EngineInterface, text: string): Promise<void> {
-  const aside: ChatLine = { from: 'pet', text, isAside: true }
+async function logAside($: EngineInterface, text: string, call?: number): Promise<void> {
+  const aside: ChatLine = { from: 'pet', text, isAside: true, ...(call !== undefined ? { call } : {}) }
   await update($, chat, lines => {
     const last = lines.at(-1)
     const waiting = session.replying
@@ -396,15 +424,18 @@ function btw($: EngineInterface, message: string): void {
 async function answer($: EngineInterface, message: string, voice: number): Promise<void> {
   try {
     const context = digest(sliceSince(await $.session.messages(), null).fresh)
-    const spoken = await sayIn($, voice, btwPrompt(message, context, await remembered($, [], message)), ANSWER_CHARS)
+    const spoken = await sayIn($, 'answer', voice, btwPrompt(message, context, await remembered($, [], message)), ANSWER_CHARS)
     if (spoken.kind === 'stale') return
+    const tagged = spoken.call !== undefined ? { call: spoken.call } : {}
     const line: ChatLine =
       spoken.kind === 'landed'
-        ? { from: 'pet', text: spoken.text }
-        : { from: 'pet', text: `didn't answer: ${quietWhy(session.lastError ?? 'it went quiet')}`, isFailed: true }
+        ? { from: 'pet', text: spoken.text, ...tagged }
+        : { from: 'pet', text: `didn't answer: ${quietWhy(session.lastError ?? 'it went quiet')}`, isFailed: true, ...tagged }
     // Only under its own message: once a newer one is in (or the log was wiped), it stays
     // out, so no line in the log answers another and the pet never remembers it so.
     await update($, chat, lines => (lines.findLast(one => one.from === 'you')?.text === message ? [...lines, line].slice(-CHAT_LINES) : lines))
+    // Show prompts makes the log longer than the pane: the answer you wait on, and its dump, come into view.
+    if (spoken.call !== undefined && (await isChatUp($))) await $.ui.scroll({ in: SETTINGS_PANE, to: 'end' }).catch(() => undefined)
   } finally {
     if (session.replying?.voice === voice) session.replying = undefined
   }
@@ -423,8 +454,8 @@ function greet($: EngineInterface, prompt: string): void {
 /** The hello `greet` asks for, in `voice`, kept in the chat log as a line said on its own. */
 async function hello($: EngineInterface, prompt: string, voice: number): Promise<void> {
   if (await read($, isHidden)) return
-  const spoken = await sayIn($, voice, prompt)
-  if (spoken.kind === 'landed') await logAside($, spoken.text)
+  const spoken = await sayIn($, 'hello', voice, prompt)
+  if (spoken.kind === 'landed') await logAside($, spoken.text, spoken.call)
 }
 
 /** Plays an emote beside the pet from this tick; none while nothing could show it, so none waits behind a frozen clock. */
@@ -885,6 +916,20 @@ async function setQuiet($: EngineInterface, quiet: boolean): Promise<string> {
 }
 
 /**
+ * Shows each side call in pet-control's chat log, as it was sent and as it
+ * came back, or stops: either way the calls kept so far go. Kept for this
+ * session only (no store), so a forgotten tick never follows you to the next.
+ */
+async function setDebugging($: EngineInterface, isOn: boolean): Promise<string> {
+  await settle($)
+  if ((await read($, isDebugging)) === isOn) return isOn ? 'pet-control already shows what your pet is sent.' : 'pet-control already hides the prompts.'
+  await update($, isDebugging, () => isOn)
+  // The ids go on counting: a line still tagged with an old one never takes a new call over it.
+  await update($, debugCalls, kept => ({ ...kept, calls: [] }))
+  return isOn ? 'pet-control will show each prompt your pet is sent, and its raw reply.' : 'pet-control hides the prompts again.'
+}
+
+/**
  * Lets the pet remember the pane's chat, or has it forget: either way the log
  * starts over, and its own last lines with it (every timed line is shown
  * them, its answers among them), so it only ever remembers what was said
@@ -896,6 +941,7 @@ async function setRemembering($: EngineInterface, isOn: boolean): Promise<string
   await update($, isRemembering, () => isOn)
   await $.store.set('isRemembering', isOn)
   await update($, chat, () => [])
+  await update($, debugCalls, kept => ({ ...kept, calls: [] }))
   session.said = []
   return isOn ? `Your pet will remember what you two say, up to ${MEMORY_LINES / 2} exchanges back.` : 'Your pet forgot what you two said.'
 }
@@ -1637,6 +1683,7 @@ export const register: Register = on => {
     const hidden = await read($, isHidden)
     const quiet = await read($, isQuiet)
     const remembering = await read($, isRemembering)
+    const debugging = await read($, isDebugging)
     const experimental = await read($, isExperimental)
     const windowOpen = await read($, isWindowOpen)
     // The pet as the band last showed it (or the surface alone allows): never resolved by this pane's own width.
@@ -1658,7 +1705,7 @@ export const register: Register = on => {
     const standing = identity.kind === 'lab' && look.kind === 'sprite' ? `${look.sprite.name} stands in here` : undefined
     const petName = name.toLowerCase()
     // The log's names sit in a column of their own, so a long line wraps under its words.
-    const gutter = Math.max('you'.length, petName.length) + 2
+    const gutter = Math.max('you'.length, petName.length, debugging ? 'debug'.length : 0) + 2
     // "..." under your message while its answer is out (not while the observer thinks or a hello is written).
     const isWaiting = pondering && session.replying?.voice === session.voice && log.at(-1)?.from === 'you'
     // Why the pet's gone quiet, unless the log's last line already says so.
@@ -1688,12 +1735,15 @@ export const register: Register = on => {
     const chatRows = 1 + (Input !== undefined ? 4 : 0) + (isWaiting ? 1 : 0)
     const footRows = (isTerminal ? 1 : 0) + (why !== undefined ? 1 : 0)
     const logRows = Math.max(CHAT_MIN_ROWS, e.props.scroll.bodyRows - headerRows - fieldRows - chatRows - footRows)
-    const shown = newestThatFit(log, line => wrapRows(line.text, width - INSET - gutter), logRows)
-    // A line of the log: who said it, in the names' column, then the words.
-    const logLine = (from: ChatLine['from'], words: JSX.Element) => (
+    // With Show prompts ticked, the whole log, each call kept above the line it wrote: longer than the body, which scrolls.
+    const shown: Spliced[] = debugging
+      ? spliced(log, (await read($, debugCalls)).calls)
+      : newestThatFit(log, line => wrapRows(line.text, width - INSET - gutter), logRows).map(line => ({ kind: 'line' as const, line }))
+    // A line of the log: who said it (or `debug`, a call's dump), in the names' column, then the words.
+    const logLine = (from: ChatLine['from'] | 'debug', words: JSX.Element) => (
       <Box flexDirection="row" paddingLeft={INSET}>
         <Box width={gutter} flexShrink={0}>
-          {from === 'you' ? <Text bold dimColor>you</Text> : <Text bold color={color}>{petName}</Text>}
+          {from === 'you' ? <Text bold dimColor>you</Text> : from === 'debug' ? <Text bold color="warning">debug</Text> : <Text bold color={color}>{petName}</Text>}
         </Box>
         {words}
       </Box>
@@ -1752,15 +1802,18 @@ export const register: Register = on => {
           {Input !== undefined && (
             <Box flexDirection="row" justifyContent="space-between" columnGap={1} paddingLeft={INSET}>
               <Text dimColor wrap="truncate-end">Just between you two</Text>
-              {/* Its one switch sits on the chat it is about, in the heading's row: no row of its own. */}
-              <Box flexShrink={0}>
+              {/* Its switches sit on the chat they are about, in the heading's row: no row of their own. */}
+              <Box flexDirection="row" columnGap={2} flexShrink={0}>
                 <Button key="remember" label={`${remembering ? '[x]' : '[ ]'} Let it remember`} plain onPress={() => { void tell($, setRemembering($, !remembering)) }} />
+                <Button key="debug" label={`${debugging ? '[x]' : '[ ]'} Show prompts`} plain onPress={() => { void tell($, setDebugging($, !debugging)) }} />
               </Box>
             </Box>
           )}
-          {shown.map(line =>
-            logLine(line.from, line.isFailed === true ? <Text dimColor italic>{line.text}</Text> : line.isAside === true ? <Text dimColor>{line.text}</Text> : <Text>{line.text}</Text>),
-          )}
+          {shown.map(entry => {
+            if (entry.kind === 'call') return logLine('debug', dumpOf(Box, Text, debugRows(entry.call), width - INSET - gutter))
+            const { line } = entry
+            return logLine(line.from, line.isFailed === true ? <Text dimColor italic>{line.text}</Text> : line.isAside === true ? <Text dimColor>{line.text}</Text> : <Text>{line.text}</Text>)
+          })}
           {isWaiting && logLine('pet', <Text dimColor>...</Text>)}
           {Input !== undefined && chatBar($, Box, Input, SETTINGS_PANE, color, hidden, sent)}
         </Box>
@@ -1800,6 +1853,17 @@ function chatBar($: EngineInterface, Box: BoxElement, Input: InputElement, reque
         autoFocus
         onSubmit={value => { void sendChat($, value, requestId) }}
       />
+    </Box>
+  )
+}
+
+/** A call's dump in the chat log, `width` across: its heading bold, its labels dim, its notes dim italic, and what was sent and received as plain text. */
+function dumpOf(Box: BoxElement, Text: TextElement, rows: readonly DebugRow[], width: number): JSX.Element {
+  return (
+    <Box flexDirection="column" width={width}>
+      {rows.map(({ text, tone }) =>
+        tone === 'head' ? <Text bold color="warning">{text}</Text> : tone === 'label' ? <Text dimColor>{text}</Text> : tone === 'note' ? <Text dimColor italic>{text}</Text> : <Text>{text}</Text>,
+      )}
     </Box>
   )
 }

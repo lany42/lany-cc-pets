@@ -15,7 +15,44 @@ export type ChatLine = {
   isFailed?: boolean
   /** Said on its own (a timed line, a hello), not in answer to you: drawn dim, and never taken for an answer. */
   isAside?: boolean
+  /** The `DebugCall` that wrote it; set only while Show prompts is ticked. */
+  call?: number
 }
+/** The tokens a side call spent, as the engine's `ModelUsage` counts them. */
+export type DebugUsage = { input_tokens: number; output_tokens: number }
+/**
+ * A side call's request as sent: the engine's `ModelCompleteRequest`, written
+ * out, as a contract imports nothing. The engine's own must still fit it.
+ */
+export type DebugRequest = {
+  model: string
+  prompt: string
+  system?: string
+  maxTokens?: number
+  effort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max'
+  timeoutMs?: number
+}
+/** Its reply as it came back: the engine's `ModelCompleteResult`, written out likewise. */
+export type DebugReply =
+  | { isAnswered: true; text: string; usage: DebugUsage }
+  | { isAnswered: false; reason: 'api-error'; status: number | null; error: string; usage: DebugUsage }
+  | { isAnswered: false; reason: 'empty-reply' | 'aborted'; usage: DebugUsage }
+/**
+ * One side call as Show prompts keeps it: the request exactly as sent, the
+ * reply as it came back (or what the call threw), and what came of it.
+ * `outcome` is unset while the call is out; `shown` is the line `petLine`
+ * made of a reply that landed.
+ */
+export type DebugCall = {
+  id: number
+  kind: 'timed' | 'answer' | 'hello'
+  request: DebugRequest
+  reply?: DebugReply | { thrown: string }
+  outcome?: 'landed' | 'failed' | 'stale'
+  shown?: string
+}
+/** Show prompts' records, newest last, and the id the next one takes. */
+export type DebugCalls = { next: number; calls: DebugCall[] }
 /** What the pet's pane shows: its settings, or its looks, laid over the settings when opened from them. */
 export type PaneView = { page: 'settings' | 'looks'; isStacked: boolean }
 /**
@@ -81,6 +118,14 @@ declare module 'claude-code' {
        * wear braille lab looks. Off, a lab pick wears its classic fallback.
        */
       isExperimental: boolean
+      /**
+       * Show prompts, ticked over pet-control's chat: each side call goes
+       * into the chat log as it was sent, above the line it wrote. For this
+       * session only: never stored, so a /clear or /resume unticks it.
+       */
+      isDebugging: boolean
+      /** The calls Show prompts keeps (at most DEBUG_CALLS); empty while it is off. */
+      debugCalls: DebugCalls
       /**
        * The last classic look the person wore, kept apart from `spriteId`: a
        * lab pick wears it while experimental! is off. Null till one is known.

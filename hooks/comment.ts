@@ -182,8 +182,11 @@ export function slicePrompt(lines: readonly string[], due: Due, moment: Moment, 
   ].join('\n')
 }
 
+/** The pet's side call: its prompt and system prompt are always one string each, never blocks. */
+export type PetRequest = ModelCompleteRequest & { prompt: string; system: string }
+
 /** The side call for the pet's next line: Sonnet, low effort, a short reply. */
-export const petRequest = (trait: string, persona: string, prompt: string): ModelCompleteRequest => ({
+export const petRequest = (trait: string, persona: string, prompt: string): PetRequest => ({
   model: MODEL,
   system: systemPrompt(trait, persona),
   prompt,
