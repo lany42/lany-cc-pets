@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
 import { atom, read, update } from 'claude-code'
-import type { BoxProps, ElementConstructor, Elements, EngineInterface, PaneCloseOrigin, Register, RenderNode, RenderSurface, TextProps, Timer } from 'claude-code'
+import type { BoxProps, ButtonProps, ElementConstructor, Elements, EngineInterface, PaneCloseOrigin, Register, RenderNode, RenderSurface, SiteScroll, TextProps, Timer } from 'claude-code'
 
 import type { ChatLine, DebugCall, DebugRequest, PaneView, SeenMark } from '../types'
 
@@ -1673,6 +1673,7 @@ export const register: Register = on => {
               </Box>
             </Box>
           )}
+          {topButton($, Box, Button, e.props.scroll)}
         </Box>
       )
     }
@@ -1828,6 +1829,7 @@ export const register: Register = on => {
             <Text dimColor>Tab to move · Enter to send · Esc to close</Text>
           </Box>
         )}
+        {topButton($, Box, Button, e.props.scroll, width - e.props.bodyColumns)}
       </Box>
     )
   })
@@ -1835,7 +1837,26 @@ export const register: Register = on => {
 
 type TextElement = ElementConstructor<TextProps>
 type BoxElement = ElementConstructor<BoxProps>
+type ButtonElement = ElementConstructor<ButtonProps>
 type InputElement = Elements['terminal']['Input']
+
+/**
+ * pet-control's `[top]`, for a page taller than its window (the looks, the
+ * log Show prompts lists whole): it floats at the window's bottom right, over
+ * whatever is under it, and takes the window back to the top. Drawn last so it
+ * paints over the rest, and only while the window is scrolled down: each
+ * scroll draws the page again with the window's new `scroll`. `right` reaches
+ * from the page's right edge to the window's, a page narrower than the window
+ * giving it a negative one.
+ */
+function topButton($: EngineInterface, Box: BoxElement, Button: ButtonElement, scroll: SiteScroll, right = 0): JSX.Element | undefined {
+  if (scroll.offset <= 0) return undefined
+  return (
+    <Box position="absolute" top={scroll.offset + scroll.bodyRows - 1} right={right}>
+      <Button key="top" label="[top]" plain onPress={() => { void $.ui.scroll({ in: SETTINGS_PANE, to: 'start' }).catch(() => undefined) }} />
+    </Box>
+  )
+}
 
 /**
  * The chat bar, pet-control's and the pet window's alike: a field in a round
