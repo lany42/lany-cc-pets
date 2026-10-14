@@ -24,6 +24,7 @@ import { CHAMELEON } from './chameleon-pet'
 import { HAMSTER } from './hamster-pet'
 import { MOMIJI_PIXEL } from './momiji-pixel-pet'
 import { lettersOver, Pixels } from './pixels'
+import { POMELO_PIXEL } from './pomelo-pixel-pet'
 import { SAKURA_PIXEL } from './sakura-pixel-pet'
 import { TREE_FROG } from './tree-frog-pet'
 import type { Directing, PixelPet } from './pet'
@@ -108,4 +109,4 @@ export function pixelLook<P>(pet: PixelPet<P>): LabLook {
 }
 
 /** Every pixel pet as a lab look, in the order the gallery lists them (after the drawn looks, before the rig looks): the one place a new one is registered. */
-export const PIXEL_LOOKS: readonly LabLook[] = [pixelLook(HAMSTER), pixelLook(TREE_FROG), pixelLook(MOMIJI_PIXEL), pixelLook(SAKURA_PIXEL), pixelLook(CHAMELEON)]
+export const PIXEL_LOOKS: readonly LabLook[] = [pixelLook(HAMSTER), pixelLook(TREE_FROG), pixelLook(MOMIJI_PIXEL), pixelLook(SAKURA_PIXEL), pixelLook(CHAMELEON), pixelLook(POMELO_PIXEL)]
