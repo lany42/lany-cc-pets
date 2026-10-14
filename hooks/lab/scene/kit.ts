@@ -203,6 +203,8 @@ export type Box = { c0: number; r0: number; c1: number; r1: number }
  * creature speaks from: its mouth or head), avoiding `keepOut` (the creature).
  * Prefers the sky above and to the left; falls back to the left side, then
  * the right. Returns where it went, or undefined when it could not fit.
+ * Opt-in, `most` caps a line of words (64 columns unless given, as it always
+ * was): a scene narrows it to keep its bubble off what it must not hide.
  */
 export function drawBubble(
   d: Dots,
@@ -213,6 +215,7 @@ export function drawBubble(
   words: number,
   tail: number,
   ascii = false,
+  most = 64,
 ): Box | undefined {
   const G = ascii ? ASCII : ROUND
   // Candidate regions: the sky above the creature, the room to its left, then
@@ -226,7 +229,7 @@ export function drawBubble(
   ]
   let best: { room: Room; lines: string[]; cap: number } | undefined
   for (const room of rooms) {
-    const inner = Math.min(64, room.c1 - room.c0 - 4)
+    const inner = Math.min(most, room.c1 - room.c0 - 4)
     const maxLines = room.r1 - room.r0 - 2
     if (inner < 8 || maxLines < 1) continue
     let all = wrap(text, inner, 99)

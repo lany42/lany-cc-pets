@@ -28,26 +28,35 @@
 //           quiet a moth comes by; after two, a fox may cross the meadow;
 //           after three, another owl answers from the church tower, and this
 //           one peeks that way
-//   busy    the wind gets up: gusts curl across, leaves fly, the twigs and the
+//   busy    the wind gets up: gusts curl across (in a window grown with the room,
+//           paired, in a nearer, brighter ink), leaves fly, the twigs and the
 //           grass lean, the cloud hurries, smoke bends, the windmill turns; the
 //           owl is awake, big amber eyes, glancing about and blinking. It sits
 //           still on its branch (only the twig at the branch's tip nods)
 //   ponder  it looks up, and a constellation draws itself, star to star, in
-//           open sky: the Plough, Cassiopeia, the Swan or a mouse
-//   talk    it hoots its words: beak open and shut, eyes on the bubble
+//           open sky: the Plough, Cassiopeia, the Swan or a mouse. In a tall
+//           room it is as big as the open sky holds, clear of the moon, the
+//           oak and the land, and each of its stars takes a cell
+//   talk    it hoots its words: beak open and shut, eyes on the bubble. In a
+//           tall room the village rises to the owl's head, so the bubble
+//           wraps narrower, or rises a row or two, to leave the village and
+//           the moon whole
 //   spectacle (a long turn just ended)  a shooting star crosses the whole sky
 //           and the owl's eyes follow it, a smaller one after; in a tall room
-//           a few more fall from the same radiant
+//           a shower follows, five more over two seconds fanning out from one
+//           radiant high in the sky, short near it and longer farther out.
+//           While it ponders or its words are up, its eyes stay on its
+//           constellation or its words
 import { clamp } from '../util'
 import type { Dots as DotsT, Frame, Ink, SceneDef, SceneInput, SceneInstance } from './kit'
-import { bayer, Dots, drawBubble, hash, ink, moonPhase, noise1, packFast } from './kit'
+import { bayer, Dots, drawBubble, hash, ink, moonPhase, noise1, packFast, wrap } from './kit'
 
 const P = {
   starDim: 1, star: 2, starBright: 3, starWarm: 4, starCool: 5, halo: 6, rim: 7, maria: 8, moon: 9,
   cloud: 10, wind: 11, ridgeFar: 12, ridgeMid: 13, hill: 14, roof: 15, roofLit: 16, lamp: 17,
   tree: 18, treeDim: 19, leafGold: 20, leafRust: 21, grass: 22, line: 23,
   owlTex: 24, owl: 25, tuft: 26, talon: 27, beak: 28, eyeShut: 29, eye: 30,
-  moth: 31, meteor: 32, border: 33, words: 34, disc: 35, pupil: 36,
+  moth: 31, meteor: 32, border: 33, words: 34, disc: 35, pupil: 36, gust: 37, trail: 38,
 } as const
 
 const PALETTE: Ink[] = []
@@ -88,6 +97,10 @@ PALETTE[P.border] = ink(0xf2b33d, 0xb07010, 9)
 PALETTE[P.words] = ink(0xd6d6d6, 0x2e2e2e, 9)
 PALETTE[P.disc] = ink(0x5e4c3c, 0xc4b3a0, 1.2)
 PALETTE[P.pupil] = ink(0xfff4d0, 0x3a2a10, 9)
+// a tall room's gusts: nearer air than the band's wind, so brighter
+PALETTE[P.gust] = ink(0x8b9ab4, 0x627290, 1.3)
+// a meteor's trail: paler than the figure's lines it may cross, short of its head's white
+PALETTE[P.trail] = ink(0xa7b6da, 0x4d5f8f, 1.5)
 
 const TAU = Math.PI * 2
 /** The sky turns once a sidereal day, as the real one does: radians a 250 ms tick. */
@@ -245,13 +258,13 @@ const FIGURES: readonly Figure[] = [
 // ---------------------------------------------------------------- layout
 
 /** Where everything goes in a room, in dots. The core strip (6 rows) is the band; extra rows go 70 / 30 to the sky and the meadow. */
-type Layout = {
+export type Layout = {
   W: number; H: number; above: number; below: number; top: number
   trunk: number; tw: number; branchY: number; owlX: number; owlY: number; horizon: number
   r: number; moonX: number; moonY: number; poleX: number; poleY: number
 }
 
-function layoutOf(cols: number, rows: number): Layout {
+export function layoutOf(cols: number, rows: number): Layout {
   const W = cols * 2, H = rows * 4
   const extra = Math.max(0, rows - 6)
   const above = Math.round(extra * 0.7)
@@ -763,7 +776,62 @@ function build(cols: number, rows: number, seed: number, moonlit: boolean): Stil
 
 // ---------------------------------------------------------------- the scene
 
+/** A shooting star: where its head is, how it moves, its age (waiting while 0 or less), the age it burns out at, and its trail's last points. */
 type Meteor = { x: number; y: number; vx: number; vy: number; age: number; life: number; trail: [number, number][] }
+/** A meteor's trail: the points its head passed on its last ticks, a segment a tick. */
+const TRAIL = 6
+/** The shower in a tall room: each meteor's spoke of the fan about the radiant, and the ticks after the spectacle began that it falls. */
+const SHOWER: readonly (readonly [number, number])[] = [[2, 24], [0, 26], [4, 28], [1, 31], [3, 33]]
+
+/**
+ * A meteor as it is drawn: its trail, a line through the points its head
+ * passed (the two newest segments solid, the older ones dotted), and its head
+ * while it burns. It falls far beyond the land, so the land hides it: no dot
+ * of it in a cell at or below the land's first cell down its column, so a
+ * land cell never takes its ink, in the band's one-dot hill line as among a
+ * tall room's ridges. Inks its dots into `d` when given, and says how many
+ * show.
+ */
+function streak(S: Still, m: Meteor, d?: DotsT): number {
+  const { W, H } = S.L
+  let n = 0
+  const put = (x: number, y: number, ink: number): void => {
+    if (x < 0 || y < 0 || x >= W || y >= H) return
+    if (y >> 2 >= Math.min(S.sky[x & ~1]!, S.sky[x | 1]!) >> 2) return
+    n++
+    if (d !== undefined) d.dot[y * W + x] = ink
+  }
+  const pts = m.trail
+  for (let k = 0; k < pts.length; k++) {
+    const a = pts[k]!, b = k + 1 < pts.length ? pts[k + 1]! : undefined
+    // the kit's Bresenham line (Dots.line), a dot at a time
+    let x0 = Math.round(a[0]), y0 = Math.round(a[1])
+    const x1 = Math.round(b !== undefined ? b[0] : m.x), y1 = Math.round(b !== undefined ? b[1] : m.y)
+    const every = k < pts.length - 2 ? 2 : 1
+    const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0)
+    const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1
+    for (let err = dx + dy, i = 0; ; i++) {
+      if (i % every === 0) put(x0, y0, P.trail)
+      if (x0 === x1 && y0 === y1) break
+      const e2 = 2 * err
+      if (e2 >= dy) { err += dy; x0 += sx }
+      if (e2 <= dx) { err += dx; y0 += sy }
+    }
+  }
+  if (m.age < m.life) {
+    const x = Math.round(m.x), y = Math.round(m.y)
+    put(x, y, P.meteor)
+    put(x + 1, y, P.meteor)
+  }
+  return n
+}
+
+/** Whether a meteor's whole streak, from its trail's oldest point on, is past an edge it flies away from: its path never turns back, so nothing of it shows again. */
+function gone(L: Layout, m: Meteor): boolean {
+  const [x, y] = m.trail[0]!
+  return (m.vx <= 0 && x < -1) || (m.vx >= 0 && x > L.W) || (m.vy >= 0 && y > L.H) || (m.vy <= 0 && y < -1)
+}
+
 type Moth = { x: number; y: number; vx: number; t0: number }
 type Leaf = { x: number; y: number; ph: number; age: number; ink: number; land: number }
 type Fox = { x: number; t0: number; rest: number }
@@ -772,6 +840,81 @@ type Fox = { x: number; t0: number; rest: number }
 function litShare(now: number): number {
   const h = new Date(now).getHours()
   return h >= 17 && h < 22 ? 0.72 : h >= 22 ? 0.5 : h < 5 ? 0.2 : h < 8 ? 0.4 : 0.55
+}
+
+/** A cell a bubble must never hide (`keepSum`); a cell of the figure counts 1. */
+const HARD = 100_000
+
+/**
+ * The cells a tall room's bubble should leave whole, summed so that a box is
+ * one look-up (`(c1, r1) - (c0, r1) - (c1, r0) + (c0, r0)`, a row of cols + 1
+ * a step). The village (its roofs, church and poplars, its windows, the
+ * smoke over its chimneys), the windmill, and the moon and its halo count
+ * HARD each; the figure in the sky, if one is up, 1 a cell: it goes 6 ticks
+ * into the line, the rest stay.
+ */
+function keepSum(S: Still, cols: number, rows: number, fig: { x: number; y: number; w: number; h: number } | undefined): Int32Array {
+  const L = S.L, W = L.W
+  const g = new Int32Array(cols * rows)
+  const mark = (x: number, y: number, v = HARD): void => {
+    if (x >= 0 && y >= 0 && x < W && y < L.H) g[(y >> 2) * cols + (x >> 1)] = Math.max(g[(y >> 2) * cols + (x >> 1)]!, v)
+  }
+  for (let k = 0; k < S.land.length; k++) {
+    const v = S.land[k]!, at = v >> 6
+    if ((v & 63) === P.roof || (v & 63) === P.roofLit) mark(at % W, Math.floor(at / W))
+  }
+  for (const w of S.lamps) for (let j = 0; j < w.h; j++) for (let i = 0; i < w.w; i++) mark(w.x + i, w.y + j)
+  if (L.above >= 8) for (const ch of S.chimneys.slice(0, 3)) for (let y = ch.y - 11; y <= ch.y; y++) for (let x = ch.x - 3; x <= ch.x + 1; x++) mark(x, y)
+  const disc = (cx: number, cy: number, r: number): void => {
+    for (let y = Math.floor(cy - r); y <= cy + r; y++) for (let x = Math.floor(cx - r); x <= cx + r; x++) if ((x - cx) ** 2 + ((y - cy) * 1.05) ** 2 <= r * r) mark(x, y)
+  }
+  if (S.mill !== undefined) disc(S.mill.x, S.mill.y, S.mill.len + 1)
+  disc(L.moonX, L.moonY, L.r + Math.max(2, Math.round(L.r * 0.45)) + 1)
+  if (fig !== undefined) for (let y = fig.y - 2; y <= fig.y + fig.h + 2; y++) for (let x = fig.x - 2; x <= fig.x + fig.w + 2; x++) mark(x, y, 1)
+  const C = cols + 1
+  const sum = new Int32Array(C * (rows + 1))
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) sum[(r + 1) * C + c + 1] = g[r * cols + c]! + sum[r * C + c + 1]! + sum[(r + 1) * C + c]! - sum[r * C + c]!
+  return sum
+}
+
+/**
+ * Where a window's figure goes: the biggest the open sky holds, from half
+ * the room's width or nine tenths of its sky's height (the smaller) down to
+ * the size it always had, with a dot of air round it, off the land, the
+ * trees, the moon and its halo, and the owl's corner, where its bubble goes;
+ * of the places it fits, the nearest the owl's head. Undefined where even
+ * the smallest fits nowhere.
+ */
+function skyFor(S: Still, cols: number, rows: number): { x: number; y: number; w: number; h: number } | undefined {
+  const L = S.L
+  const C = cols + 1
+  const sum = new Int32Array(C * (rows + 1))
+  const glow = L.r + Math.max(2, Math.round(L.r * 0.45)) + 3
+  // the owl's corner: its head, its '...' and a short line's bubble over it
+  const headC = Math.floor((L.owlX + 2) / 2) - 9, headR = Math.floor(L.owlY / 4) - 6
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const land = Math.min(S.sky[c * 2]!, S.sky[Math.min(L.W - 1, c * 2 + 1)]!)
+      const x = c * 2 + 0.5, y = r * 4 + 1.5
+      const shut = S.bare[r * cols + c] === 1 || r * 4 + 3 >= land - 6 || (c >= headC && r >= headR) || (x - L.moonX) ** 2 + ((y - L.moonY) * 1.05) ** 2 <= glow * glow
+      sum[(r + 1) * C + c + 1] = (shut ? 1 : 0) + sum[r * C + c + 1]! + sum[(r + 1) * C + c]! - sum[r * C + c]!
+    }
+  }
+  const least = clamp(Math.round(L.W * 0.2), 30, 64), most = Math.round(Math.min(L.W * 0.5, L.top * 0.9))
+  for (let w = Math.max(least, most); w >= least; w -= 4) {
+    const h = Math.round(w * 0.5)
+    let best: { x: number; y: number; w: number; h: number } | undefined, near = Number.POSITIVE_INFINITY
+    for (let y = 3; (y + h + 2) >> 2 < rows; y += 2) {
+      for (let x = 4; x + w + 4 <= L.W; x += 2) {
+        const c0 = (x - 2) >> 1, c1 = ((x + w + 2) >> 1) + 1, r0 = (y - 2) >> 2, r1 = ((y + h + 2) >> 2) + 1
+        if (sum[r1 * C + c1]! - sum[r0 * C + c1]! - sum[r1 * C + c0]! + sum[r0 * C + c0]! > 0) continue
+        const d = Math.hypot(x + w / 2 - L.owlX, y + h / 2 - L.owlY)
+        if (d < near) { near = d; best = { x, y, w, h } }
+      }
+    }
+    if (best !== undefined) return best
+  }
+  return undefined
 }
 
 class Night implements SceneInstance {
@@ -802,6 +945,8 @@ class Night implements SceneInstance {
   private litter: number[] = []
   /** Where the bubble was last drawn, in dots with a two-cell margin: nothing there moves but the owl. */
   private hush: { x0: number; y0: number; x1: number; y1: number } | undefined
+  /** How a tall room's bubble wraps and how far it rises, worked out once a line (`wordsAt`), kept while it shows. */
+  private said: { key: string; most: number; lift: number } | undefined
   private lit = { at: -1, share: 0.5 }
   private moon: { key: string; layer: Int32Array } = { key: '', layer: new Int32Array(0) }
 
@@ -834,6 +979,52 @@ class Night implements SceneInstance {
     return this.still
   }
 
+  /**
+   * Where a tall room's words go, once a line: wrapped as wide as they may be
+   * and raised as little as they may be (at most 3 rows, so the tail still
+   * reaches the owl's head) for the bubble to leave the village, the
+   * windmill and the moon whole, and the figure too where it can (`keepSum`);
+   * a row of rise costs as much as three more lines. Where nothing leaves
+   * them whole, where it always went: over the owl's head, 64 columns at most.
+   */
+  private wordsAt(S: Still, text: string, cols: number, rows: number): { most: number; lift: number } {
+    const key = `${S.size}:${text}`
+    if (this.said?.key === key) return this.said
+    const L = S.L
+    const head = Math.floor(L.owlY / 4), right = Math.min(cols, Math.floor((L.owlX + 2) / 2) + 3)
+    const sum = keepSum(S, cols, rows, this.constellation)
+    const C = cols + 1
+    const hides = (c0: number, r0: number, c1: number, r1: number): number => {
+      c0 = Math.max(0, c0)
+      c1 = Math.min(cols, c1)
+      return sum[r1 * C + c1]! - sum[r0 * C + c1]! - sum[r1 * C + c0]! + sum[r0 * C + c0]!
+    }
+    let best = { key, most: 64, lift: 0 }, cost = Number.POSITIVE_INFINITY
+    for (let most = 64; most >= 12; most--) {
+      // the words as drawBubble lays them over the owl: wrapped to `most`, then balanced
+      const inner = Math.min(most, cols - 4)
+      let lines = wrap(text, inner, 99)
+      for (let w = inner - 1; w >= 8 && lines.length > 1; w--) {
+        const tighter = wrap(text, w, 99)
+        if (tighter.length > lines.length) break
+        lines = tighter
+      }
+      const bw = Math.max(...lines.map(l => [...l].length)) + 4, bh = lines.length + 2
+      const c1 = Math.max(bw, right)
+      for (let lift = 0; lift <= 3 && head - lift - bh >= 0; lift++) {
+        // the box and the clear cell drawBubble leaves either side of it; over the figure only if nothing else will do
+        const hid = hides(c1 - bw - 1, head - lift - bh, c1 + 1, head - lift)
+        const n = lines.length + lift * 3 + (hid > 0 ? 100 : 0)
+        if (hid < HARD && n < cost) {
+          cost = n
+          best = { key, most, lift }
+        }
+      }
+    }
+    this.said = best
+    return best
+  }
+
   /** Near the owl or its bubble, where nothing but the owl may move. */
   private hushed(L: Layout, x: number, y: number): boolean {
     if (x > L.owlX - 4 && x < L.trunk + L.tw + 2 && y > L.owlY - 8 && y < L.branchY + 8) return true
@@ -860,31 +1051,42 @@ class Night implements SceneInstance {
       this.meteors.push({ x: L.owlX - 6, y: y0, vx: -Math.max(8, L.W / 22), vy: 0.5 + (L.H > 30 ? 1 : 0.25), age: 0, life: 40, trail: [] })
       this.meteors.push({ x: L.owlX - 30, y: 0, vx: -6, vy: 0.8, age: -14, life: 26, trail: [] })
       if (L.above >= 8) {
-        // a few more from the same radiant, high in the sky
+        // a shower from one radiant high in the sky, five in two seconds. Each
+        // starts out from the radiant along its own spoke of the fan and flies
+        // on straight out; one starting farther out is faster and longer, as
+        // in a real shower, whose meteors near the radiant come almost at you
         const rx = L.W * 0.5, ry = L.top * 0.08
-        for (let k = 0; k < 4; k++) {
-          const a = Math.PI * (0.12 + 0.76 * hash(t, k, 6))
-          const v = 4 + hash(t, k, 7) * 2
-          this.meteors.push({ x: rx + Math.cos(a) * 10, y: ry + Math.sin(a) * 6, vx: Math.cos(a) * v, vy: Math.sin(a) * v * 0.6, age: -(44 + k * 26), life: 9, trail: [] })
-        }
+        SHOWER.forEach(([spoke, at], k) => {
+          const a = Math.PI * (0.06 + (0.88 * (spoke + 0.25 + 0.5 * hash(t, k, 6))) / SHOWER.length)
+          const out = 8 + hash(t, k, 7) * 26
+          const v = 1.6 + out * 0.14
+          this.meteors.push({ x: rx + Math.cos(a) * out, y: ry + Math.sin(a) * out * 0.6, vx: Math.cos(a) * v, vy: Math.sin(a) * v * 0.6, age: -at, life: 6 + Math.floor(hash(t, k, 8) * 4), trail: [] })
+        })
       }
     }
     for (const m of this.meteors) {
       m.age++
       if (m.age <= 0) continue
-      if (m.x > -4 && m.x < L.W + 4) {
+      if (m.age < m.life) {
+        // it flies on past the canvas's edge too, so its trail flows out after it
         m.trail.push([m.x, m.y])
+        if (m.trail.length > TRAIL) m.trail.shift()
         m.x += m.vx
         m.y += m.vy * (1 + m.age * 0.05)
-      }
+      } else m.trail.splice(0, 2) // burnt out: its trail goes out from the far end, two segments a tick
     }
-    this.meteors = this.meteors.filter(m => m.age < m.life)
-    const shown = this.meteors.find(m => m.age > 0)
+    // a meteor leaves once nothing of it can show again; the owl watches one that shows
+    this.meteors = this.meteors.filter(m => m.age <= 0 || (m.trail.length > 0 && !gone(L, m)))
+    const shown = this.meteors.find(m => m.age > 0 && streak(S, m) > 0)
 
     // the owl's eyes; they wait out the tick its breath turns, so the two never move together
     if (this.eyeHold > 0) this.eyeHold--
     const turning = t % (mood === 'idle' ? 10 : 6) === 0 || (busy && t % 6 === 3)
-    if (shown !== undefined) {
+    // a meteor takes its gaze when it has nothing of its own to look at: asleep
+    // as the turn ends, or glancing about while Claude works. Pondering it keeps
+    // to its constellation and talking to its words; while words are up, no
+    // meteor turns its eyes
+    if (shown !== undefined && (mood === 'idle' || busy) && input.bubble === undefined) {
       this.eyes = shown.age < 2 ? 'open' : shown.vx < 0 ? 'left' : 'up'
       this.peekEye = 0
     } else if (mood === 'idle') {
@@ -924,13 +1126,16 @@ class Night implements SceneInstance {
     if (mood === 'ponder' && this.moodFor === 0) {
       const fig = FIGURES[Math.floor(hash(t, this.seed, 21) * FIGURES.length)]!
       const clear = L.moonX + L.r + Math.max(2, Math.round(L.r * 0.45)) + 3
+      // a window: as big as the open sky holds, near its head
+      const open = L.above < 6 ? undefined : skyFor(S, input.cols, input.rows)
       if (L.above < 6) {
         // the band: between the moon and the bubble's margin, left of its head
         const x1 = L.owlX - 23
         const w = clamp(x1 - clear, 10, 36)
         this.constellation = { fig, x: x1 - w, y: 2, w, h: Math.min(14, L.horizon - 8) }
-      } else {
-        // a window: the patch of open sky with the fewest twigs and no land in it
+      } else if (open !== undefined) this.constellation = { fig, ...open }
+      else {
+        // a window with no open sky to hold it: the patch with the fewest twigs and no land in it
         const w = clamp(Math.round(L.W * 0.2), 30, 64), h = Math.round(w * 0.5)
         const y = Math.max(3, Math.round(L.top * 0.15))
         let best = clear, score = Infinity
@@ -1030,13 +1235,15 @@ class Night implements SceneInstance {
     S.cursor = (S.cursor + each) % n
     const keep = (L.r + Math.max(2, Math.round(L.r * 0.45)) + 1) ** 2
     const c = this.constellation
+    // the clear sky round a figure: wider round a window's, which is bigger (and the fewer stars, the fewer runs)
+    const air = L.above >= 6 ? 6 : 4
     for (let i = 0; i < n; i++) {
       const x = S.sx[i]!, y = S.sy[i]!
       if (x < 0 || x >= W || y < 0 || y >= S.sky[x]! - 1) continue
       const dx = x - L.moonX, dy = y - L.moonY
       if (dx * dx + dy * dy < keep || S.bare[(y >> 2) * input.cols + (x >> 1)] === 1) continue
-      // while a figure draws itself, the sky round it keeps out of its way
-      if (c !== undefined && L.above >= 3 && this.moodFor >= 1 && x >= c.x - 4 && x <= c.x + c.w + 4 && y >= c.y - 4 && y <= c.y + c.h + 4) continue
+      // while a figure is up, the sky round it keeps out of its way: from the tick after the '...' lands till it goes
+      if (c !== undefined && L.above >= 3 && (this.mood !== 'ponder' || this.moodFor >= 1) && x >= c.x - air && x <= c.x + c.w + air && y >= c.y - air && y <= c.y + c.h + air) continue
       const kind = S.sk[i]!
       const ph = S.sp[i]!
       const at = y * W + x
@@ -1081,7 +1288,13 @@ class Night implements SceneInstance {
         bright.add(b)
       }
       if (shown === 0) bright.add(fig.segs[0]![0])
-      for (const k of bright) d.set(pts[k]![0], pts[k]![1], P.starBright)
+      for (const k of bright) {
+        const [x, y] = pts[k]!
+        if (L.above < 6) { d.set(x, y, P.starBright); continue }
+        // a window's figure is big: each star takes its cell, four dots in its middle, and the lines stop at it
+        const x0 = x - (x & 1), y0 = y - (y & 3)
+        for (let j = 0; j < 4; j++) for (let i = 0; i < 2; i++) d.set(x0 + i, y0 + j, j === 1 || j === 2 ? P.starBright : 0)
+      }
     }
 
     // ---- the moon, and the cloud across it
@@ -1116,17 +1329,7 @@ class Night implements SceneInstance {
     }
 
     // ---- meteors, behind the land
-    for (const m of this.meteors) {
-      if (m.age <= 0) continue
-      const pts = m.trail.slice(-6)
-      for (let k = 0; k < pts.length; k++) {
-        const [x0, y0] = pts[k]!
-        const [x1, y1] = pts[k + 1] ?? [m.x, m.y]
-        const fade = m.age - (m.trail.length - pts.length + k)
-        if (fade < 10) d.line(x0, y0, x1, y1, P.line, k < pts.length - 2 ? 2 : 1)
-      }
-      if (m.x > -4) { d.set(m.x, m.y, P.meteor); d.set(m.x + 1, m.y, P.meteor) }
-    }
+    for (const m of this.meteors) if (m.age > 0) streak(S, m, d)
 
     // ---- the land, the village's lights, smoke and sails
     blit(d, S.land)
@@ -1178,16 +1381,17 @@ class Night implements SceneInstance {
     tufts(false)
 
     // ---- gusts while it blows: a streak runs along a wavering path and curls up at its end
-    if (busy) {
-      // two in a wide band, more in a window, never crowding it
-      const n = L.above === 0 ? (W >= 120 ? 2 : 1) : Math.max(1, Math.round((W * H) / 6500))
+    if (busy && L.above > 0) this.gusts(L, t) // a window's, grown with it
+    else if (busy) {
+      // two in a wide band
+      const n = W >= 120 ? 2 : 1
       const life = 40
       for (let k = 0; k < n; k++) {
         const off = Math.floor((k * life) / n + hash(k, 31) * 6)
         const born = Math.floor((t + off) / life) * life - off
         const age = t - born
         const x0 = 10 + hash(born, k, 41) * (W - 10)
-        const y0 = 2 + hash(born, k, 42) * (L.above > 0 ? H - 8 : H * 0.6)
+        const y0 = 2 + hash(born, k, 42) * H * 0.6
         const run = 26 + Math.floor(hash(born, k, 43) * 30)
         const amp = 1 + hash(born, k, 44) * 1.5, lam = 5 + hash(born, k, 45) * 4, ph = hash(born, k, 46) * TAU
         const xe = x0 - run, ye = y0 + amp * Math.sin(run / lam + ph)
@@ -1266,9 +1470,61 @@ class Night implements SceneInstance {
 
     if (input.bubble !== undefined) {
       const head = { c: Math.floor((L.owlX + 2) / 2), r: Math.max(0, Math.floor((L.owlY + 8) / 4)) }
-      const box = drawBubble(d, input.bubble, head, { c0: Math.floor(L.owlX / 2) - 1, r0: Math.max(0, Math.floor(L.owlY / 4)), c1: input.cols, r1: input.rows }, P.border, P.words, P.border, input.asciiBorders === true)
+      // in a tall room the village rises to the owl's head: the words wrap narrower, or rise a row or two, to leave it whole
+      const at = L.above >= 3 ? this.wordsAt(S, input.bubble, input.cols, input.rows) : { most: 64, lift: 0 }
+      const box = drawBubble(d, input.bubble, head, { c0: Math.floor(L.owlX / 2) - 1, r0: Math.max(0, Math.floor(L.owlY / 4) - at.lift), c1: input.cols, r1: input.rows }, P.border, P.words, P.border, input.asciiBorders === true, at.most)
       this.hush = box === undefined ? undefined : { x0: box.c0 * 2 - 4, y0: box.r0 * 4 - 8, x1: box.c1 * 2 + 4, y1: box.r1 * 4 + 8 }
-    } else this.hush = undefined
+    } else {
+      this.hush = undefined
+      this.said = undefined
+    }
+  }
+
+  /**
+   * The gusts of a window: the band's gust grown with the room by `k` (a
+   * longer run, a deeper wave, a wider curl, a longer streak) in the nearer
+   * P.gust, with a second, sparser streamline running under the first, so
+   * they read in a tall room as the band's do in its strip. The heads run 3
+   * dots a tick, as the band's do, so a gust moves no more dots a tick for
+   * being longer; a bigger one comes √k times less often by the room's area,
+   * and never fewer at once than the band of that width has.
+   */
+  private gusts(L: Layout, t: number): void {
+    const dot = this.d.dot
+    const { W, H } = L
+    const k = clamp(H / 72, 1, 2.2)
+    const n = Math.max(W >= 120 ? 2 : 1, Math.round((W * H) / (6500 * Math.sqrt(k))))
+    const trail = Math.round(15 * k), curl = Math.round(12 * k), r = 2.6 * k
+    const gap = Math.round(3 * k), lead = Math.round(5 * k), trail2 = Math.round(trail * 0.6)
+    const life = Math.round(32 * k)
+    const put = (x: number, y: number): void => {
+      const xi = Math.round(x), yi = Math.round(y)
+      if (xi < 0 || xi >= W || yi < 0 || yi >= H || dot[yi * W + xi] !== 0 || this.hushed(L, xi, yi)) return
+      dot[yi * W + xi] = P.gust
+    }
+    for (let g = 0; g < n; g++) {
+      const off = Math.floor((g * life) / n + hash(g, 31) * 6)
+      const born = Math.floor((t + off) / life) * life - off
+      const age = t - born
+      const run = Math.round((26 + Math.floor(hash(born, g, 43) * 30)) * k)
+      // most of its run on the canvas
+      const x0 = run * 0.7 + hash(born, g, 41) * Math.max(10, W - run * 0.7)
+      const y0 = 2 + hash(born, g, 42) * (H - 8 - gap)
+      const amp = (1 + hash(born, g, 44) * 1.5) * k, lam = (5 + hash(born, g, 45) * 4) * k, ph = hash(born, g, 46) * TAU
+      const xe = x0 - run, ye = y0 + amp * Math.sin(run / lam + ph)
+      const head = age * 3
+      // the streamline, curling up at its end
+      for (let j = Math.max(0, head - trail); j <= Math.min(head, run + curl); j++) {
+        if (j % 4 === 3) continue
+        if (j <= run) put(x0 - j, y0 + amp * Math.sin(j / lam + ph))
+        else { const f = (j - run) / r; put(xe - r * Math.sin(f), ye - r * (1 - Math.cos(f))) }
+      }
+      // the second, under it: shorter, sparser, a little behind, no curl
+      for (let j = Math.max(lead, head - lead - trail2); j <= Math.min(head - lead, run - lead); j++) {
+        if (j % 2 === 1) continue
+        put(x0 - j, y0 + gap + amp * 0.8 * Math.sin(j / lam + ph - 0.4))
+      }
+    }
   }
 
   private drawOwl(L: Layout, input: SceneInput): void {
@@ -1290,6 +1546,9 @@ class Night implements SceneInstance {
     d.stamp(talking ? BEAK_OPEN : BEAK_SHUT, ox + 9 + tilt, oy + 7, OWL_MAP)
   }
 }
+
+/** The scene's inks by name, as a frame's `ink` holds them: for its tests, which count them from outside. */
+export const INKS = P
 
 export const night: SceneDef = {
   id: 'owl-night',
