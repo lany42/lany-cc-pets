@@ -11,19 +11,19 @@
 // side's, here: each pick (eyes, mouth, brows, the puff, breath, bob, lean)
 // a threshold on one or two params, with no hysteresis, and her petals in
 // the air as pixels. It reads her own `shower` param for the spectacle's
-// petals in the band. Her chest rises to the nearest whole pixel (half a
-// pixel or more, a pixel): her every fifth breath, a sigh, and her
-// giggle's shoulders. It paints through the pixel pet onto a pixel surface,
-// then lays each whole pixel onto the painted kit's canvas as its 4 x 4
-// samples, at the cell column and pixel row the kit gives, inside its clip;
-// the kit encodes it, and a cell of two flat pixels encodes exactly. The
-// pixel pet imports nothing of the rig: this file is the only one that joins
-// them. Pure.
+// petals in the band, laid as her pixel pet lays them (`showerAt`). Her
+// chest rises to the nearest whole pixel (half a pixel or more, a pixel):
+// her every fifth breath, a sigh, and her giggle's shoulders. It paints
+// through the pixel pet onto a pixel surface, then lays each whole pixel
+// onto the painted kit's canvas as its 4 x 4 samples, at the cell column
+// and pixel row the kit gives, inside its clip; the kit encodes it, and a
+// cell of two flat pixels encodes exactly. The pixel pet imports nothing of
+// the rig: this file is the only one that joins them. Pure.
 import type { Canvas } from '../rig/kit/canvas'
 import { SX, SY } from '../rig/kit/canvas'
 import type { BandForm, Channels } from '../rig/kit/pet'
 import type { Brows, Eyes, Mouth, Pose, Spot } from '../pixel/sakura-pixel'
-import { COLUMNS, MOUTH, NOSE, ROWS, SHOWER, SLOTS } from '../pixel/sakura-pixel'
+import { COLUMNS, MOUTH, NOSE, ROWS, showerAt, SLOTS } from '../pixel/sakura-pixel'
 import { SAKURA_PIXEL } from '../pixel/sakura-pixel-pet'
 import { Pixels } from '../pixel/pixels'
 
@@ -77,17 +77,10 @@ function wornOf(pose: Channels): Spot[] {
   return out.filter(inside)
 }
 
-/** The petals in the air round her: the gust's two, and the spectacle's shower; pixels of her box. */
+/** The petals in the air round her: the gust's two; pixels of her box. */
 function airOf(pose: Channels): Spot[] {
   const out: Spot[] = []
   for (const petal of [flyer(at(pose, 'aOn'), at(pose, 'aX'), at(pose, 'aY')), flyer(at(pose, 'bOn'), at(pose, 'bX'), at(pose, 'bY'))]) if (petal !== undefined) out.push(petal)
-  const shower = at(pose, 'shower')
-  if (shower > 0 && shower < 1) {
-    for (const [x, delay] of SHOWER) {
-      const u = (shower - delay) / 0.5
-      if (u > 0 && u < 1) out.push([x, Math.floor(u * 14) - 1])
-    }
-  }
   return out.filter(inside)
 }
 
@@ -114,6 +107,8 @@ export function sakuraPixelPose(pose: Channels): Pose {
     puff: at(pose, 'puff') > 0.5 ? 1 : 0,
     worn: wornOf(pose),
     air: airOf(pose),
+    // The spectacle's shower as her pixel pet plays it, its progress her rig's own `shower` (0 to 1 over the act).
+    shower: showerAt(at(pose, 'shower')),
     breath: breathOf(pose),
     bob: bobOf(pose),
     lean: leanOf(pose),

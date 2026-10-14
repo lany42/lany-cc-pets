@@ -20,9 +20,14 @@
 //           first 1.5-5 s in): at you (40%), up at the blossom in her hair,
 //           at nothing with heavier lids, or down after a petal only she
 //           sees.
-//   busy    one spot of the work, a glance there every 3-6 s; a peek up at
-//           you every 12-24 s (the first 5-12 s in).
+//   busy    one spot of the work, to her left (75%) or down, a glance there
+//           every 3-6 s; a peek up at you every 12-24 s (the first 5-12 s
+//           in). Each spot is clear of her band form's eyes' thresholds, so
+//           her band shows it one way, however near the last spot it is.
 //   ponder, talk   their mood's clip; talk's syllables are its `talk` clip.
+// A new mood aims her eyes at once, as a glance due then: busy at the work,
+// idle back at you; her next glance is drawn from then (on her first frame,
+// or one starting over, her first glance's time is kept).
 // Her faces, nose, doze and shower are big: 9 s of calm after each, and
 // nothing that waits for quiet (a face, a gust, the doze, a peek) starts
 // while a big act or a gust is under way. A blink every 4-9 s (5-10 busy,
@@ -33,7 +38,7 @@
 // 0.3 s later unless a big act is under way. Her first frame, a step back or
 // a gap over 2 s starts it all over: no acts, no petal bound for her nose,
 // every first time drawn afresh; the petals in her hair, her calm, her glance
-// and her last blink and droop are kept.
+// (unless her mood is new) and her last blink and droop are kept.
 //
 // It writes, every frame:
 //   mood    her mood's clip (`mood.idle` ...), from when the cue says it began
@@ -90,6 +95,8 @@ export function sakuraBehavior(seed: number, drivers: DriversDoc = rigPetById('s
   let nextFace = 0
   let nextGust = 0
   let nextPeek = 0
+  /** Her mood on her last frame (none before her first): a new one aims her eyes at once. */
+  let lastMood: Cue['mood'] | undefined
   /** Petals caught in her hair, 0 to 3. */
   let petals = 0
   /** When the petal on its way to her nose lands, if one is. */
@@ -139,7 +146,8 @@ export function sakuraBehavior(seed: number, drivers: DriversDoc = rigPetById('s
     step(cue: Cue) {
       const t = cue.t
       const mood = cue.mood
-      if (startsOver(schedule, t)) {
+      const isFresh = startsOver(schedule, t)
+      if (isFresh) {
         noseAt = undefined
         nextGust = t + between(schedule, 10, 22)
         nextFace = t + between(schedule, 15, 35)
@@ -176,9 +184,19 @@ export function sakuraBehavior(seed: number, drivers: DriversDoc = rigPetById('s
         if (isCalm) act('peek', t)
         nextPeek = t + between(schedule, 12, 24)
       }
-      if (t >= nextGlance) {
-        // Idle: at you, up at the blossom in her hair, spacing out, or down after a petal only she sees; busy: one spot of the work.
-        if (mood === 'busy') glance = { x: between(schedule, -0.55, -0.35), y: between(schedule, 0.45, 0.6), lid: 0, fall: 0 }
+      // A new mood (busy, idle) is a glance due now; starting over, her first glance's time is kept.
+      const isNewMood = mood !== lastMood && (mood === 'busy' || mood === 'idle')
+      lastMood = mood
+      if (t >= nextGlance || isNewMood) {
+        // Idle: at you, up at the blossom in her hair, spacing out, or down after a petal only she sees; busy: one spot of the work,
+        // to her left or down (each spot clear of her band form's thresholds, and a left one low enough that coming from you
+        // her gaze turns left before it drops, so each reads one way all the way there and while it holds).
+        if (mood === 'busy')
+          glance =
+            roll(schedule) < 0.75
+              ? { x: between(schedule, -0.55, -0.45), y: between(schedule, 0.45, 0.5), lid: 0, fall: 0 }
+              : { x: between(schedule, -0.3, -0.15), y: between(schedule, 0.5, 0.6), lid: 0, fall: 0 }
+        else if (isNewMood) glance = { x: 0, y: 0, lid: 0, fall: 0 }
         else {
           const pick = roll(schedule)
           glance =
@@ -191,7 +209,7 @@ export function sakuraBehavior(seed: number, drivers: DriversDoc = rigPetById('s
                   : { x: between(schedule, -0.5, 0.5), y: -0.7, lid: 0, fall: 1 }
         }
         glanceAt = t
-        nextGlance = t + (mood === 'busy' ? between(schedule, 3, 6) : between(schedule, 4.5, 11))
+        if (!(isFresh && isNewMood)) nextGlance = t + (mood === 'busy' ? between(schedule, 3, 6) : between(schedule, 4.5, 11))
       }
 
       // ---- blinks: three in four a blink, one in four a droop

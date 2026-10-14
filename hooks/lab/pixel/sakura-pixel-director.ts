@@ -28,7 +28,7 @@
 // Pure: imports nothing at run time but the shared hash and her own art.
 import { hash } from '../motion'
 import type { Brows, Eyes, Mouth, Pose, Spot } from './sakura-pixel'
-import { COLUMNS, NOSE, REST, ROWS, SHOWER, SLOTS } from './sakura-pixel'
+import { COLUMNS, NOSE, REST, ROWS, showerAt, SLOTS } from './sakura-pixel'
 import type { Cue, Directing } from './pet'
 
 /** Her frames a tick (her definition's `frames`), and so a second: one constant, so her acts' frames are her clock's. */
@@ -311,20 +311,11 @@ export function perform(act: Act, u: number, pose: Pose): void {
       pose.worn = flying.filter(inBox)
       break
     }
-    case 'shower': {
+    case 'shower':
       lay(SCRIPTS.shower, u, pose)
-      // Petals fall round her, each its own column and its own start, a whole pixel at a time.
-      const s = u / act.length
-      const air: Spot[] = []
-      for (const [x, delay] of SHOWER) {
-        const v = (s - delay) / 0.5
-        if (v <= 0 || v >= 1) continue
-        const spot: Spot = [x, Math.floor(v * 14 + EDGE) - 1]
-        if (inBox(spot)) air.push(spot)
-      }
-      pose.air = [...pose.air, ...air]
+      // Petals fall round her in a deeper rose, each its own column and its own start, a whole pixel at a time, swaying.
+      pose.shower = showerAt(u / act.length)
       break
-    }
     case 'smile':
     case 'hum':
     case 'doze':
