@@ -116,6 +116,14 @@ export type SpaceDef = {
 /** The root space's id: the pet's own units. */
 export const ROOT = 'root'
 
+/**
+ * A deformer, by registered `type` (deform.ts: `bones`, `turn`): it moves the
+ * nodes of the layers that name it in their `deform`, in their own units,
+ * after their keyforms and before their space's transform. At rest it moves
+ * nothing. Optional: a rig without deformers draws as it always did.
+ */
+export type DeformerDef = { readonly id: string; readonly type: string; readonly [field: string]: unknown }
+
 // ---------------------------------------------------------------- shapes
 
 /** An absolute path command: `M` and `L` one point each, `C` a cubic's two controls and its end, `Z` closes. */
@@ -237,6 +245,8 @@ export type LayerDef = {
   readonly id: string
   /** The space it is drawn in: `root` or a space's id. */
   readonly space: string
+  /** The deformers that move its nodes, by id, applied in order (none when absent). */
+  readonly deform?: string | readonly string[]
   /** What it fills; an array is one fill of every shape's rings, in order (its nodes concatenated in that order). */
   readonly shape: ShapeDef | readonly ShapeDef[]
   readonly paint: PaintRef
@@ -281,6 +291,8 @@ export type RigDoc = {
   readonly params: readonly ParamDef[]
   readonly derived?: readonly DerivedDef[]
   readonly spaces?: readonly SpaceDef[]
+  /** Its deformers, which layers name in `deform`. */
+  readonly deformers?: readonly DeformerDef[]
   /** Its pose drawings, for the importer; never read at run time. */
   readonly poses?: readonly PoseDef[]
   readonly frames?: readonly FrameDef[]

@@ -25,7 +25,8 @@
 //           (`if`) fails or the stage mutes one of its tags. A muted track,
 //           or one with no param, can still be read by `from` and `mul`.
 //   driver  a stateful driver (physics.ts, and others by type) reads the pose
-//           as the stages before it left it and writes its outputs.
+//           as the stages before it left it and writes its outputs; it may
+//           ask where that pose puts a rig anchor (`anchorAt`).
 //
 // The state is a value: `step` never changes the state or timeline it is
 // given. It starts over (every driver handed `undefined`, `dt` 0) on the
@@ -44,6 +45,7 @@
 // engine's own modules.
 import { anchorOf } from './evaluate'
 import type { Rig } from './evaluate'
+import { apply } from './kit/pen'
 import { REGISTRY } from './registry'
 import type { BlendMode, DriverFrame, DriverType, Easing, Source } from './registry'
 import type { AnchorRef, ClipDef, DriverDef, DriversDoc, Gate, Instance, KeyValue, Pt, Timeline, TrackDef, Values } from './schema'
@@ -403,7 +405,20 @@ export function step(program: Program, pipeline: string, state: DriverState | un
     }
     const { driver, type } = stage
     if (type === undefined) throw new Error(`driver "${driver.id}": type "${driver.type}" has no implementation`)
-    frame ??= { t, dt: last === undefined ? 0 : t - last.t, gap: last !== undefined && t - last.t > GAP, values, timeline, anchor: bound.anchor, rangeOf: bound.rangeOf }
+    frame ??= {
+      t,
+      dt: last === undefined ? 0 : t - last.t,
+      gap: last !== undefined && t - last.t > GAP,
+      values,
+      timeline,
+      anchor: bound.anchor,
+      rangeOf: bound.rangeOf,
+      // Where the pose so far puts an anchor, in root units: its layer's nodes and its spaces at these values.
+      anchorAt: ref => {
+        const placed = anchorOf(program.rig, ref, values, { hairline: 1 })
+        return apply(placed.transform, placed.at[0], placed.at[1])
+      },
+    }
     drivers[driver.id] = type.step(driver, last?.drivers[driver.id], frame)
   }
   const { params, signals } = results(bound, values)

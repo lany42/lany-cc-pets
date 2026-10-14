@@ -15,7 +15,8 @@
 // 3. layers, in order, each whose `visible` holds: its nodes (shape nodes,
 //    then anchors, then curves' points), each its base plus every node
 //    block's interpolated offset times its frame's width and height (`base +
-//    stored * w`, block after block); its shapes' props (scalars evaluated:
+//    stored * w`, block after block), then moved by its deformers in order
+//    (`deform`, deform.ts; none at rest); its shapes' props (scalars evaluated:
 //    a number, a binding `scale * value + offset`, keyforms `base + blocks`;
 //    tables as written), plus their prop blocks' interpolated deltas; its
 //    alpha likewise (1 when absent); its shapes' commands, by their kinds;
@@ -38,9 +39,9 @@ import type { Affine } from './kit/pen'
 import { IDENTITY, then } from './kit/pen'
 import { paramsIn } from './interp'
 import { paintDefOf } from './paints'
-import type { Combiner, Interpolator, PaintMoment, PaintType, ShapeKind, SpaceType } from './registry'
+import type { Combiner, DeformerType, Interpolator, PaintMoment, PaintType, ShapeKind, SpaceType } from './registry'
 import { REGISTRY, rgb } from './registry'
-import type { AnchorRef, BlockAxes, Command, DerivedDef, Drawable, Geometry, LayerDef, NodeBlock, PaintDef, Predicate, PropBlock, Pt, ResolvedPaint, RigDoc, Scalar, ShapeDef, SpaceDef, Values, View } from './schema'
+import type { AnchorRef, BlockAxes, Command, DeformerDef, DerivedDef, Drawable, Geometry, LayerDef, NodeBlock, PaintDef, Predicate, PropBlock, Pt, ResolvedPaint, RigDoc, Scalar, ShapeDef, SpaceDef, Values, View } from './schema'
 import { ROOT } from './schema'
 
 /** A rig made ready to evaluate (frames, node counts and types looked up once); `doc` is the document it was made from. */
@@ -96,6 +97,8 @@ type Layer = {
   readonly paint: { readonly type: PaintType; readonly def: PaintDef }
   readonly clip: 'none' | 'figure'
   readonly isStill: boolean
+  /** Its deformers in order, each bound to its base nodes. */
+  readonly deform: readonly { readonly def: DeformerDef; readonly type: DeformerType; readonly bound: unknown }[]
   /** Room for the widest of its blocks' values. */
   readonly scratch: Float64Array
   cache: { readonly hairline: number; readonly d: readonly Command[] } | undefined
@@ -265,7 +268,7 @@ function predicateIds(p: Predicate | undefined): string[] {
 
 const isNodeBlock = (block: NodeBlock | PropBlock): block is NodeBlock => 'nodes' in block
 
-function compileLayer(doc: RigDoc, layer: LayerDef, slotOf: ReadonlyMap<string, number>, spaceIndex: ReadonlyMap<string, number>, colors: ReadonlyMap<string, number>): Layer {
+function compileLayer(doc: RigDoc, layer: LayerDef, slotOf: ReadonlyMap<string, number>, spaceIndex: ReadonlyMap<string, number>, colors: ReadonlyMap<string, number>, deformers: ReadonlyMap<string, DeformerDef>): Layer {
   const isArray = Array.isArray(layer.shape)
   const defs: readonly ShapeDef[] = isArray ? (layer.shape as readonly ShapeDef[]) : [layer.shape as ShapeDef]
   const base = baseNodesOf(layer)
@@ -337,13 +340,19 @@ function compileLayer(doc: RigDoc, layer: LayerDef, slotOf: ReadonlyMap<string, 
   const paintDef = paintDefOf(layer.paint)
   const paintType = lookUp(REGISTRY.paints, paintDef.type, 'paint')
   const isSolid = paintDef.type === 'solid'
-  const isStill = nodeBlocks.length === 0 && shapes.every(shape => shape.blocks.length === 0 && shape.scalars.every(([, value]) => value.kind === 'const'))
+  const baseNodes = Float64Array.from(base.flat())
+  const deform = (layer.deform === undefined ? [] : typeof layer.deform === 'string' ? [layer.deform] : layer.deform).map(id => {
+    const def = lookUp(deformers, id, 'deformer')
+    const type = lookUp(REGISTRY.deformers, def.type, 'deformer type')
+    return { def, type, bound: type.bind(def, baseNodes) }
+  })
+  const isStill = deform.length === 0 && nodeBlocks.length === 0 && shapes.every(shape => shape.blocks.length === 0 && shape.scalars.every(([, value]) => value.kind === 'const'))
   return {
     def: layer,
     space: layer.space === ROOT ? -1 : lookUp(spaceIndex, layer.space, 'space'),
     visible: predicateOf(layer.visible, slotOf),
     shapes,
-    base: Float64Array.from(base.flat()),
+    base: baseNodes,
     w,
     h,
     nodeBlocks,
@@ -355,6 +364,7 @@ function compileLayer(doc: RigDoc, layer: LayerDef, slotOf: ReadonlyMap<string, 
     paint: { type: paintType, def: paintDef },
     clip: layer.clip ?? 'none',
     isStill,
+    deform,
     scratch: new Float64Array(widest),
     cache: undefined,
   }
@@ -381,7 +391,8 @@ function compile(doc: RigDoc): Compiled {
   }
   for (const def of doc.spaces ?? []) place(def, [])
   const colors = new Map(Object.entries(doc.palette).map(([name, hex]) => [name, rgb(hex)]))
-  const layers = doc.layers.map(layer => compileLayer(doc, layer, slotOf, spaceIndex, colors))
+  const deformers = new Map((doc.deformers ?? []).map(def => [def.id, def]))
+  const layers = doc.layers.map(layer => compileLayer(doc, layer, slotOf, spaceIndex, colors, deformers))
   return { doc, ids, slotOf, defaults, derived, spaces, layers, layerIndex: new Map(doc.layers.map((layer, k) => [layer.id, k])), colors, scalars: new WeakMap(), inputs: undefined }
 }
 
@@ -523,6 +534,15 @@ function nodesAt(layer: Layer, values: Float64Array): Float64Array {
   return nodes
 }
 
+/** A layer's nodes moved by its deformers, in order: `nodes` itself while every one rests (never changed). */
+function deformedAt(c: Compiled, layer: Layer, nodes: Float64Array, values: Float64Array): Float64Array {
+  if (layer.deform.length === 0) return nodes
+  const scalar = (value: Scalar): number => rawAt(c, value, values)
+  let out = nodes
+  for (const one of layer.deform) out = one.type.apply(one.def, one.bound, out, scalar) ?? out
+  return out
+}
+
 /** Points `first` to `first + count` of `nodes`. */
 function pointsOf(nodes: Float64Array, first: number, count: number): Pt[] {
   const out: Pt[] = new Array<Pt>(count)
@@ -578,7 +598,7 @@ function paintAt(c: Compiled, layer: Layer, nodes: Float64Array, values: Float64
 /** One visible layer's fill. */
 function drawableOf(c: Compiled, layer: Layer, values: Float64Array, chains: readonly Affine[], view: View): Drawable {
   const isCached = layer.isStill && layer.cache !== undefined && layer.cache.hairline === view.hairline
-  const nodes = layer.nodeBlocks.length === 0 ? layer.base : nodesAt(layer, values)
+  const nodes = deformedAt(c, layer, layer.nodeBlocks.length === 0 ? layer.base : nodesAt(layer, values), values)
   let d: readonly Command[]
   if (isCached) d = layer.cache!.d
   else {
@@ -639,7 +659,7 @@ export function anchorOf(rig: Rig, ref: AnchorRef, params: Values, _view: View):
   const at = layer.anchors.get(name) ?? layer.curves.get(name)?.[0]
   if (at === undefined) throw new Error(`rig: layer "${layer.def.id}" has no anchor or curve "${name}"`)
   const values = valuesAt(c, params)
-  const nodes = nodesAt(layer, values)
+  const nodes = deformedAt(c, layer, nodesAt(layer, values), values)
   return { space: layer.def.space, at: [nodes[at * 2]!, nodes[at * 2 + 1]!], transform: layer.space < 0 ? IDENTITY : chainsAt(c, values)[layer.space]! }
 }
 
@@ -671,6 +691,10 @@ export function inputsOf(rig: Rig): ReadonlyMap<string, ReadonlySet<string>> {
       add(paramsIn(space.def))
     }
     for (const block of layer.def.keyforms ?? []) add(block.on)
+    for (const { def, type } of layer.deform) {
+      add(paramsIn(def))
+      add(type.inputs?.(def) ?? [])
+    }
     for (const shape of layer.shapes) {
       add(paramsIn(shape.def))
       add(shape.kind.inputs?.(shape.def) ?? [])

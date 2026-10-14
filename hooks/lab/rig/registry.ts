@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
 // What the rig engine can do, by type id: every capability a document may
-// name (a combiner, an interpolator, a shape kind, a space, a paint; an
+// name (a combiner, an interpolator, a shape kind, a space, a deformer, a paint; an
 // easing, a track source, a blend mode, a driver) is an entry in one of these
 // tables, and nothing else in the engine knows one pet from another. A new
 // capability is a new entry: written once, in the module of its family, and
@@ -14,6 +14,7 @@
 import type { Paint } from './kit/canvas'
 import { BLENDS } from './blends'
 import { COMBINERS } from './combiners'
+import { DEFORMERS } from './deform'
 import { EASINGS } from './easings'
 import { INTERPOLATORS } from './interp'
 import { LOOK_AT } from './lookat'
@@ -21,7 +22,8 @@ import { PAINTS } from './paints'
 import { PARTICLE } from './particle'
 import { PHYSICS } from './physics'
 import { REGIONS } from './regions'
-import type { Affine, AnchorRef, Command, DerivedDef, DriverDef, PaintDef, Pt, ResolvedPaint, Scalar, ShapeDef, SpaceDef, Timeline, TrackDef, View } from './schema'
+import { SPARKS } from './sparks'
+import type { Affine, AnchorRef, Command, DeformerDef, DerivedDef, DriverDef, PaintDef, Pt, ResolvedPaint, Scalar, ShapeDef, SpaceDef, Timeline, TrackDef, View } from './schema'
 import { SHAPES } from './shapes'
 import { SOURCES } from './sources'
 import { SPACES } from './spaces'
@@ -70,6 +72,22 @@ export interface SpaceType {
   inputs?(def: SpaceDef): readonly string[]
   /** Its units to its parent's, `scalar` evaluating any of its scalars at this moment (undefined for one it lacks). */
   local(def: SpaceDef, scalar: (value: Scalar | undefined) => number | undefined): Affine
+}
+
+/**
+ * A deformer type (`bones`, `turn`): moves a layer's nodes (x, y pairs in
+ * the layer's units: its shapes', anchors' and curves'), after its keyforms
+ * and before its space. `bind` keeps what it needs of one layer's base nodes
+ * (its bind pose), once, as the rig compiles; `apply` hands back the moved
+ * nodes as a new array, never changing the one it is given, or undefined at
+ * rest (nothing moved).
+ */
+export interface DeformerType {
+  readonly id: string
+  /** Params it reads beyond the scalars in its def (which the evaluator finds itself). */
+  inputs?(def: DeformerDef): readonly string[]
+  bind(def: DeformerDef, base: Float64Array): unknown
+  apply(def: DeformerDef, bound: unknown, nodes: Float64Array, scalar: (value: Scalar) => number): Float64Array | undefined
 }
 
 /** What a paint may read as it resolves at a moment. */
@@ -145,11 +163,13 @@ export type DriverFrame = {
   readonly timeline: Timeline
   /** A rig anchor's place at the rig's defaults, in its space's units (a target a prop flies to). */
   anchor(ref: AnchorRef): Pt
+  /** A rig anchor where the stages before this driver have put it, in root units (where a spark leaves a moving wand); the driver runtime gives it, a hand-made frame may not. */
+  anchorAt?(ref: AnchorRef): Pt
   /** A rig param's [min, max] (outputs are held to it). */
   rangeOf(id: string): readonly [number, number] | undefined
 }
 
-/** A stateful driver type (`lag`, `pendulum`, `particle`, `lookAt`). */
+/** A stateful driver type (`lag`, `pendulum`, `particle`, `lookAt`, `sparks`). */
 export interface DriverType {
   readonly id: string
   /**
@@ -169,6 +189,7 @@ export type Registry = {
   readonly interpolators: ReadonlyMap<string, Interpolator>
   readonly shapes: ReadonlyMap<string, ShapeKind>
   readonly spaces: ReadonlyMap<string, SpaceType>
+  readonly deformers: ReadonlyMap<string, DeformerType>
   readonly paints: ReadonlyMap<string, PaintType>
   readonly easings: ReadonlyMap<string, Easing>
   readonly sources: ReadonlyMap<string, Source>
@@ -183,11 +204,12 @@ export const REGISTRY: Registry = {
   interpolators: byId(INTERPOLATORS),
   shapes: byId(SHAPES),
   spaces: byId(SPACES),
+  deformers: byId(DEFORMERS),
   paints: byId([...PAINTS, ...REGIONS]),
   easings: byId(EASINGS),
   sources: byId(SOURCES),
   blends: byId(BLENDS),
-  drivers: byId([...PHYSICS, ...PARTICLE, ...LOOK_AT]),
+  drivers: byId([...PHYSICS, ...PARTICLE, ...LOOK_AT, ...SPARKS]),
 }
 
 /** A color by palette name as 0xRRGGBB, from `#rrggbb`. */
