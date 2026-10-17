@@ -9,11 +9,10 @@
 // under heavy dark lashes. The air at the box's left, toward the bubble, is
 // where her wand points and her green sparks fly.
 //
-// Her face is built from parts, each a pick: lids, gaze, brows, mouth, blush,
-// a turn and a tilt that move the face a whole pixel inside her hair (her
-// head turning, her chin up or down); her arms, her hair's flip and the
-// things in flight are picks too. She is also the band form of the rig look
-// `dracaena`: its band file maps the rig's params onto these picks.
+// Her face is built from parts, each a pick: lids, gaze, mouth, blush, a
+// turn and a tilt that move the face a whole pixel inside her hair (her head
+// turning, her chin up or down); her arms, her hair's flip and the things in
+// flight are picks too.
 //
 // It paints by letter onto the kind's pixel surface (pixels.ts), one pixel a
 // column and two a row, which refuses a fraction, so every frame is whole
@@ -24,15 +23,13 @@ import type { Letter, Patch, Pixels } from './pixels'
 /** Its box in cells: 23 x 12 pixels, the free air at its left (toward the bubble) for her wand, sparks and hair. */
 export const COLUMNS = 23
 export const ROWS = 6
-/** Her mouth's cell, from the box's top left: where a rig look's bubble points. */
+/** Her mouth's cell, from the box's top left. */
 export const MOUTH = { c: 14, r: 3 } as const
 
 /** Her eyelids: `open`; `half` (bored, smug); `shut` (a blink, a doze); `happy` (arcs); `proud` (shut, curving down: hmph); `glare` (slanting down to the nose); `squeeze` (`> <`); `wide` (startled); `wink`. */
 export type Lids = 'open' | 'half' | 'shut' | 'happy' | 'proud' | 'glare' | 'squeeze' | 'wide' | 'wink'
 /** Where her irises are: at the person, toward the bubble, away, rolled up, down. */
 export type Gaze = 'front' | 'left' | 'right' | 'up' | 'down'
-/** Her brows, drawn only in expressions: one arched (smug), both up, a frown, worried, set (focused). */
-export type Brows = 'none' | 'arch' | 'up' | 'frown' | 'worried' | 'set'
 export type Mouth = 'rest' | 'soft' | 'smile' | 'grin' | 'smirk' | 'scoff' | 'frown' | 'pout' | 'open' | 'o' | 'yawn' | 'wobbly' | 'laugh'
 /** Her arms: hidden in her robe; crossed; the wand up; a hand at her mouth (`cover`), at her lips (`chin`), at the lock by her face (`twirl`, and `twirl2` a turn of it later), at her ear (`tuck`), held up to look at her nails, at her tie, holding a spellbook, both at her cheeks. */
 export type Arms = 'down' | 'crossed' | 'wand' | 'cover' | 'chin' | 'twirl' | 'twirl2' | 'tuck' | 'nails' | 'tie' | 'book' | 'cheeks'
@@ -45,7 +42,6 @@ export type Spark = readonly [x: number, y: number, size: number]
 export type Pose = {
   lids: Lids
   gaze: Gaze
-  brows: Brows
   mouth: Mouth
   /** 0 none; 1 a pixel on each cheek; 2 two; 3 deeper, spreading toward the eyes. */
   blush: number
@@ -64,8 +60,6 @@ export type Pose = {
   hair: number
   /** The spellbook's page: 0 open, 1 lifting, 2 turning over. */
   page: number
-  /** Her chest risen a pixel (1). */
-  breath: number
   sparks: readonly Spark[]
   /** The heart her spell makes in the air at the left: 0 none, 1 green, 2 pink. */
   heart: number
@@ -77,7 +71,6 @@ export type Pose = {
 export const REST: Pose = {
   lids: 'open',
   gaze: 'front',
-  brows: 'none',
   mouth: 'rest',
   blush: 0,
   turn: 0,
@@ -88,13 +81,12 @@ export const REST: Pose = {
   arms: 'down',
   hair: 0,
   page: 0,
-  breath: 0,
   sparks: [],
   heart: 0,
   mark: 'none',
 }
 
-/** Its colors by letter, 0xRRGGBB, the same in both themes; '.' is bare. The rig look's steps, but for those its sheet names as its own. */
+/** Its colors by letter, 0xRRGGBB, the same in both themes; '.' is bare. */
 export const INK: Readonly<Record<string, number>> = {
   // Hair: pale blonde, its strand shade and shine, and its outline, a mid tone that reads on both grounds.
   H: 0xebdcb2,
@@ -106,13 +98,12 @@ export const INK: Readonly<Record<string, number>> = {
   f: 0xf0cdc8,
   p: 0xf3a6b0,
   P: 0xe2788e,
-  // Eyes: lashes, iris light and deep, a startled pupil, the catchlight; brows `b` her own, dark enough to read over her fringe.
+  // Eyes: lashes, iris light and deep, a startled pupil, the catchlight.
   K: 0x241c26,
   I: 0xa9c3d3,
   i: 0x6f8fa6,
   D: 0x22324a,
   F: 0xffffff,
-  b: 0x7d6658,
   // Mouth line, open mouth.
   m: 0xb5606a,
   M: 0x6e2a36,
@@ -196,28 +187,6 @@ function eye(side: Side, lids: Lids, gaze: Gaze): Patch {
     case 'wink':
       return eye(side, isL ? 'happy' : 'open', gaze)
   }
-}
-
-/** Her brows, a row and two above her lashes, over her fringe or her forehead. */
-const BROWS: Readonly<Record<Brows, readonly Patch[]>> = {
-  none: [],
-  arch: [{ art: ['b.', '.b'], x: 11, y: 1 }],
-  up: [
-    { art: ['bb'], x: 11, y: 1 },
-    { art: ['bb'], x: 15, y: 1 },
-  ],
-  frown: [
-    { art: ['b..', '.bb'], x: 10, y: 1 },
-    { art: ['..b', 'bb.'], x: 15, y: 1 },
-  ],
-  worried: [
-    { art: ['..b', 'bb.'], x: 10, y: 1 },
-    { art: ['b..', '.bb'], x: 15, y: 1 },
-  ],
-  set: [
-    { art: ['bb'], x: 11, y: 2 },
-    { art: ['bb'], x: 15, y: 2 },
-  ],
 }
 
 /** Her mouths, grown from the one pixel at rest. */
@@ -334,11 +303,6 @@ function paintBlush(pixels: Pixels, pose: Pose, dx: number, dy: number): void {
 /** Paints her at `pose` onto her box's pixels (COLUMNS x ROWS cells), cleared before. */
 export function paint(pixels: Pixels, pose: Pose): void {
   pixels.stamp(BASE, 0, 0)
-  // Her chest risen a pixel: the uniform below her chin a row higher, its bottom row laid twice; her chin over it.
-  if (pose.breath > 0) {
-    pixels.stamp(BASE.slice(9).map(row => row.slice(9, 19)), 9, 8)
-    pixels.stamp(['SSSS'], 12, 8)
-  }
   // The long lock at the box's left, lifted or flung.
   if (pose.hair > 0) {
     for (const [x, y] of LOCK_GONE) pixels.erase(x, y)
@@ -353,7 +317,6 @@ export function paint(pixels: Pixels, pose: Pose): void {
   }
   if (pose.puff > 0) pixels.stamp(PUFF, 8 + dx, 5 + dy)
   paintBlush(pixels, pose, dx, dy)
-  for (const patch of BROWS[pose.brows]) pixels.stamp(patch.art, patch.x + dx, patch.y + dy)
   const mouth = MOUTHS[pose.mouth]
   pixels.stamp(mouth.art, mouth.x + dx, mouth.y + dy)
   if (pose.tear > 0) pixels.set(11 + dx, 5 + dy, 'I')

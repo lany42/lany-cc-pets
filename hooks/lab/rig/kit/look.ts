@@ -6,17 +6,18 @@
 // rate of its own, worn as a lab look. A rig pet becomes one through the
 // engine's adapter (../adapter.ts makes it a `PaintedPet`, pet.ts); its
 // registry is RIG_LOOKS (../../rig-pets/index.ts). The look is a scene the
-// width of the band (its band form, a pixel pet, at its right, its words
-// beside it; a pet with no band form shows its fallback sprite there), and
-// in the pet window its painted self, as tall as the window. It is stepped
-// every tick and, between ticks, every frame of its own clock (`frames` a
-// tick); each step repaints only what moved, encodes it, and lays its words
-// over it. `cells()` is the frame as a Raster's cells, which the band and the
-// window draw on the terminal and blit between ticks; `runs()` the same frame
-// as Text runs, built only when asked (the studio, the gallery card,
-// pet-control's preview). Pure: imports nothing at run time but the kit's
-// modules, look.ts, cells.ts, bubble.ts, util.ts, the classic sprites (for a
-// fallback) and the tick's length.
+// width of the band (its band pet, a pixel pet played by its own director,
+// at its right, its words beside it; a pet with none shows its fallback
+// sprite there), and in the pet window its painted self, as tall as the
+// window. It is stepped every tick and, between ticks, every frame of its
+// own clock (`frames` a tick); each step repaints only what moved, encodes
+// it, and lays its words over it. `cells()` is the frame as a Raster's
+// cells, which the band and the window draw on the terminal and blit between
+// ticks; `runs()` the same frame as Text runs, built only when asked (the
+// studio, the gallery card, pet-control's preview). Pure: imports nothing at
+// run time but the kit's modules, look.ts, cells.ts, bubble.ts, util.ts, the
+// classic sprites (for a fallback), the pixel kind's surface and `paintCells`
+// (for a band pet) and the tick's length.
 import type { Sprite } from '../../../sprite'
 import { frame as spriteFrame, TICK_MS } from '../../../sprite'
 import { spriteById } from '../../../sprites'
@@ -24,17 +25,20 @@ import { ROUND, wrap } from '../../bubble'
 import { runsOf, sameCells } from '../../cells'
 import type { LabCells, LabInput, LabLook, LabRun, Live } from '../../look'
 import { isCellSafe } from '../../look'
+import { paintCells } from '../../pixel/index'
+import type { Directing } from '../../pixel/pet'
+import { Pixels } from '../../pixel/pixels'
 import { clamp, mix } from '../../util'
 import { Canvas, DEFAULT, SX, SY } from './canvas'
 import { encode } from './encode'
 import type { Affine } from './pen'
 import { apply } from './pen'
-import type { Channels, PaintedPet, Part } from './pet'
+import type { BandPet, Channels, PaintedPet, Part } from './pet'
 
 /** A painted pet's frames a tick: 8, so 32 a second on the 250 ms tick. */
 export const FRAMES = 8
 const TICK_S = TICK_MS / 1000
-/** The fewest rows a pet is painted in; shorter rooms (the band) get its band form, or its fallback sprite. */
+/** The fewest rows a pet is painted in; shorter rooms (the band) get its band pet, or its fallback sprite. */
 export const PAINTED_ROWS = 10
 /** A cell in screen pixels, as the terminal draws it (JetBrainsMono 10 pt): a painted pet's units are square on screen. */
 const CELL_W = 8
@@ -56,11 +60,11 @@ export type Layout = {
   box: Rect
 }
 
-/** The classic sprite a pet with no band form shows in rooms under 10 rows: its `fallback`. */
+/** The classic sprite a pet with no band pet shows in rooms under 10 rows: its `fallback`. */
 export const asciiOf = (pet: PaintedPet): Sprite => spriteById(pet.fallback)
 
 /**
- * Lays `pet` out in a room. Short (the band, the gallery card): its band form
+ * Lays `pet` out in a room. Short (the band, the gallery card): its band pet
  * at the right, bottom-aligned, two columns in; with none, its fallback
  * sprite there, `m[5]` its top row (cut off above the room). Tall (the
  * window): painted, framed by its `crop` (head to collar, say) at 10 rows and
@@ -68,8 +72,8 @@ export const asciiOf = (pet: PaintedPet): Sprite => spriteById(pet.fallback)
  * centred at 63% across, so its words have the left.
  */
 export function layoutOf(pet: PaintedPet, columns: number, rows: number): Layout {
-  const { chibi } = pet
-  if (rows < PAINTED_ROWS && chibi === undefined) {
+  const { band } = pet
+  if (rows < PAINTED_ROWS && band === undefined) {
     const sprite = asciiOf(pet)
     const c0 = Math.max(0, columns - sprite.width - 2)
     const r0 = rows - sprite.height
@@ -81,14 +85,15 @@ export function layoutOf(pet: PaintedPet, columns: number, rows: number): Layout
       box: { c0, r0: 0, c1: Math.min(columns, c0 + sprite.width), r1: rows },
     }
   }
-  if (rows < PAINTED_ROWS && chibi !== undefined) {
-    const c0 = Math.max(0, columns - chibi.columns - 2)
+  if (rows < PAINTED_ROWS && band !== undefined) {
+    const { columns: wide, rows: tall } = band.pet
+    const c0 = Math.max(0, columns - wide - 2)
     return {
       isPainted: false,
-      m: [1, 0, 0, 1, c0, rows * 2 - chibi.rows * 2],
+      m: [1, 0, 0, 1, c0, rows * 2 - tall * 2],
       words: { c0: 0, r0: 0, c1: c0 - 1, r1: rows },
-      anchor: { c: c0 + chibi.mouth.c, r: rows - chibi.rows + chibi.mouth.r },
-      box: { c0, r0: 0, c1: Math.min(columns, c0 + chibi.columns), r1: rows },
+      anchor: { c: c0 + band.mouth.c, r: rows - tall + band.mouth.r },
+      box: { c0, r0: 0, c1: Math.min(columns, c0 + wide), r1: rows },
     }
   }
   const { width, height, crop, mouth } = pet.window
@@ -213,9 +218,9 @@ export function bubble(cells: Uint32Array, columns: number, text: string, region
 
 /**
  * Repaints `rect` (cells) of `pet` at `pose` into `canvas` as `place` lays
- * it out: clipped to the rect, cleared, painted (its window form or its band
- * form; a fallback sprite is written as cells, `asciiInto`). The rect as
- * painted, clamped to the canvas; undefined when empty.
+ * it out: clipped to the rect, cleared, painted (its window form; a band pet
+ * or a fallback sprite is written as cells, `bandInto` and `asciiInto`). The
+ * rect as painted, clamped to the canvas; undefined when empty.
  */
 export function repaint(pet: PaintedPet, canvas: Canvas, place: Layout, pose: Channels, rect: Rect): Rect | undefined {
   const r: Rect = { c0: clamp(rect.c0, 0, canvas.cols), r0: clamp(rect.r0, 0, canvas.rows), c1: clamp(rect.c1, 0, canvas.cols), r1: clamp(rect.r1, 0, canvas.rows) }
@@ -223,8 +228,19 @@ export function repaint(pet: PaintedPet, canvas: Canvas, place: Layout, pose: Ch
   canvas.clipCells(r.c0, r.r0, r.c1, r.r1)
   canvas.clear()
   if (place.isPainted) pet.window.paint(canvas, pose, place.m)
-  else pet.chibi?.paint(canvas, pose, place.m[4], place.m[5])
   return r
+}
+
+/**
+ * Writes `cells`, a frame of `band`'s box as its own look paints it
+ * (`paintCells`), into `data` (encoded cells) where `place` lays it out:
+ * bottom-aligned at the box's left column, rows above the room left out.
+ */
+export function bandInto(data: Uint32Array, columns: number, rows: number, place: Layout, cells: Uint32Array, band: BandPet): void {
+  const { columns: wide, rows: tall } = band.pet
+  const { c0 } = place.box
+  const count = Math.min(wide, columns - c0)
+  for (let r = Math.max(0, tall - rows); r < tall; r++) data.set(cells.subarray(r * wide * 3, (r * wide + count) * 3), ((rows - tall + r) * columns + c0) * 3)
 }
 
 /**
@@ -256,9 +272,16 @@ export function asciiInto(data: Uint32Array, columns: number, rows: number, plac
   })
 }
 
-/** `pet`, alive in a room: stepped each tick and each frame between, repainting what moved. */
-function painted(pet: PaintedPet, seed: number): Live {
+/** `pet`, alive in a room: stepped each tick and each frame between, repainting what moved; its band pet, if it has one, played by its own director (on a gallery card, its own card's). */
+function painted(pet: PaintedPet, seed: number, isDemo = false): Live {
   const director = pet.director(seed)
+  const { band } = pet
+  let bandDirector: Directing<unknown> | undefined
+  let bandPixels: Pixels | undefined
+  let bandCells: Uint32Array | undefined
+  /** The band pet's last pose, and the time of its own frame it was posed at. */
+  let bandPose: unknown
+  let bandAt = Number.NaN
   let canvas: Canvas | undefined
   let layout: Layout | undefined
   let theme: 'dark' | 'light' = 'dark'
@@ -283,8 +306,6 @@ function painted(pet: PaintedPet, seed: number): Live {
     step(input: LabInput) {
       const { columns, rows } = input.room
       const frame = input.frame ?? 0
-      const t = (input.tick + frame / FRAMES) * TICK_S
-      const pose = director.pose({ t, mood: input.mood, since: input.since * TICK_S, spoke: input.spoke, spectacle: input.spectacle, turnsEnded: input.turnsEnded })
       const nextTheme = input.isLight ? 'light' : 'dark'
       let isFresh = false
       if (canvas === undefined || canvas.cols !== columns || canvas.rows !== rows || theme !== nextTheme) {
@@ -301,21 +322,34 @@ function painted(pet: PaintedPet, seed: number): Live {
         isFresh = true
       }
       const place = layout!
-      const next = place.isPainted ? quantize(pet, pose, place.m) : pose
       let changed = isFresh
       if (place.isPainted) {
+        const t = (input.tick + frame / FRAMES) * TICK_S
+        const next = quantize(pet, director.pose({ t, mood: input.mood, since: input.since * TICK_S, spoke: input.spoke, spectacle: input.spectacle, turnsEnded: input.turnsEnded }), place.m)
         if (isFresh || last === undefined) redraw(next, { c0: 0, r0: 0, c1: columns, r1: rows })
         else for (const rect of dirty(pet, last, next, place.m, place.box)) redraw(next, rect)
         changed ||= last === undefined || Object.keys(next).some(key => next[key] !== last![key])
-      } else if (pet.chibi !== undefined) {
-        const key = pet.chibi.key(next)
+        last = next
+      } else if (band !== undefined) {
+        // Its band pet on its own clock: posed by its own director once a frame of its own (as its own look steps it), painted afresh when its pose changes.
+        const own = Math.floor((frame * band.pet.frames) / FRAMES)
+        const share = own / band.pet.frames
+        const t = (input.tick + share) * TICK_S
+        if (t !== bandAt) {
+          bandDirector ??= isDemo ? band.pet.demo() : band.pet.director(seed)
+          bandPose = bandDirector.pose({ t, mood: input.mood, since: (input.since + share) * TICK_S, spoke: input.spoke, spectacle: input.spectacle, turnsEnded: input.turnsEnded })
+          bandAt = t
+        }
+        const key = JSON.stringify(bandPose)
         if (isFresh || key !== lastKey) {
-          redraw(next, place.box)
+          bandPixels ??= new Pixels(band.pet.columns, band.pet.rows, band.pet.palette)
+          bandCells ??= new Uint32Array(band.pet.columns * band.pet.rows * 3)
+          bandInto(art, columns, rows, place, paintCells(band.pet, bandPose, input.isLight, bandPixels, bandCells), band)
           changed = true
         }
         lastKey = key
       } else {
-        // No band form: its fallback sprite's frame for the mood and tick, as the band would draw that sprite.
+        // No band pet: its fallback sprite's frame for the mood and tick, as the band would draw that sprite.
         const lines = spriteFrame(asciiOf(pet), input.mood, input.tick)
         const key = lines.join('\n')
         if (isFresh || key !== lastKey) {
@@ -324,7 +358,6 @@ function painted(pet: PaintedPet, seed: number): Live {
         }
         lastKey = key
       }
-      last = next
 
       // Its words: the line while it shows (one it can draw cell for cell), "..." while it thinks of one.
       const line = input.line !== undefined && isCellSafe(input.line.text) ? input.line.text : undefined
@@ -351,10 +384,10 @@ function painted(pet: PaintedPet, seed: number): Live {
   }
 }
 
-/** `pet` as a lab look: a scene the band's width and its band form's rows (or its fallback sprite's), painted tall in the pet window, at its own 32 frames a second. */
+/** `pet` as a lab look: a scene the band's width and its band pet's rows (or its fallback sprite's), painted tall in the pet window, at its own 32 frames a second. */
 export function lookOf(pet: PaintedPet): LabLook {
-  // A band form may lose its top cell row in a short band; a fallback sprite never.
-  const band = pet.chibi !== undefined ? { height: pet.chibi.rows, fewest: pet.chibi.rows - 1 } : { height: asciiOf(pet).height, fewest: asciiOf(pet).height }
+  // Its band pet or its fallback sprite whole, never a row of it cut off.
+  const height = pet.band !== undefined ? pet.band.pet.rows : asciiOf(pet).height
   return {
     id: pet.id,
     name: pet.name,
@@ -362,8 +395,8 @@ export function lookOf(pet: PaintedPet): LabLook {
     blurb: pet.blurb,
     layout: 'scene',
     width: 40,
-    height: band.height,
-    fewest: band.fewest,
+    height,
+    fewest: height,
     minColumns: 40,
     ownsBubble: true,
     fallback: pet.fallback,
@@ -371,6 +404,6 @@ export function lookOf(pet: PaintedPet): LabLook {
     frames: FRAMES,
     blocks: true,
     start: seed => painted(pet, seed),
-    demo: () => painted(pet, 1),
+    demo: () => painted(pet, 1, true),
   }
 }

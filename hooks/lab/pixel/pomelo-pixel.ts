@@ -14,9 +14,8 @@
 // It paints by letter onto the kind's pixel surface (pixels.ts), one pixel a
 // column and two a row, which refuses a fraction, so every frame is whole
 // pixels. Its director is pomelo-pixel-director.ts and pomelo-pixel-pet.ts
-// ties the two together. It is also the band form of the rig look `pomelo`,
-// which poses it from its own rig. Pure: imports nothing at run time but the
-// surface's `mirror`.
+// ties the two together. Pure: imports nothing at run time but the surface's
+// `mirror`.
 import type { Patch, Pixels } from './pixels'
 import { mirror } from './pixels'
 
@@ -25,13 +24,13 @@ export const COLUMNS = 24
 export const ROWS = 6
 /** Its crown's pixel row at rest: the head is rows 3-10, its hands row 11. */
 const CROWN = 3
-/** Its mouth's cell, from the box's top left: the band's bubble points there. */
+/** Its mouth's cell, from the box's top left. */
 export const MOUTH = { c: 10, r: 4 } as const
 
 /** Its lids: open; lidded (the lid's edge over its shine); half shut; shut (a lid line); happy (the lower lids up, a dark arc). */
 export type Lids = 'open' | 'lidded' | 'half' | 'shut' | 'happy'
-/** Its mouth: the wide shallow smile; flat; a deep smile; ajar; open (talking); oh (round, holding a bubble). */
-export type Mouth = 'rest' | 'flat' | 'smile' | 'ajar' | 'open' | 'oh'
+/** Its mouth: the wide shallow smile; a deep smile; ajar; open (talking); oh (round, holding a bubble). */
+export type Mouth = 'rest' | 'smile' | 'ajar' | 'open' | 'oh'
 /** A gill's spread: folded back, at rest, perked (spread a little), fanned wide. */
 export type Fan = 'fold' | 'rest' | 'perk' | 'wide'
 /** One side's gills, top to low. */
@@ -60,7 +59,7 @@ export type Pose = {
 const RESTING: Gills = ['rest', 'rest', 'rest']
 export const REST: Pose = { lids: 'open', lookX: 0, lookY: 0, mouth: 'rest', blush: 0, left: RESTING, right: RESTING, lean: 0, breath: 0, bubble: 0 }
 
-/** Its colors by letter, 0xRRGGBB; '.' is bare. Pomelo's own (the rig's palette), less its iris, its lit crown and the bubble's pale half. */
+/** Its colors by letter, 0xRRGGBB; '.' is bare. */
 export const INK: Readonly<Record<string, number>> = {
   // Pale skin and its shaded side and neck, outlined in a deeper rose that reads on both grounds (4.6:1 dark, 3.4:1 light).
   S: 0xf8c6bf,
@@ -136,7 +135,6 @@ const EYE = { left: 7, right: 15, y: 2 }
 /** Its mouths, their place in columns and in rows from its crown: a clear row under its eyes, so they never meet. */
 const MOUTHS: Readonly<Record<Mouth, Patch>> = {
   rest: { art: ['M....M', '.MMMM.'], x: 9, y: 5 },
-  flat: { art: ['MMMM'], x: 10, y: 6 },
   smile: { art: ['M......M', '.MMMMMM.'], x: 8, y: 5 },
   // Open under its line, down to its chin: a little, then wide enough to show its tongue.
   ajar: { art: ['M....M', '.MMMM.', '..MM..'], x: 9, y: 5 },

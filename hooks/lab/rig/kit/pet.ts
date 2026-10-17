@@ -3,13 +3,14 @@
 
 // What a painted pet is: the one shape the painted look's runtime (look.ts)
 // wears. The rig engine's adapter (../adapter.ts) makes every rig pet one: its
-// window form painted from the rig, its band form (`chibi`, when it has one) a
-// pixel pet posed by the rig's channels, its director stepping the drivers.
-// Without a band form, short rooms show its `fallback` sprite instead.
-// look.ts lays it out, repaints what moved, encodes it, draws its words and
-// makes it a lab look. Pure: imports nothing at run time.
+// window form painted from the rig, its director stepping the drivers. Short
+// rooms show its `fallback` sprite, or a pixel pet of its own choosing
+// (`band`), played by that pet's own director. look.ts lays it out, repaints
+// what moved, encodes it, draws its words and makes it a lab look. Pure:
+// imports nothing at run time.
 import type { Color } from 'claude-code'
 
+import type { PixelPet } from '../../pixel/pet'
 import type { Canvas } from './canvas'
 import type { Affine } from './pen'
 
@@ -105,20 +106,14 @@ export type PaintedPet<S extends Channels = Channels> = {
     snap?: Readonly<Record<string, number>>
   }
 
-  // ---- the band form: pixel art for the band, below 10 rows
-  /** Its band form. Left out, rooms under 10 rows show its `fallback` sprite instead (look.ts, `asciiOf`). */
-  chibi?: BandForm<S>
+  // ---- the band: below 10 rows
+  /** A pixel pet it shows in rooms under 10 rows. Left out, they show its `fallback` sprite instead (look.ts, `asciiOf`). */
+  band?: BandPet
 }
 
-/** A band form: a pixel pet posed by a painted pet's channels, for rooms under 10 rows. */
-export type BandForm<S extends Channels = Channels> = {
-  /** Its size in cells (one pixel a column, two a row). */
-  columns: number
-  rows: number
-  /** Its mouth's cell, from its top left: its bubble's tail points there. */
+/** A pixel pet a painted pet shows in the band: a pet of its own, played by its own director on its own frames, and nothing of the painted pet's pose. */
+export type BandPet = {
+  pet: PixelPet<unknown>
+  /** Its mouth's cell, from its box's top left: the bubble's tail points there. */
   mouth: { c: number; r: number }
-  /** Paints it at cell column `c0`, its top `top` pixel rows (half cells) down. */
-  paint(canvas: Canvas, pose: S, c0: number, top: number): void
-  /** What it shows at `pose`, as a key: the same key, the same pixels (it repaints only when the key changes). */
-  key(pose: S): string
 }

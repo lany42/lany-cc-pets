@@ -9,15 +9,16 @@
 // drive, her gusts' petals fly as particles (rig/particle.ts) that land in
 // her hair 1.9 s or on her nose 2.1 s after setting off, as her clips count
 // them, her eyes follow the newest (rig/lookat.ts), and her spectacle's
-// shower falls as particles too. Below 10 rows she wears her band form
-// (sakura-band.ts), the Sakura Pixel pet posed by her rig. Pure.
+// shower falls as particles too. Below 10 rows the band shows Sakura Pixel,
+// a pixel pet of its own, played by its own director. Pure.
 import type { PaintedPet } from '../rig/kit/pet'
 import type { RigPetIdentity } from '../rig/adapter'
 import { lazyPaintedRigPet, rigPetById } from '../rig/adapter'
-import { SAKURA_BAND } from './sakura-band'
+import { MOUTH } from '../pixel/sakura-pixel'
+import { SAKURA_PIXEL } from '../pixel/sakura-pixel-pet'
 import { sakuraBehavior } from './sakura-behavior'
 
-/** Who she is: her id, name, persona and blurb; her framing, fallback and border; her band form. */
+/** Who she is: her id, name, persona and blurb; her framing, fallback and border; the pixel pet in her band. */
 export const SAKURA_RIG_IDENTITY: RigPetIdentity = {
   id: 'sakura',
   name: 'Sakura',
@@ -27,7 +28,7 @@ export const SAKURA_RIG_IDENTITY: RigPetIdentity = {
   bubble: 'bashBorder',
   // Her words' border, in her colors: her hair's pink on a dark theme, her kimono's deep rose on a light.
   border: { dark: 0xf6bfd2, light: 0x9b4b6c },
-  chibi: SAKURA_BAND,
+  band: { pet: SAKURA_PIXEL, mouth: MOUTH },
   window: { crop: { top: 8, bottom: 88 }, faceLeft: 22, mouth: [46, 68] },
 }
 

@@ -8,15 +8,16 @@
 // long hair, fringe, tie, robe, sleeve, wand and earring swing on pendulums
 // and bend on bone chains (rig/deform.ts), her head turns in depth, and her
 // wand's sparks fly, gather into a heart and scatter (rig/sparks.ts). Below
-// 10 rows she wears her band form (dracaena-band.ts), the Dracaena Pixel pet
-// posed by her rig. Pure.
+// 10 rows the band shows Dracaena Pixel, a pixel pet of its own, played by
+// its own director. Pure.
 import type { RigPetIdentity } from '../rig/adapter'
 import { lazyPaintedRigPet, rigPetById } from '../rig/adapter'
 import type { PaintedPet } from '../rig/kit/pet'
-import { DRACAENA_BAND } from './dracaena-band'
+import { MOUTH } from '../pixel/dracaena-pixel'
+import { DRACAENA_PIXEL } from '../pixel/dracaena-pixel-pet'
 import { dracaenaBehavior } from './dracaena-behavior'
 
-/** Who she is: her id, name, persona and blurb; her framing, fallback and border; her band form. */
+/** Who she is: her id, name, persona and blurb; her framing, fallback and border; the pixel pet in her band. */
 export const DRACAENA_RIG_IDENTITY: RigPetIdentity = {
   id: 'dracaena',
   name: 'Dracaena',
@@ -26,7 +27,7 @@ export const DRACAENA_RIG_IDENTITY: RigPetIdentity = {
   bubble: 'suggestion',
   // Her words' border, in her robe's green lining: its light step on a dark theme, its shade on a light.
   border: { dark: 0x4d9468, light: 0x1f4f3d },
-  chibi: DRACAENA_BAND,
+  band: { pet: DRACAENA_PIXEL, mouth: MOUTH },
   window: { crop: { top: 14, bottom: 56 }, faceLeft: 22, mouth: [45, 45.5] },
 }
 

@@ -12367,13 +12367,6 @@ export const RIG_PETS: readonly RigPet[] = [
           "doc": "The petal on her nose: 1 there, 1 to 2 blown away (with her hair's)."
         },
         {
-          "id": "shower",
-          "min": 0,
-          "max": 1,
-          "default": 0,
-          "doc": "The spectacle's progress, 0 to 1: what her band form's shower reads; no layer of her rig reads it (her keyed petals fall by `showerFall`)."
-        },
-        {
           "id": "showerFall",
           "min": 0,
           "max": 1,
@@ -21914,7 +21907,7 @@ export const RIG_PETS: readonly RigPet[] = [
           "id": "shower",
           "length": 4.2,
           "tracks": [
-            { "id": "progress", "param": "shower", "blend": "set", "keys": [[0, 0], [4.2, 1]] },
+            { "id": "progress", "keys": [[0, 0], [4.2, 1]] },
             { "param": "showerFall", "blend": "set", "from": "progress", "tags": ["props"] },
             { "id": "look", "ease": "smooth", "keys": [[0, 0], [0.3, 1], [2.6, 1], [3.4, 0]] },
             { "param": "gazeX", "blend": "mix", "from": "look", "to": 0.15 },

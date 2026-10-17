@@ -15,7 +15,7 @@
 // - busy: she reads a spellbook, her eyes running along its lines, a blink
 //   as they return to each new one, turning a page now and then, peeking
 //   over it at the bubble.
-// - ponder: a finger at her lips, eyes up, one brow raised.
+// - ponder: a finger at her lips, eyes up.
 // - talk: half-lidded, her wand pointing at the bubble (cool); looking away
 //   twirling her lock (warm).
 // - a turn finished: by her thaw, a hmph, a peek-hmph, a fluster, or an

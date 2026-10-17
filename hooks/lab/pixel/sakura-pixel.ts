@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
-// Sakura Pixel: Sakura's chibi as a pixel pet of its own. The anime girl
+// Sakura Pixel: Sakura as a pixel pet. The anime girl
 // with pastel pink hair, a blunt fringe and a blossom pinned at her right,
 // in a spring kimono, in hand-drawn pixel art 16 pixels wide and 12 tall,
 // on whole pixels. Her eyes droop, a two-pixel iris with the lash at its
@@ -16,9 +16,7 @@
 // picks: her eyes, mouth, brows and cheeks, the petals on her, in the air
 // and in her shower as pixels, a breath, her head's bob and lean. Its
 // director is sakura-pixel-director.ts; sakura-pixel-pet.ts ties the two
-// together; a rig look's band form (hooks/lab/rig-pets/sakura-band.ts) sets
-// the same picks from the rig's pose. Pure: imports nothing at run time
-// (her colors are copied here, so she stands apart from her rig).
+// together. Pure: imports nothing at run time.
 import type { Pixels } from './pixels'
 
 /** Her box in cells: 16 columns, 6 rows (16 x 12 pixels), her head rows 0-9 and her kimono 10-11. */
@@ -85,8 +83,8 @@ export const SHOWER: readonly (readonly [x: number, delay: number])[] = [
 ]
 
 /**
- * The shower's petals `progress` into it (0 to 1, as her director plays it
- * and her band form reads her rig's `shower`): each falls from just above
+ * The shower's petals `progress` into it (0 to 1, as her director plays
+ * it): each falls from just above
  * her box to just below it, a pixel row at a time, and sways a column in
  * toward her middle and back every three rows; the pixels in her box.
  */
@@ -102,7 +100,7 @@ export function showerAt(progress: number): Spot[] {
   return out
 }
 
-/** Her colors by letter, 0xRRGGBB, her palette; '.' is bare. Each is a color of her rig's palette (her rig document's `palette`). */
+/** Her colors by letter, 0xRRGGBB, her palette; '.' is bare. */
 export const INK: Readonly<Record<string, number>> = {
   // Pink hair, its shade, its deepest, its light; her brows.
   P: 0xf6bfd2,

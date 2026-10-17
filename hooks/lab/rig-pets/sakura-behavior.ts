@@ -22,8 +22,7 @@
 //           sees.
 //   busy    one spot of the work, to her left (75%) or down, a glance there
 //           every 3-6 s; a peek up at you every 12-24 s (the first 5-12 s
-//           in). Each spot is clear of her band form's eyes' thresholds, so
-//           her band shows it one way, however near the last spot it is.
+//           in).
 //   ponder, talk   their mood's clip; talk's syllables are its `talk` clip.
 // A new mood aims her eyes at once, as a glance due then: busy at the work,
 // idle back at you; her next glance is drawn from then (on her first frame,
@@ -189,8 +188,7 @@ export function sakuraBehavior(seed: number, drivers: DriversDoc = rigPetById('s
       lastMood = mood
       if (t >= nextGlance || isNewMood) {
         // Idle: at you, up at the blossom in her hair, spacing out, or down after a petal only she sees; busy: one spot of the work,
-        // to her left or down (each spot clear of her band form's thresholds, and a left one low enough that coming from you
-        // her gaze turns left before it drops, so each reads one way all the way there and while it holds).
+        // to her left or down.
         if (mood === 'busy')
           glance =
             roll(schedule) < 0.75

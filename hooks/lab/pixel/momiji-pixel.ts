@@ -1,21 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
-// Momiji Pixel: Momiji's chibi as a pixel pet of its own. The anime girl in
-// an orange knit beanie with a maple leaf pinned to its rib and an orange
-// hoodie, in hand-drawn pixel art 16 pixels wide and 12 tall, on whole
-// pixels. Her head moves a whole pixel at most, and her chest rises a whole
-// pixel or not at all, as no cell draws part of one. Raised, her neck
+// Momiji Pixel: Momiji as a pixel pet. The anime girl in an orange knit
+// beanie with a maple leaf pinned to its rib and an orange hoodie, in
+// hand-drawn pixel art 16 pixels wide and 12 tall, on whole pixels. Her head
+// moves a whole pixel at most, as no cell draws part of one. Raised, her neck
 // stretches to meet her chin, so no bare row cuts her in two; leaned, her
 // hair keeps its edges in her box, neither side cut off nor left a bare
 // notch; and her happy arcs sit over both her eyes.
 //
 // It paints by letter onto the kind's pixel surface (pixels.ts). Its pose is
-// picks: her eyes, mouth and stray strand, a breath, her head's bob and
-// lean. Its director is momiji-pixel-director.ts; momiji-pixel-pet.ts ties
-// the two together; a rig look's band form (hooks/lab/rig-pets/momiji-band.ts)
-// sets the same picks from the rig's pose. Pure: imports nothing at run time
-// (her colors are copied here, so she stands apart from her rig).
+// picks: her eyes, mouth and stray strand, her head's bob and lean. Its
+// director is momiji-pixel-director.ts; momiji-pixel-pet.ts ties the two
+// together. Pure: imports nothing at run time.
 import type { Pixels } from './pixels'
 
 /** Her box in cells: 16 columns, 6 rows (16 x 12 pixels), her head rows 0-9 and her hoodie 10-11. */
@@ -34,8 +31,6 @@ export type Pose = {
   eyes: Eyes
   mouth: Mouth
   strand: Strand
-  /** Her chest risen a pixel, breathing in (1), or at rest (0). */
-  breath: number
   /** Pixel rows her head is lowered: -1 raised, 0, 1 lowered. */
   bob: number
   /** Columns her head is leaned: -1 left, 0, 1 right. */
@@ -43,9 +38,9 @@ export type Pose = {
 }
 
 /** Her at rest: eyes open, mouth at rest, the strand swept aside. */
-export const REST: Pose = { eyes: 'open', mouth: 'rest', strand: 'aside', breath: 0, bob: 0, lean: 0 }
+export const REST: Pose = { eyes: 'open', mouth: 'rest', strand: 'aside', bob: 0, lean: 0 }
 
-/** Her colors by letter, 0xRRGGBB, her palette; '.' is bare. All but her blush (`B`) are colors of her rig's palette (her rig document's `palette`). */
+/** Her colors by letter, 0xRRGGBB, her palette; '.' is bare. */
 export const INK: Readonly<Record<string, number>> = {
   // The beanie: its light, its orange, its shade; the rib's dark stripes, its shade at the edge; the maple leaf.
   L: 0xf28b45,
@@ -91,13 +86,12 @@ const HEAD = [
   'hhBSSSSSSSSSSBhh',
   'khhsSSSSSSSSshhk',
 ]
-/** Her body: the hoodie, its hood and cords, pixel rows 10-12 (the last shows only as she breathes in). */
+/** Her body: the hoodie, its hood and cords, pixel rows 10-11. */
 const BODY = [
   'hkQUQDsSSsDQQqkh',
   'QQQQUQcDDcQQQQqq',
-  'QQQQQQcQQcQQQqqq',
 ]
-/** Her body's top row at rest, in pixel rows of the box: under her head's last. */
+/** Her body's top row, in pixel rows of the box: under her head's last. */
 const BODY_Y = 10
 
 /** Her eyes, laid at pixel row 6 over columns 3-5 and 10-12: open, looking, half shut, shut, happy arcs, a wink. */
@@ -134,12 +128,11 @@ const EDGES = [
 
 /** Paints her at `pose` onto her box's pixels, cleared before: her hoodie, then her head over it, leaned and bobbed, and its face. */
 export function paint(pixels: Pixels, pose: Pose): void {
-  const top = BODY_Y - pose.breath
-  pixels.stamp(BODY, 0, top)
+  pixels.stamp(BODY, 0, BODY_Y)
   const x = pose.lean
   const y = pose.bob
   // Raised, her neck stretches to meet her chin: her hood's top row again under her head, never a bare row across her.
-  for (let row = y + HEAD.length; row < top; row++) pixels.stamp([BODY[0]!], 0, row)
+  for (let row = y + HEAD.length; row < BODY_Y; row++) pixels.stamp([BODY[0]!], 0, row)
   pixels.stamp(HEAD, x, y)
   // Leaned, her hair keeps its edges in her box: the side she leans toward is pressed a column, the other stretched, and none is cut or left bare.
   if (x !== 0) for (const edge of EDGES) pixels.stamp(edge.art, edge.x, y)

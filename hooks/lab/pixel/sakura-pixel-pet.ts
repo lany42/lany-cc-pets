@@ -2,9 +2,8 @@
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
 // Sakura Pixel as a pixel pet: her art (sakura-pixel.ts) and her director
-// (sakura-pixel-director.ts) tied together with who she is: Sakura's chibi,
-// a pet of her own, apart from her rig (it imports nothing of it).
-// Her sheet is in the studio. Pure: imports nothing at run time but her own
+// (sakura-pixel-director.ts) tied together with who she is. Her sheet is in
+// the studio. Pure: imports nothing at run time but her own
 // two files.
 import type { Pose } from './sakura-pixel'
 import { COLUMNS, INK, paint, ROWS } from './sakura-pixel'
@@ -16,7 +15,6 @@ export const SAKURA_PIXEL: PixelPet<Pose> = {
   name: 'Sakura Pixel',
   persona: 'Sakura in pixel art, an anime girl with pastel pink hair in a spring kimono, who blows the cherry petal off her nose',
   blurb: 'petals one pixel each',
-  // Her fallback and bubble, the same as her rig look's.
   fallback: 'love-slime',
   bubble: 'bashBorder',
   columns: COLUMNS,

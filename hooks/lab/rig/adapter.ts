@@ -5,9 +5,9 @@
 // (kit/pet.ts's `PaintedPet`), painted, repainted and encoded by the painted
 // look's runtime (kit/look.ts), which makes it a lab look. Its director
 // steps the drivers (drivers.ts) over the timeline a behavior writes each
-// frame; its window form is `raster(evaluate(...))`; its band form, when it
-// has one, is the look's `chibi`, a pixel pet posed from the rig's channels
-// (rig-pets/<id>-band.ts). With none, the band shows its fallback sprite.
+// frame; its window form is `raster(evaluate(...))`. In the band it shows
+// the pixel pet its identity names (`band`), played by that pet's own
+// director, or with none its fallback sprite.
 //
 // Its repaint parts come from the rig itself. Every layer's inputs
 // (`inputsOf`: the params that can change its fill) sort it into a part with
@@ -49,7 +49,7 @@ import { ROOT } from './schema'
 export type Behavior = { step(cue: Cue): { readonly timeline: Timeline } }
 
 /** Who a rig pet is and how it is framed: a `PaintedPet`'s fields that the rig and drivers don't hold. */
-export type RigPetIdentity = Pick<PaintedPet, 'id' | 'name' | 'persona' | 'blurb' | 'fallback' | 'bubble' | 'border' | 'chibi'> & {
+export type RigPetIdentity = Pick<PaintedPet, 'id' | 'name' | 'persona' | 'blurb' | 'fallback' | 'bubble' | 'border' | 'band'> & {
   readonly window: Pick<PaintedPet['window'], 'crop' | 'faceLeft' | 'mouth'>
 }
 
@@ -182,7 +182,7 @@ export function groupsOf(rig: Rig, rest: Channels = {}): { readonly layers: read
  * `pet` worn as a painted pet: its rig evaluated and rastered, its drivers
  * (`options.pipeline`, `physics` by default; `keyed` for the studio and the
  * evals) stepped over `behavior`'s timeline, under `identity`'s name, words
- * and band form (if any), at rest at the rig's defaults overlaid with `options.rest`.
+ * and band pet (if any), at rest at the rig's defaults overlaid with `options.rest`.
  */
 export function paintedRigPet(identity: RigPetIdentity, pet: RigPet, behavior: (seed: number) => Behavior, options: PaintedRigOptions = {}): PaintedPet {
   const doc = pet.rig
@@ -280,7 +280,7 @@ export function paintedRigPet(identity: RigPetIdentity, pet: RigPet, behavior: (
       parts,
       snap: snapOf(doc),
     },
-    chibi: identity.chibi,
+    band: identity.band,
   }
 }
 
@@ -315,6 +315,6 @@ export function lazyPaintedRigPet(identity: RigPetIdentity, pet: () => RigPet, b
     get window() {
       return real().window
     },
-    chibi: identity.chibi,
+    band: identity.band,
   }
 }

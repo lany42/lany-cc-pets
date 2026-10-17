@@ -2,9 +2,8 @@
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
 // Momiji Pixel's director: the clock, her mood and the news in, a pose out,
-// 16 times a second. She plays Momiji's acts, those of the rig pet `momiji`
-// but its nod, timed to her own frames: each act's picks are written out
-// here by time, frame by frame. Her moments come at irregular holds drawn
+// 16 times a second. Each of her acts' picks is written out here by time,
+// frame by frame, on her own frames. Her moments come at irregular holds drawn
 // from her seed (`hash`, never Math.random), so the same seed and cues give
 // the same poses.
 //
@@ -21,9 +20,7 @@
 //   (`syllable`) from when her line lands.
 // - a turn finished: a soft smile; a long turn's spectacle: a wink.
 //
-// She does not breathe at rest: her director never sets `breath`, as a
-// breath under a whole pixel draws nothing. Pure: imports nothing at run
-// time but the shared hash and her art.
+// Pure: imports nothing at run time but the shared hash and her art.
 import { hash } from '../motion'
 import type { Eyes, Mouth, Pose, Strand } from './momiji-pixel'
 import { REST } from './momiji-pixel'

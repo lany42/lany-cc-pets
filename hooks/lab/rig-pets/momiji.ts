@@ -6,16 +6,17 @@
 // adapter (rig/adapter.ts), her timeline written each frame by her own
 // behavior (momiji-behavior.ts, on the rig kit). It wears the physics
 // pipeline: her bangs and side locks swing on pendulums her head drives,
-// where the keyed pipeline keys them in her toss. Below 10 rows she wears
-// her band form (momiji-band.ts), the Momiji Pixel pet posed by her rig.
+// where the keyed pipeline keys them in her toss. Below 10 rows the band
+// shows Momiji Pixel, a pixel pet of its own, played by its own director.
 // Pure.
 import type { PaintedPet } from '../rig/kit/pet'
 import type { RigPetIdentity } from '../rig/adapter'
 import { lazyPaintedRigPet, rigPetById } from '../rig/adapter'
-import { MOMIJI_BAND } from './momiji-band'
+import { MOUTH } from '../pixel/momiji-pixel'
+import { MOMIJI_PIXEL } from '../pixel/momiji-pixel-pet'
 import { momijiBehavior } from './momiji-behavior'
 
-/** Who she is: her id, name, persona and blurb; her framing, fallback and border; her band form. */
+/** Who she is: her id, name, persona and blurb; her framing, fallback and border; the pixel pet in her band. */
 export const MOMIJI_RIG_IDENTITY: RigPetIdentity = {
   id: 'momiji',
   name: 'Momiji',
@@ -25,7 +26,7 @@ export const MOMIJI_RIG_IDENTITY: RigPetIdentity = {
   bubble: 'claude',
   // Her words' border, in her colors: the hoodie's tangerine on a dark theme, the beanie's deep pumpkin on a light.
   border: { dark: 0xf39a3d, light: 0xb04a1c },
-  chibi: MOMIJI_BAND,
+  band: { pet: MOMIJI_PIXEL, mouth: MOUTH },
   window: { crop: { top: 6, bottom: 86 }, faceLeft: 17, mouth: [44, 67] },
 }
 

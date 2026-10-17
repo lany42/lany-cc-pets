@@ -2,10 +2,9 @@
 // SPDX-FileCopyrightText: 2026 Lany Atwood <lany@colorized.life>
 
 // Sakura Pixel's director: the clock, her mood and the news in, a pose of
-// picks out, 16 times a second. She plays the acts of the rig pet `sakura`,
-// each as picks written here by time, so she is the same girl doing the
-// same things; her chance is her own, from her seed (`hash`, never
-// Math.random), so the same seed and cues give the same poses.
+// picks out, 16 times a second. Each of her acts is picks written here by
+// time; her chance is from her seed (`hash`, never Math.random), so the same
+// seed and cues give the same poses.
 //
 // - idle: she rests, dreamy; blinks seldom, in two stages (half, then shut),
 //   a quarter of them only a drowsy droop; looks at you, up at the blossom in
